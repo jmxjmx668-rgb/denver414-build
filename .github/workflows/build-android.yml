@@ -7,11 +7,20 @@ jobs:
   build:
     runs-on: ubuntu-22.04
     steps:
-      - name: Install NDK
+      - name: Locate or install NDK
         run: |
-          curl -fLSs -o /tmp/ndk.zip https://dl.google.com/android/repository/android-ndk-r26d-linux.zip
-          unzip -q /tmp/ndk.zip -d /opt
-          echo "ANDROID_NDK_HOME=/opt/android-ndk-r26d" >> $GITHUB_ENV
+          # prefer runner-preinstalled NDK
+          PRE=$(ls -d /usr/local/lib/android/sdk/ndk/* 2>/dev/null | sort -V | tail -1 || true)
+          if [ -n "$PRE" ] && [ -x "$PRE/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android35-clang" ]; then
+            echo "NDK=$PRE" >> $GITHUB_ENV
+          else
+            curl -fLSs -o /tmp/ndk.zip https://dl.google.com/android/repository/android-ndk-r26d-linux.zip
+            ls -la /tmp/ndk.zip
+            unzip -q /tmp/ndk.zip -d /opt
+            ls /opt/android-ndk-r26d/toolchains/llvm/prebuilt/linux-x86_64/bin/ | head -5
+            echo "NDK=/opt/android-ndk-r26d" >> $GITHUB_ENV
+          fi
+          echo "using NDK: $NDK"
 
       - name: Fetch upstream exploit sources
         run: git clone --depth=1 https://github.com/JoinChang/ghostlock-oneplus exploit
