@@ -43,8 +43,16 @@ jobs:
           mkdir -p prebuilts/clang/host/linux-x86 \
                    prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 \
                    prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9
-          curl -fLSs "https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/3f889f9c9d42bae85728fa89ba5f92a01704fd83.tar.gz" -o /tmp/clang.tar.gz
-          tar -xzf /tmp/clang.tar.gz -C prebuilts/clang/host/linux-x86
+          # archive the SUBTREE only (whole-repo archives get truncated by gitiles)
+          curl -fLSs "https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/3f889f9c9d42bae85728fa89ba5f92a01704fd83/clang-r353983c.tar.gz" -o /tmp/clang.tar.gz
+          ls -la /tmp/clang.tar.gz
+          mkdir -p prebuilts/clang/host/linux-x86/clang-r353983c
+          tar -xzf /tmp/clang.tar.gz -C prebuilts/clang/host/linux-x86/clang-r353983c
+          # integrity check: the tools kbuild needs must exist
+          test -x prebuilts/clang/host/linux-x86/clang-r353983c/bin/clang
+          test -x prebuilts/clang/host/linux-x86/clang-r353983c/bin/llvm-ar
+          test -x prebuilts/clang/host/linux-x86/clang-r353983c/bin/llvm-dis
+          test -x prebuilts/clang/host/linux-x86/clang-r353983c/bin/llvm-nm
           curl -fLSs "https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/+archive/84fb09fafc92a3d9b4d160f049d46c3c784cc941.tar.gz" -o /tmp/gcc64.tar.gz
           tar -xzf /tmp/gcc64.tar.gz -C prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9
           curl -fLSs "https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/+archive/5a8beef7b1aa2c8ca0dfe4a00358559d12dfa3b6.tar.gz" -o /tmp/gcc32.tar.gz
