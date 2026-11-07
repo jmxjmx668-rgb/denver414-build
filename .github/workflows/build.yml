@@ -26,7 +26,7 @@ jobs:
         run: |
           git clone --depth=1 -b CDY_HarmonyOS2.0_KernelSU \
             https://github.com/xixiaobei-bei/KernelSU_on_Huawei kernel
-          rm -rf kernel/KernelSU kernel/out
+          rm -rf kernel/out
 
       - name: Fetch toolchains (AOSP clang + gcc 4.9)
         run: |
