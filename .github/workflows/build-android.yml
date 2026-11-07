@@ -38,7 +38,7 @@ jobs:
       - name: Build
         run: |
           cd exploit
-          make all -j$(nproc) 2>&1 | tee build.log
+          make all API=29 -j$(nproc) 2>&1 | tee build.log
           test -f ghostlock && echo "BUILD OK" || { echo "BUILD FAILED"; tail -60 build.log; exit 1; }
 
       - uses: actions/upload-artifact@v4
