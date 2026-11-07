@@ -45,9 +45,10 @@ jobs:
                    kernel/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9
           # archive the SUBTREE only (whole-repo archives get truncated by gitiles)
           CLANG_OK=0
-          for i in 1 2 3 4 5; do
-            curl -fLSs "https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/3f889f9c9d42bae85728fa89ba5f92a01704fd83/clang-r353983c.tar.gz" -o /tmp/clang.tar.gz && CLANG_OK=1 && break
-            echo "clang archive attempt $i failed; retrying in 30s"; sleep 30
+          # prefer the release mirror (googlesource throttles runner IPs)
+          for u in             "https://github.com/jmxjmx668-rgb/denver414-build/releases/download/toolchains/clang-r353983c.tar.gz"             "https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/3f889f9c9d42bae85728fa89ba5f92a01704fd83/clang-r353983c.tar.gz"; do
+            echo "trying $u"
+            curl -fLSs --retry 3 --retry-delay 20 "$u" -o /tmp/clang.tar.gz && CLANG_OK=1 && break
           done
           if [ "$CLANG_OK" = "1" ]; then
             mkdir -p kernel/prebuilts/clang/host/linux-x86/clang-r353983c
