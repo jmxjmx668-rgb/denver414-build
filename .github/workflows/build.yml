@@ -1,0 +1,83 @@
+name: build-cdy-stock-kernel
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc /opt/hostedtoolcache/CodeQL || true
+          sudo docker image prune -af || true
+          df -h /
+
+      - uses: actions/checkout@v4
+
+      - name: Install deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential bc bison flex libssl-dev libelf-dev \
+            ccache curl git lzop gcc-arm-linux-gnueabi binutils-aarch64-linux-gnu \
+            device-tree-compiler cpio
+
+      - name: Fetch kernel source (CDY HarmonyOS2.0)
+        run: |
+          git clone --depth=1 -b CDY_HarmonyOS2.0_KernelSU \
+            https://github.com/xixiaobei-bei/KernelSU_on_Huawei kernel
+          rm -rf kernel/KernelSU kernel/out
+
+      - name: Fetch toolchains (AOSP clang + gcc 4.9)
+        run: |
+          mkdir -p prebuilts/clang/host/linux-x86 \
+                   prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 \
+                   prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9
+          curl -fLSs "https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/3f889f9c9d42bae85728fa89ba5f92a01704fd83.tar.gz" -o /tmp/clang.tar.gz
+          tar -xzf /tmp/clang.tar.gz -C prebuilts/clang/host/linux-x86
+          curl -fLSs "https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/+archive/84fb09fafc92a3d9b4d160f049d46c3c784cc941.tar.gz" -o /tmp/gcc64.tar.gz
+          tar -xzf /tmp/gcc64.tar.gz -C prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9
+          curl -fLSs "https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/+archive/5a8beef7b1aa2c8ca0dfe4a00358559d12dfa3b6.tar.gz" -o /tmp/gcc32.tar.gz
+          tar -xzf /tmp/gcc32.tar.gz -C prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9
+          ls prebuilts/clang/host/linux-x86 | grep clang-r | head -20
+
+      - name: Build
+        run: |
+          CLANG_DIR=$(ls -d prebuilts/clang/host/linux-x86/clang-r353983c* 2>/dev/null | head -1)
+          if [ -z "$CLANG_DIR" ]; then
+            CLANG_DIR=$(ls -d prebuilts/clang/host/linux-x86/clang-r35* 2>/dev/null | head -1)
+          fi
+          [ -z "$CLANG_DIR" ] && { ls prebuilts/clang/host/linux-x86; exit 1; }
+          echo "CLANG_DIR=$CLANG_DIR"
+          "$CLANG_DIR/bin/clang" --version | head -3
+          export PATH="$PWD/$CLANG_DIR/bin:$PWD/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin:$PATH"
+          export ARCH=arm64
+          export CROSS_COMPILE=aarch64-linux-android-
+          export CROSS_COMPILE_ARM32=arm-linux-androideabi-
+          cp device_config.txt kernel/.config
+          cd kernel
+          make ARCH=arm64 O=out CC="clang" HOSTCC=gcc olddefconfig
+          echo '=== parity check ==='
+          grep -E "^CONFIG_(KALLSYMS|KALLSYMS_ALL|CFI|CFI_CLANG|RANDOMIZE_BASE|DEBUG_INFO|KSU|SECURITY_SELINUX_DEVELOP|HW_FUTEX_PI|HW_SLUB)[= ]" out/.config
+          echo '=== config diff (device vs resolved) ==='
+          diff .config out/.config | head -60 || true
+          make ARCH=arm64 O=out CC="clang" HOSTCC=gcc \
+            CROSS_COMPILE=aarch64-linux-android- CROSS_COMPILE_ARM32=arm-linux-androideabi- \
+            -j$(nproc) Image.gz vmlinux
+
+      - name: Verify build
+        if: always()
+        run: |
+          strings kernel/out/vmlinux 2>/dev/null | grep -m2 "Linux version" || true
+          ls -la kernel/out/vmlinux kernel/out/arch/arm64/boot/Image.gz 2>/dev/null || true
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: cdy-stock-kernel
+          path: |
+            kernel/out/vmlinux
+            kernel/out/arch/arm64/boot/Image.gz
+            kernel/out/.config
+            kernel/out/System.map
+          if-no-files-found: error
