@@ -40,35 +40,35 @@ jobs:
 
       - name: Fetch toolchains (AOSP clang + gcc 4.9)
         run: |
-          mkdir -p prebuilts/clang/host/linux-x86 \
-                   prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 \
-                   prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9
+          mkdir -p kernel/prebuilts/clang/host/linux-x86 \
+                   kernel/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 \
+                   kernel/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9
           # archive the SUBTREE only (whole-repo archives get truncated by gitiles)
           curl -fLSs "https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/3f889f9c9d42bae85728fa89ba5f92a01704fd83/clang-r353983c.tar.gz" -o /tmp/clang.tar.gz
           ls -la /tmp/clang.tar.gz
-          mkdir -p prebuilts/clang/host/linux-x86/clang-r353983c
-          tar -xzf /tmp/clang.tar.gz -C prebuilts/clang/host/linux-x86/clang-r353983c
+          mkdir -p kernel/prebuilts/clang/host/linux-x86/clang-r353983c
+          tar -xzf /tmp/clang.tar.gz -C kernel/prebuilts/clang/host/linux-x86/clang-r353983c
           # integrity check: the tools kbuild needs must exist
-          test -x prebuilts/clang/host/linux-x86/clang-r353983c/bin/clang
-          test -x prebuilts/clang/host/linux-x86/clang-r353983c/bin/llvm-ar
-          test -x prebuilts/clang/host/linux-x86/clang-r353983c/bin/llvm-dis
-          test -x prebuilts/clang/host/linux-x86/clang-r353983c/bin/llvm-nm
-          curl -fLSs "https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/+archive/84fb09fafc92a3d9b4d160f049d46c3c784cc941.tar.gz" -o /tmp/gcc64.tar.gz
-          tar -xzf /tmp/gcc64.tar.gz -C prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9
-          curl -fLSs "https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/+archive/5a8beef7b1aa2c8ca0dfe4a00358559d12dfa3b6.tar.gz" -o /tmp/gcc32.tar.gz
-          tar -xzf /tmp/gcc32.tar.gz -C prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9
-          ls prebuilts/clang/host/linux-x86 | grep clang-r | head -20
+          test -x kernel/prebuilts/clang/host/linux-x86/clang-r353983c/bin/clang
+          test -x kernel/prebuilts/clang/host/linux-x86/clang-r353983c/bin/llvm-ar
+          test -x kernel/prebuilts/clang/host/linux-x86/clang-r353983c/bin/llvm-dis
+          test -x kernel/prebuilts/clang/host/linux-x86/clang-r353983c/bin/llvm-nm
+          curl -fLSs "https://android.googlesource.com/platform/kernel/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/+archive/84fb09fafc92a3d9b4d160f049d46c3c784cc941.tar.gz" -o /tmp/gcc64.tar.gz
+          tar -xzf /tmp/gcc64.tar.gz -C kernel/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9
+          curl -fLSs "https://android.googlesource.com/platform/kernel/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/+archive/5a8beef7b1aa2c8ca0dfe4a00358559d12dfa3b6.tar.gz" -o /tmp/gcc32.tar.gz
+          tar -xzf /tmp/gcc32.tar.gz -C kernel/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9
+          ls kernel/prebuilts/clang/host/linux-x86 | grep clang-r | head -20
 
       - name: Build
         run: |
-          CLANG_DIR=$(ls -d prebuilts/clang/host/linux-x86/clang-r353983c* 2>/dev/null | head -1)
+          CLANG_DIR=$(ls -d kernel/prebuilts/clang/host/linux-x86/clang-r353983c* 2>/dev/null | head -1)
           if [ -z "$CLANG_DIR" ]; then
-            CLANG_DIR=$(ls -d prebuilts/clang/host/linux-x86/clang-r35* 2>/dev/null | head -1)
+            CLANG_DIR=$(ls -d kernel/prebuilts/clang/host/linux-x86/clang-r35* 2>/dev/null | head -1)
           fi
-          [ -z "$CLANG_DIR" ] && { ls prebuilts/clang/host/linux-x86; exit 1; }
+          [ -z "$CLANG_DIR" ] && { ls kernel/prebuilts/clang/host/linux-x86; exit 1; }
           echo "CLANG_DIR=$CLANG_DIR"
           "$CLANG_DIR/bin/clang" --version | head -3
-          export PATH="$PWD/$CLANG_DIR/bin:$PWD/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin:$PATH"
+          export PATH="$PWD/$CLANG_DIR/bin:$PWD/kernel/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin:$PATH"
           export ARCH=arm64
           export CROSS_COMPILE=aarch64-linux-android-
           export CROSS_COMPILE_ARM32=arm-linux-androideabi-
