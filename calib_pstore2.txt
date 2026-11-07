@@ -1,0 +1,40 @@
+1021:[   10.637207s][pid:249,cpu4,kworker/u16:3,9][E/sensorhub] read_acc_config1_from_dts:read acc calibrate_style fail
+1023:[   10.637207s][pid:249,cpu4,kworker/u16:3,1][E/sensorhub] read_acc_config2_from_dts:read acc x_calibrate_thredhold fail
+1024:[   10.637207s][pid:249,cpu4,kworker/u16:3,2][E/sensorhub] read_acc_config2_from_dts:read acc y_calibrate_thredhold fail
+1025:[   10.637237s][pid:249,cpu4,kworker/u16:3,3][E/sensorhub] read_acc_config3_from_dts:read acc z_calibrate_thredhold fail
+1027:[   10.637237s][pid:249,cpu4,kworker/u16:3,5][E/sensorhub] read_acc_config3_from_dts:read acc calibrate_way fail
+3426:[   56.075897s][pid:7335,cpu1,gl,0]Unable to handle kernel paging request at virtual address 60001000
+3437:[   56.076019s][pid:7335,cpu1,gl,1]Internal error: Oops: 96000005 [#1] PREEMPT SMP
+3444:[   56.076110s][pid:7335,cpu1,gl,8]PC is at rt_mutex_adjust_prio_chain+0x140/0xbac
+3445:[   56.076110s][pid:7335,cpu1,gl,9]LR is at rt_mutex_adjust_prio_chain+0x94/0xbac
+3446:[   56.076141s][pid:7335,cpu1,gl,0]pc : [<ffffff9ff9c32d84>] lr : [<ffffff9ff9c32cd8>] pstate: a04001c5
+3564:[   56.077850s][pid:7335,cpu1,gl,8]Call trace:
+3576:[   56.077941s][pid:7335,cpu1,gl,0][<ffffff9ff9c32d84>] rt_mutex_adjust_prio_chain+0x140/0xbac
+3577:[   56.077972s][pid:7335,cpu1,gl,1][<ffffff9ff9c33948>] rt_mutex_adjust_pi+0x124/0x174
+3605:[   56.078277s][pid:0,cpu2,in irq,9]pc : [<ffffff9ff9b5b284>] lr : [<ffffff9ff9b5b1e4>] pstate: 400001c4
+3624:[   56.078460s][pid:0,cpu2,in irq,8]Call trace:
+3647:[   56.078918s][pid:0,cpu2,in irq,1]Call trace:
+3676:[   56.079223s][pid:7333,cpu0,in irq,0]pc : [<ffffff9ff9b5b284>] lr : [<ffffff9ff9b5b1e4>] pstate: 400001c4
+3694:[   56.079406s][pid:7333,cpu0,in irq,8]Call trace:
+3713:[   56.079772s][pid:7333,cpu0,in irq,7]Call trace:
+3738:[   56.080047s][pid:0,cpu3,in irq,2]pc : [<ffffff9ff9b5b284>] lr : [<ffffff9ff9b5b1e4>] pstate: 400001c4
+3756:[   56.080230s][pid:0,cpu3,in irq,0]Call trace:
+3795:[   56.080780s][pid:0,cpu3,in irq,9]Call trace:
+3840:[   56.081237s][pid:0,cpu6,in irq,4]pc : [<ffffff9ff9b5b284>] lr : [<ffffff9ff9b5b1e4>] pstate: 400001c4
+3858:[   56.081451s][pid:0,cpu6,in irq,2]Call trace:
+3881:[   56.081787s][pid:0,cpu6,in irq,5]Call trace:
+3910:[   56.082092s][pid:0,cpu4,in irq,4]pc : [<ffffff9ff9b5b284>] lr : [<ffffff9ff9b5b1e4>] pstate: 400001c4
+3928:[   56.082275s][pid:0,cpu4,in irq,2]Call trace:
+3951:[   56.082641s][pid:0,cpu4,in irq,5]Call trace:
+3980:[   56.082946s][pid:0,cpu5,in irq,4]pc : [<ffffff9ff9b5b284>] lr : [<ffffff9ff9b5b1e4>] pstate: 400001c4
+3998:[   56.083129s][pid:0,cpu5,in irq,2]Call trace:
+4021:[   56.083496s][pid:0,cpu5,in irq,5]Call trace:
+4050:[   56.083770s][pid:0,cpu7,in irq,4]pc : [<ffffff9ff9b5b284>] lr : [<ffffff9ff9b5b1e4>] pstate: 400001c4
+4068:[   56.083892s][pid:0,cpu7,in irq,2]Call trace:
+4091:[   56.084197s][pid:0,cpu7,in irq,5]Call trace:
+4123:[   56.084686s]rt_mutex_adjust_prio_chain+0x140/0xbac
+4124:[   56.084686s]rt_mutex_adjust_pi+0x124/0x174
+4211:[   56.119537s][pid:7335,cpu1,gl,0]Call trace:
+4233:[   56.119750s][pid:7335,cpu1,gl,2][<ffffff9ff9c32d84>] rt_mutex_adjust_prio_chain+0x140/0xbac
+4234:[   56.119750s][pid:7335,cpu1,gl,3][<ffffff9ff9c33948>] rt_mutex_adjust_pi+0x124/0x174
+4272:[   56.120147s][pid:7335,cpu1,gl,1][blackbox]:exception_info is [rt_mutex_adjust_prio_chain+0x140/0xbac],len is [38]

