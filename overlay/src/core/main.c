@@ -199,7 +199,7 @@ int memfd_leak;
 #define PVM_CALIB_BASE_A 0x54ULL /* sendmsg msg_name buffer    */
 #define PVM_CALIB_BASE_C 0x55ULL /* sendmsg cmsg buffer        */
 
-#define PVM_SGI0_DEFAULT 4    /* W word0 -> iovstack word 4 (iovstack=E0-0x200) */
+#define PVM_SGI0_DEFAULT 6    /* CALIBRATED on device: W+0x38 = iov word 13, word0 = iov word 6 */
 #define PVM_SGA0_DEFAULT (-6) /* W word0 -> addr word -6   (addr=E0-0x1B0)     */
 
 static uint64_t calib_marker(uint64_t base, int word) {
