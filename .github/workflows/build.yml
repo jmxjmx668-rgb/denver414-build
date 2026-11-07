@@ -26,7 +26,7 @@ jobs:
         run: |
           git clone --depth=1 -b CDY_HarmonyOS2.0_KernelSU \
             https://github.com/xixiaobei-bei/KernelSU_on_Huawei kernel
-          rm -rf kernel/out
+          rm -rf kernel/out kernel/include/config kernel/include/generated
           # drivers/kernelsu is a dangling symlink to a stub dir in this branch;
           # replace with a minimal stub so kconfig parses (CONFIG_KSU is absent
           # from the device config, so no KSU code ever compiles in).
