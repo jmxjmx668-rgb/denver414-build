@@ -44,10 +44,23 @@ jobs:
                    kernel/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 \
                    kernel/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9
           # archive the SUBTREE only (whole-repo archives get truncated by gitiles)
-          curl -fLSs "https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/3f889f9c9d42bae85728fa89ba5f92a01704fd83/clang-r353983c.tar.gz" -o /tmp/clang.tar.gz
-          ls -la /tmp/clang.tar.gz
-          mkdir -p kernel/prebuilts/clang/host/linux-x86/clang-r353983c
-          tar -xzf /tmp/clang.tar.gz -C kernel/prebuilts/clang/host/linux-x86/clang-r353983c
+          CLANG_OK=0
+          for i in 1 2 3 4 5; do
+            curl -fLSs "https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/3f889f9c9d42bae85728fa89ba5f92a01704fd83/clang-r353983c.tar.gz" -o /tmp/clang.tar.gz && CLANG_OK=1 && break
+            echo "clang archive attempt $i failed; retrying in 30s"; sleep 30
+          done
+          if [ "$CLANG_OK" = "1" ]; then
+            mkdir -p kernel/prebuilts/clang/host/linux-x86/clang-r353983c
+            tar -xzf /tmp/clang.tar.gz -C kernel/prebuilts/clang/host/linux-x86/clang-r353983c
+          else
+            echo "archive failed; falling back to sparse git clone"
+            git clone --depth=1 --filter=blob:none --sparse               https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86 /tmp/clangpre ||             git clone --depth=1 --sparse               https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86 /tmp/clangpre
+            cd /tmp/clangpre
+            git sparse-checkout set clang-r353983c
+            mkdir -p /home/runner/work/denver414-build/denver414-build/kernel/prebuilts/clang/host/linux-x86
+            mv clang-r353983c /home/runner/work/denver414-build/denver414-build/kernel/prebuilts/clang/host/linux-x86/
+            cd - >/dev/null
+          fi
           # integrity check: the tools kbuild needs must exist
           test -x kernel/prebuilts/clang/host/linux-x86/clang-r353983c/bin/clang
           test -x kernel/prebuilts/clang/host/linux-x86/clang-r353983c/bin/llvm-ar
