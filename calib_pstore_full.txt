@@ -1,0 +1,120 @@
+[ 5429.426208s][pid:15779,cpu5,kworker/5:2,0][LCD_KIT/I]lcd_kit_set_thp_proximity_sem: thp_proximity not support!
+[ 5429.426208s][pid:15779,cpu5,kworker/5:2,1][LCD_KIT/I]lcd_kit_off: fb0, -!
+[ 5429.426208s][pid:15779,cpu5,kworker/5:2,2][LCD_KIT/I]del_poweric_timer: +
+[ 5429.426208s][pid:15779,cpu5,kworker/5:2,3][LCD_KIT/I]lcd_kit_off: fb0, +!
+[ 5429.426239s][pid:15779,cpu5,kworker/5:2,4][LCD_KIT/I]lcd_kit_set_thp_proximity_sem: thp_proximity not support!
+[ 5429.426239s][pid:15779,cpu5,kworker/5:2,5][LCD_KIT/I]lcd_kit_event_handler: event = 0, data = 0, delay = 0
+[ 5429.426239s][pid:15779,cpu5,kworker/5:2,6][LCD_KIT/I]lcd_kit_event_handler: none event
+[ 5429.426239s][pid:15779,cpu5,kworker/5:2,7][LCD_KIT/I]lcd_kit_set_thp_proximity_sem: thp_proximity not support!
+[ 5429.426269s][pid:15779,cpu5,kworker/5:2,8][LCD_KIT/I]lcd_kit_off: fb0, -!
+[ 5429.426269s][pid:15779,cpu5,kworker/5:2,9][LCD_KIT/I]lcd_kit_get_pt_ulps_support: skip_power_on_off 0, Support_flag=0
+[ 5429.427307s][pid:15779,cpu5,kworker/5:2,0][LCD_KIT/I]del_poweric_timer: +
+[ 5429.427307s][pid:15779,cpu5,kworker/5:2,1][LCD_KIT/I]lcd_kit_off: fb0, +!
+[ 5429.427307s][pid:15779,cpu5,kworker/5:2,2][LCD_KIT/I]lcd_kit_set_thp_proximity_sem: thp_proximity not support!
+[ 5429.427307s][pid:15779,cpu5,kworker/5:2,3][LCD_KIT/I]lcd_kit_set_thp_proximity_state: thp_proximity not support!
+[ 5429.427337s][pid:15779,cpu5,kworker/5:2,4][LCD_KIT/I]lcd_kit_event_handler: event = 0, data = 0, delay = 5
+[ 5429.427337s][pid:15779,cpu5,kworker/5:2,5][LCD_KIT/I]lcd_kit_event_handler: none event
+[ 5429.432342s][pid:15779,cpu5,kworker/5:2,6][LCD_KIT/I]lcd_kit_event_handler: event = 5, data = 0, delay = 0
+[ 5429.432342s][pid:15779,cpu5,kworker/5:2,7][LCD_KIT/I]lcd_kit_get_pt_mode: [pt_mode] get status 0
+[ 5429.432342s][pid:15779,cpu5,kworker/5:2,8][LCD_KIT/I]lcd_kit_get_proxmity_status: [Proximity_feature] not support
+[ 5429.432373s][pid:15779,cpu5,kworker/5:2,9][LCD_KIT/I]lcd_kit_gesture_mode: [gesture_mode] get status 1
+[ 5429.432373s][pid:15779,cpu5,kworker/5:2,0][LCD_KIT/I]lcd_kit_event_handler: It is in pt mode or gesture mode
+[ 5429.432373s][pid:15779,cpu5,kworker/5:2,1][LCD_KIT/I]lcd_kit_event_handler: event = 11, data = 0, delay = 5
+[ 5429.432373s][pid:15779,cpu5,kworker/5:2,2][LCD_KIT/I]lcd_kit_get_pt_mode: [pt_mode] get status 0
+[ 5429.432373s][pid:15779,cpu5,kworker/5:2,3][LCD_KIT/I]lcd_kit_get_proxmity_status: [Proximity_feature] not support
+[ 5429.432403s][pid:15779,cpu5,kworker/5:2,4][LCD_KIT/I]lcd_kit_gesture_mode: [gesture_mode] get status 1
+[ 5429.432403s][pid:15779,cpu5,kworker/5:2,5][LCD_KIT/I]lcd_kit_event_handler: It is in pt mode or gesture mode
+[ 5429.432403s][pid:15779,cpu5,kworker/5:2,6][LCD_KIT/I]lcd_kit_event_handler: event = 4, data = 0, delay = 5
+[ 5429.432403s][pid:15779,cpu5,kworker/5:2,7][LCD_KIT/I]lcd_kit_get_pt_mode: [pt_mode] get status 0
+[ 5429.432434s][pid:15779,cpu5,kworker/5:2,8][LCD_KIT/I]lcd_kit_get_proxmity_status: [Proximity_feature] not support
+[ 5429.432434s][pid:15779,cpu5,kworker/5:2,9][LCD_KIT/I]lcd_kit_gesture_mode: [gesture_mode] get status 1
+[ 5429.432434s][pid:15779,cpu5,kworker/5:2,0][LCD_KIT/I]lcd_kit_event_handler: It is in pt mode or gesture mode
+[ 5429.432434s][pid:15779,cpu5,kworker/5:2,1][LCD_KIT/I]lcd_kit_event_handler: event = 3, data = 0, delay = 5
+[ 5429.432434s][pid:15779,cpu5,kworker/5:2,2][LCD_KIT/I]lcd_kit_get_pt_mode: [pt_mode] get status 0
+[ 5429.432464s][pid:15779,cpu5,kworker/5:2,3][LCD_KIT/I]lcd_kit_get_proxmity_status: [Proximity_feature] not support
+[ 5429.432464s][pid:15779,cpu5,kworker/5:2,4][LCD_KIT/I]lcd_kit_gesture_mode: [gesture_mode] get status 1
+[ 5429.432464s][pid:15779,cpu5,kworker/5:2,5][LCD_KIT/I]lcd_kit_event_handler: It is in pt mode or gesture mode
+[ 5429.432464s][pid:15779,cpu5,kworker/5:2,6][LCD_KIT/I]lcd_kit_event_handler: event = 2, data = 0, delay = 10
+[ 5429.432464s][pid:15779,cpu5,kworker/5:2,7][LCD_KIT/I]lcd_kit_get_pt_mode: [pt_mode] get status 0
+[ 5429.432495s][pid:15779,cpu5,kworker/5:2,8][LCD_KIT/I]lcd_kit_get_proxmity_status: [Proximity_feature] not support
+[ 5429.432495s][pid:15779,cpu5,kworker/5:2,9][LCD_KIT/I]lcd_kit_gesture_mode: [gesture_mode] get status 1
+[ 5429.432495s][pid:15779,cpu5,kworker/5:2,0][LCD_KIT/I]lcd_kit_event_handler: It is in pt mode or gesture mode
+[ 5429.432495s][pid:15779,cpu5,kworker/5:2,1][LCD_KIT/I]lcd_kit_set_thp_proximity_sem: thp_proximity not support!
+[ 5429.432495s][pid:15779,cpu5,kworker/5:2,2][LCD_KIT/I]lcd_kit_off: fb0, -!
+[ 5429.432586s][pid:15779,cpu5,kworker/5:2,3][dpufb I]:dpe_set_common_clk_rate_on_pll0: dss_mmbuf_clk:[102000000]->[101376000]
+[ 5429.432769s][pid:15779,cpu5,kworker/5:2,4][dpufb I]:dpe_set_common_clk_rate_on_pll0: dss_pri_clk:[102000000]->[101376000]
+[ 5429.432800s][pid:15779,cpu5,kworker/5:2,5][Power Vote] vote = 5, cur vote ip = dsssubsys, c_f = 0, ret = 0!
+[ 5429.432830s][pid:15779,cpu5,kworker/5:2,6][Power Vote] vote = 1, cur vote ip = vivobus, c_f = 0, ret = 0!
+[ 5429.432861s][pid:15779,cpu5,kworker/5:2,7][dpufb I]:dpe_regulator_disable: fb0, dss_regulator_refcount=0!, dss_regulator_ref_table: fb0: 0, fb1: 0, fb2: 0, fb3: 0
+[ 5429.432922s][pid:15779,cpu5,kworker/5:2,8][Power Vote] vote = 0, cur vote ip = media1_subsys, c_f = 0, ret = 0!
+[ 5429.433197s][pid:1,cpu0,init,9][dpufb I]:hisi_fb_shutdown: fb0 shutdown -
+[ 5429.433502s][pid:1,cpu0,init,0][hisi_tcpc_set_cc]DRP set role ctrl 0x4a
+[ 5429.433898s][pid:1,cpu0,init,1][hisi_scharger]hi6526_set_vbus_vset:5 v
+[ 5429.433959s][pid:15779,cpu5,kworker/5:2,2][dpufb I]:__dpufb_dma_free_memory: free total memory size 0x1daa000
+[ 5429.433959s][pid:15779,cpu5,kworker/5:2,3][dpufb I]:hisi_fb_release: fb0, ref_cnt = 0
+[ 5429.434020s][pid:15611,cpu0,kworker/u16:0,4][I/hiview_hievent] hiview_hievent_create : 922001032
+[ 5429.434295s][pid:15611,cpu0,kworker/u16:0,5][I/hiview_hievent] hiview_hievent_report : 922001032
+[ 5429.434356s][pid:15611,cpu0,kworker/u16:0,6][I/DSM] dsm_lcd finish notify
+[ 5429.434509s][pid:15779,cpu5,kworker/5:2,7]mali gpu: kctx 0000000000000000 being destroyed
+[ 5429.435028s][pid:1,cpu1,init,8][hisi_scharger]hi6526_set_input_current_limit, flag 1, input current 475, vbus vset 5, enable 1
+[ 5429.435607s][pid:1,cpu0,init,9][hisi_scharger]hi6526_set_input_current_limit, flag 1, input current 475, vbus vset 5, enable 0
+[ 5429.438201s][pid:1,cpu2,init,0][I/smartpakit] smartpakit_i2c_shutdown: shutdown for smartpakit_i2c
+[ 5429.438323s][pid:1,cpu2,init,1][I/smartpakit] smartpakit_i2c_shutdown: set gpio 39 0, delay 1
+[ 5429.439361s][pid:1,cpu2,init,2][I/smartpakit] smartpakit_i2c_shutdown: set gpio 39 1, delay 1
+[ 5429.439392s][pid:15978,cpu5,kworker/5:4,3]binder: undelivered death notification, 0000007198a8b240
+[ 5429.451263s][pid:1,cpu3,init,4][CAMERA]INFO: hw_aw3642_off enter
+[ 5429.451263s]
+[ 5429.451751s][pid:1,cpu0,init,5][CAMERA]INFO: hw_aw3642_shutdown aw3642 shut down at 823
+[ 5429.451934s][pid:1,cpu0,init,6]DA_separate_v5 audio[I]:609: Begin
+[ 5429.486877s][pid:1,cpu0,init,7]DA_separate_v5 audio[I]:227: no need to pop off
+[ 5429.492187s][pid:1,cpu0,init,8]DA_separate_v5 audio[I]:633: End
+[ 5429.492218s][pid:1,cpu0,init,9]DA_separate_i2s audio[I]:203: Begin
+[ 5429.492431s][pid:1,cpu0,init,0]DA_separate_i2s audio[I]:162: pinctrl deinit ok
+[ 5429.492431s][pid:1,cpu0,init,1]DA_separate_i2s audio[I]:208: End
+[ 5429.492462s][pid:1,cpu0,init,2][E/smartpakit] smartpakit_simple_pa_power_off: pakit_priv invalid arg
+[ 5429.492553s][pid:1,cpu0,init,3][hisi_soh_core][soh_shutdown]ok!
+[ 5429.492584s][pid:1,cpu0,init,4][hisi_scharger]hi6526_set_otg_enable 0
+[ 5429.492584s][pid:1,cpu0,init,5][hisi_scharger]hi6526_otg_switch_mode enable 0
+[ 5429.578491s][pid:1,cpu0,init,6][I/vbus_ch_charger] set otg enable 0
+[ 5429.578552s][pid:1,cpu0,init,7][I/huawei_charger] charge_shutdown ++
+[ 5429.578613s][pid:1,cpu0,init,8][I/huawei_charger] charge_shutdown --
+[ 5429.578674s][pid:1,cpu0,init,9]plat_1102a:I]gnss_sync_shutdown][GPS] gnss sync shutdown!
+[ 5429.578796s][pid:1,cpu0,init,0][HW_CONN] hw_connectivity_shutdown!
+[ 5429.578979s][pid:1,cpu0,init,1][pcie_kport][INF]:+pcie_shutdown[0]+
+[ 5429.579010s][pid:1,cpu0,init,2][pcie_kport][INF]:-pcie_shutdown-
+[ 5429.579162s][pid:1,cpu0,init,3]ufshcd faa00000.ufs: ufshcd_pltfrm_shutdown ++ lrb_in_use 0x0
+[ 5429.579223s][pid:1,cpu0,init,4]ufshcd faa00000.ufs: UFS MQ: <ufshcd_set_dev_pwr_mode> call ufshcd_send_scsi_sync_cache pwr_mode = 3
+[ 5429.582550s][pid:1,cpu0,init,5]ufshcd faa00000.ufs: ufshcd_pltfrm_shutdown --
+[ 5429.583038s][pid:1,cpu0,init,6][coul_core]coul_shutdown start
+[ 5429.583038s][pid:1,cpu0,init,7][coul_core]soc_now = 955, stop_soc:955, dis_percent:5, fcc:3900
+[ 5429.583068s][pid:1,cpu0,init,8][coul_hardware]coul_set_bootocv_sample set_bootocv:0!!!
+[ 5429.583099s][pid:1,cpu0,init,9][coul_core]coul_shutdown end
+[ 5429.583099s][pid:1,cpu0,init,0][batt_bci]bci_battery_shutdown ++
+[ 5429.587402s][pid:1,cpu3,init,1][batt_bci]bci_battery_shutdown --
+[ 5429.587829s][pid:1,cpu0,init,2]reboot: Restarting system with command 'adb'
+[ 5429.588989s][pid:1,cpu0,init,3][dfx_poweroff]:hisi_pm_system_reset_comm cmd is adb
+[ 5429.589019s][pid:1,cpu0,init,4]CPU: 0 PID: 1 Comm: init VIP: 00 Not tainted 4.14.116 #1
+[ 5429.589019s][pid:1,cpu0,init,5]TGID: 1 Comm: init
+[ 5429.589019s][pid:1,cpu0,init,6]Hardware name: kirin820 (DT)
+[ 5429.589050s][pid:1,cpu0,init,7]Call trace:
+[ 5429.589050s][pid:1,cpu0,init,8][<ffffff9bfb9ba688>] dump_backtrace+0x0/0x4
+[ 5429.589080s][pid:1,cpu0,init,9][<ffffff9bfb9a1444>] dump_stack+0xd4/0x10c
+[ 5429.589111s][pid:1,cpu0,init,0][<ffffff9bfac19abc>] hisi_pm_system_reset_comm+0xb0/0xc8
+[ 5429.589111s][pid:1,cpu0,init,1][<ffffff9bfac199c4>] hisi_pm_system_reset+0x10/0x58
+[ 5429.589111s][pid:1,cpu0,init,2][<ffffff9bf9b4d680>] machine_restart+0x4c/0xd4
+[ 5429.589141s][pid:1,cpu0,init,3][<ffffff9bf9bb4100>] orderly_poweroff+0x0/0x64
+[ 5429.589141s][pid:1,cpu0,init,4][<ffffff9bf9bb4be8>] ctrl_alt_del+0x0/0x78
+[ 5429.589172s][pid:1,cpu0,init,5]Exception stack(0xffffffd69adb3ec0 to 0xffffffd69adb4000)
+[ 5429.589172s][pid:1,cpu0,init,6]3ec0: 00000000fee1dead 0000000028121969 00000000a1b2c3d4 0000007f9ca7c379
+[ 5429.589202s][pid:1,cpu0,init,7]3ee0: 0000000000000000 716e73725e736466 716e73725e736466 7f7f7f7f7f7f7f7f
+[ 5429.589202s][pid:1,cpu0,init,8]3f00: 000000000000008e 0000000000000000 0000007f9c4c04b4 0101010101010101
+[ 5429.589202s][pid:1,cpu0,init,9]3f20: 0000007f9cc0d6c8 6c656e72656b206f 0000000000000000 0000007f9d6e039a
+[ 5429.589233s][pid:1,cpu0,init,0]3f40: 000000556f7faa38 0000007f9d676ba0 0000007f9e0ac000 0000007f9ca7c378
+[ 5429.589233s][pid:1,cpu0,init,1]3f60: 00000000dead0003 000000556f698c5b 0000000000000010 000004ed3fca88b3
+[ 5429.589233s][pid:1,cpu0,init,2]3f80: 000000000000001b 0000007fd5afbe18 00000000dead0003 0000007fd5afbd51
+[ 5429.589263s][pid:1,cpu0,init,3]3fa0: 6f6974616d696e61 0000007fd5afbcf0 000000556f744dcc 0000007fd5afbc20
+[ 5429.589263s][pid:1,cpu0,init,4]3fc0: 0000007f9d676bc0 0000000040001000 00000000fee1dead 000000000000008e
+[ 5429.589294s][pid:1,cpu0,init,5]3fe0: 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+[ 5429.589294s][pid:1,cpu0,init,6][<ffffff9bf9a843c0>] el0_svc_naked+0x34/0x38
+[ 5429.589324s][pid:1,cpu0,init,7][blackbox]:[set_reboot_reason]:set reboot_reason is 0x10
+[ 5429.589324s][pid:1,cpu0,init,8][dfx_poweroff]:ap send nmi to lpm3, then goto dead loop

