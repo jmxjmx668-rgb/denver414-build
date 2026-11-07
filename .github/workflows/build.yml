@@ -27,6 +27,16 @@ jobs:
           git clone --depth=1 -b CDY_HarmonyOS2.0_KernelSU \
             https://github.com/xixiaobei-bei/KernelSU_on_Huawei kernel
           rm -rf kernel/out
+          # drivers/kernelsu is a dangling symlink to a stub dir in this branch;
+          # replace with a minimal stub so kconfig parses (CONFIG_KSU is absent
+          # from the device config, so no KSU code ever compiles in).
+          rm -f kernel/drivers/kernelsu
+          mkdir -p kernel/drivers/kernelsu
+          printf 'config KSU\n\tbool\n\tdefault n\n' > kernel/drivers/kernelsu/Kconfig
+          printf '\nobj-$(CONFIG_KSU) +=\n' > kernel/drivers/kernelsu/Makefile
+          # the branch also has a top-level KernelSU stub with hooks guarded by
+          # CONFIG_KSU — verify nothing else is missing
+          grep -rn "source \"drivers/kernelsu" kernel/drivers/Kconfig || true
 
       - name: Fetch toolchains (AOSP clang + gcc 4.9)
         run: |

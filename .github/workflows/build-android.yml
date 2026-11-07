@@ -1,0 +1,49 @@
+name: build-android-binaries
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "make target (default: all)"
+        default: "all"
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Install NDK
+        run: |
+          curl -fLSs -o /tmp/ndk.zip https://dl.google.com/android/repository/android-ndk-r26d-linux.zip
+          unzip -q /tmp/ndk.zip -d /opt
+          echo "/opt/android-ndk-r26d" >> $GITHUB_ENV
+
+      - name: Fetch exploit sources
+        run: |
+          git clone --depth=1 https://github.com/JoinChang/ghostlock-oneplus src
+          # adaptation overlay is pushed in this repo under overlay/
+      - uses: actions/checkout@v4
+        with:
+          path: overlay
+
+      - name: Apply overlay
+        run: |
+          cp -rv overlay/overlay/. src/ || true
+
+      - name: Build
+        run: |
+          export ANDROID_NDK_HOME=/opt/android-ndk-r26d
+          cd src
+          make ${{ github.event.inputs.target }} -j$(nproc) || make -j$(nproc)
+          find . -maxdepth 2 -type f -executable -name "*" -newer Makefile | head -20
+
+      - name: Collect binaries
+        run: |
+          mkdir -p out
+          find src -type f \( -name "selinux_disabler" -o -name "ghostlock*" -o -name "*exploit*" -o -name "root*" \) -exec cp {} out/ \; || true
+          ls -la out/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: android-binaries
+          path: out/
+          if-no-files-found: warn
