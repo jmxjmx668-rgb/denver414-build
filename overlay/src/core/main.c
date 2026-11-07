@@ -316,8 +316,7 @@ void do_pvm_overlay_route(void) {
     /* diagnostic: real flow (spray+trigger) but poison values - if the walk
        panics on a 0x5300?000 marker the overlay landed; garbage means miss */
     calib_fill_iovec(siov, 8, PVM_CALIB_BASE_I);
-    pr_info("pvm overlay: POISON diagnostic mode sgi0=%d
-", sgi0);
+    pr_info("pvm overlay: POISON diagnostic mode sgi0=%d\n", sgi0);
   } else {
     overlay_fill_iovec(siov, 8, sgi0);
   }
