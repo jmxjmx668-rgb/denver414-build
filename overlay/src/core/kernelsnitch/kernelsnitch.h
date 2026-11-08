@@ -390,7 +390,20 @@ void kernelsnitch_find_collisions(struct kernelsnitch_shared_state *ks)
             if (ks->verbose) pr_info("  %016zx", futex_addr);
         }
     }
-    if (wanted == count) {
+    /* v7: confirmation pass - a real collision is >10x on EVERY
+       independent measurement; scheduler noise fails the second one. */
+    if (count > 0) {
+        size_t kept = 1;
+        for (size_t i = 1; i <= count; ++i) {
+            size_t t2 = __measure(ks->futex_addrs[i]);
+            if (t2 > (approx_time * KERNELSNITCH_THRESHOLD_MULT))
+                ks->futex_addrs[kept++] = ks->futex_addrs[i];
+        }
+        count = kept - 1;
+        pr_info("confirmed %zd/%zd collisisons\n", count, wanted);
+        ks->collisions = count + 1;
+    }
+    if (count >= 3) {
         if (ks->verbose) pr_info("found %zd collisisons\n", count);
         ks->state = KERNELSNITCH_COLLISIONS_FOUND;
     } else {
