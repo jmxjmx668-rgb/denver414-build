@@ -3,3 +3,11 @@ boot1 runB round=
 boot1 runC round=
 boot1 runD round=
 boot1 runE round=
+boot2 runA round=
+boot2 runB round=
+boot2 runC round=
+boot2 runD round=
+boot2 runE round=
+boot3 runA round=705
+sweep exhausted
+FARM2_DONE

