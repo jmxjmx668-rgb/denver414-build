@@ -228,6 +228,8 @@ static uint64_t overlay_word_value(int w) {
     case 2:
       return pselect_custom_write == 2 ? data_addr(g_init_cred_image) : 0;
     case 7:
+      if (env_int_range("PVM_W7_POISON", 0, 0, 1))
+        return calib_marker(PVM_CALIB_BASE_I, 13); /* re-anchor test */
       return fake_lock;
     default:
       return 0;
