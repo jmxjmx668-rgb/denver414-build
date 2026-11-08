@@ -333,7 +333,7 @@ void do_pvm_overlay_route(void) {
          leak is real). The walk's trylock on mm->mm_users (nonzero) fails
          forever = sched_setattr hangs = NO panic = the leak is real. */
       overlay_fill_word(siov, 8, sgi0 + 7, last_mm_struct);
-      pr_info("pvm overlay: PROBE lock=last_mm_struct=%016zx" + B,
+      pr_info("pvm overlay: PROBE lock=last_mm_struct=%016zx\n",
               (unsigned long long)last_mm_struct);
     }
   }
