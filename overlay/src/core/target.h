@@ -10,8 +10,8 @@
 #define P0_PHYS_OFFSET 0x80000000ULL
 #define P0_KERNEL_PHYS_LOAD 0xa8000000ULL
 /* physmap on this SoC spans ~48GB (DDR ranks at high phys addrs) */
-#define KERNELSNITCH_IDENTITY_START 0xffffff8000000000ULL
-#define KERNELSNITCH_IDENTITY_END   0xffffff8200000000ULL /* 8GB device: linear map ends here */
+#define KERNELSNITCH_IDENTITY_START 0xffffffc000000000ULL /* v6: true PAGE_OFFSET (VA39 memory.h) */
+#define KERNELSNITCH_IDENTITY_END   0xffffffd000000000ULL /* +256GB: scattered DDR ranks */
 #define DIRECT_MAP_BASE 0xffffff8000000000ULL
 #define DIRECT_MAP_END 0xffffff9000000000ULL
 #define VMEMMAP_START 0xfffffffe00000000ULL

