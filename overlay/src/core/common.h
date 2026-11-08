@@ -422,7 +422,7 @@ void cleanup_page_prepare_state(void);
 int clone_memfd(void);
 void prepare_ctxs(void);
 int prepare_skb_payload(uintptr_t base, int payload_mode);
-uintptr_t prepare_kernel_page(int payload_mode);
+uintptr_t prepare_kernel_page(int payload_mode, size_t cand_round);
 extern size_t g_attempt_round;
 uintptr_t prepare_good_kernel_page(int payload_mode);
 
