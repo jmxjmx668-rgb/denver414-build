@@ -236,7 +236,9 @@ struct mm_leak_arg {
    0xfffffff9f3.. (linear offset 231GB), kernel stacks at offsets 42-245GB
    => the RAM ranks are scattered across ~250GB of linear space. */
 #define LINEAR_SAFE_START 0xffffffc000000000ULL
-#define LINEAR_SAFE_END   0xffffffd000000000ULL   /* +256GB cap */
+/* FULL VA39 linear map: c0.. to 2^64 (top). PC solve proved the mm lives at
+   offset ~127GB (0xffffffdfb60ff800) - the old +64GB cap missed 192GB. */
+#define LINEAR_SAFE_END   0xffffffffffffffffULL
 #define LINEAR_SCAN_START LINEAR_SAFE_START
 #define LINEAR_SCAN_END   LINEAR_SAFE_END
 
