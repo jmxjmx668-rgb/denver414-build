@@ -396,7 +396,7 @@ void kernelsnitch_find_collisions(struct kernelsnitch_shared_state *ks)
         if (ks->verbose) pr_info("found %zd collisisons\n", count);
         ks->state = KERNELSNITCH_COLLISIONS_FOUND;
     }
-    if (wanted != count) {    } else {
+    if (wanted != count) {
         pr_warning("only found %zd collisions -> cannot continue\n", count);
         ks->state = KERNELSNITCH_COLLISIONS_NOT_FOUND;
     }
