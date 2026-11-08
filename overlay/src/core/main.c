@@ -454,7 +454,8 @@ void *consumer_thread(void *arg __attribute__((unused))) {
             atomic_load(&punch_consume_go) != seq) break;
         atomic_fetch_add(&consumer_calls, 1);
         errno = 0;
-        long sched_ret = sched_setattr_tid(tid, PSELECT_CONSUMER_NICE);
+        int cn = env_int_range("GL_CONSUMER_NICE", 10, 0, 19);
+        long sched_ret = sched_setattr_tid(tid, cn);
         int sched_errno = errno;
         if (sched_ret != 0) {
           errno = 0;

