@@ -330,14 +330,20 @@ void do_pvm_overlay_route(void) {
           (unsigned long long)(uintptr_t)siov[0].iov_base,
           (unsigned long long)(uintptr_t)siov[1].iov_base);
 
+  int ret = -1;
+  int saved_errno = 0;
   if (gl_sk[0] >= 0) {
     memset(&msg, 0, sizeof(msg));
     msg.msg_iov = siov;
     msg.msg_iovlen = 8;
     msg.msg_control = ctlbuf;
     msg.msg_controllen = sizeof(ctlbuf);
-    int ret = sendmsg(gl_sk[0], &msg, MSG_DONTWAIT | MSG_NOSIGNAL);
-    pr_info("pvm overlay: sendmsg ret=%d errno=%d\n", ret, errno);
+    ret = sendmsg(gl_sk[0], &msg, MSG_DONTWAIT | MSG_NOSIGNAL);
+    saved_errno = errno;
+    /* CRITICAL: no syscall (printf = write!) between sendmsg and the
+       walk. The waiter thread's own syscalls reuse the same stack and
+       clobber W - exactly why the overlay landed in calib (no printf
+       there) but never in the real route. Log after the walk. */
   } else {
     pr_error("pvm overlay: no route socket\n");
   }
@@ -350,7 +356,8 @@ void do_pvm_overlay_route(void) {
   for (volatile long spin = 0;
        !atomic_load(&walk_done) && spin < 400000000L; spin++) {
   }
-  pr_info("pvm overlay: walk_done=%d calls=%d success=%d\n",
+  pr_info("pvm overlay: sendmsg ret=%d errno=%d walk_done=%d calls=%d "
+          "success=%d\n", ret, saved_errno,
           atomic_load(&walk_done), atomic_load(&consumer_calls),
           atomic_load(&consumer_success));
 }
