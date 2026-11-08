@@ -1,0 +1,35 @@
+/usr/local/lib/android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android29-clang -O2 -Wall -Wno-unused-parameter -Wno-sign-compare -Wno-unused-function -Isrc/core -Isrc/devices -DTARGET_CONFIG_H=\"target.h\" -fPIE -pie -pthread src/core/main.c src/core/util.c src/core/slide.c src/core/fops.c src/core/pipe_physrw.c src/core/root.c src/core/miniadb.c src/core/umh_root.c -o ghostlock
+src/core/main.c:328:11: warning: format specifies type 'size_t' (aka 'unsigned long') but the argument has type 'unsigned long long' [-Wformat]
+  326 |   pr_info("pvm overlay: target=%016zx value=%016zx lock=%016zx sgi0=%d "
+      |                                ~~~~~~
+      |                                %016llx
+  327 |           "siov0=%016llx siov1=%016llx\n",
+  328 |           (unsigned long long)pselect_custom_target,
+      |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/core/kernelsnitch/utils.h:121:57: note: expanded from macro 'pr_info'
+  121 |         printf(COLOR_YELLOW "[*] " COLOR_DEFAULT fmt, ##__VA_ARGS__); \
+      |                                                  ~~~    ^~~~~~~~~~~
+src/core/main.c:329:11: warning: format specifies type 'size_t' (aka 'unsigned long') but the argument has type 'unsigned long long' [-Wformat]
+  326 |   pr_info("pvm overlay: target=%016zx value=%016zx lock=%016zx sgi0=%d "
+      |                                             ~~~~~~
+      |                                             %016llx
+  327 |           "siov0=%016llx siov1=%016llx\n",
+  328 |           (unsigned long long)pselect_custom_target,
+  329 |           (unsigned long long)overlay_word_value(2),
+      |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/core/kernelsnitch/utils.h:121:57: note: expanded from macro 'pr_info'
+  121 |         printf(COLOR_YELLOW "[*] " COLOR_DEFAULT fmt, ##__VA_ARGS__); \
+      |                                                  ~~~    ^~~~~~~~~~~
+src/core/main.c:330:11: warning: format specifies type 'size_t' (aka 'unsigned long') but the argument has type 'unsigned long long' [-Wformat]
+  326 |   pr_info("pvm overlay: target=%016zx value=%016zx lock=%016zx sgi0=%d "
+      |                                                         ~~~~~~
+      |                                                         %016llx
+  327 |           "siov0=%016llx siov1=%016llx\n",
+  328 |           (unsigned long long)pselect_custom_target,
+  329 |           (unsigned long long)overlay_word_value(2),
+  330 |           (unsigned long long)fake_lock, sgi0,
+      |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/core/kernelsnitch/utils.h:121:57: note: expanded from macro 'pr_info'
+  121 |         printf(COLOR_YELLOW "[*] " COLOR_DEFAULT fmt, ##__VA_ARGS__); \
+      |                                                  ~~~    ^~~~~~~~~~~
+3 warnings generated.

