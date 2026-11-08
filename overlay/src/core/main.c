@@ -222,6 +222,8 @@ static uint64_t overlay_word_value(int w) {
   }
   switch (w) {
     case 0:
+      if (env_int_range("PVM_W0_POISON", 0, 0, 1))
+        return calib_marker(PVM_CALIB_BASE_I, 6); /* unmapped marker */
       return pselect_custom_target - 8;
     case 2:
       return pselect_custom_write == 2 ? data_addr(g_init_cred_image) : 0;
