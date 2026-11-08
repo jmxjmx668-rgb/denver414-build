@@ -493,6 +493,14 @@ static int do_one_write_node(uintptr_t target, const char *desc, int mode,
   pr_info("=== %s === target=0x%016zx mode=%d\n", desc, target, mode);
   pselect_child_node = child_node;
   set_pselect_write_mode(target, 0, mode);
+  {
+    /* persisted attempt round: survives panic reboots */
+    FILE *rf = fopen("/data/local/tmp/.gl_round", "r");
+    if (rf) { if (fscanf(rf, "%zu", &g_attempt_round) != 1) g_attempt_round = 0; fclose(rf); }
+    FILE *wf = fopen("/data/local/tmp/.gl_round", "w");
+    if (wf) { fprintf(wf, "%zu", g_attempt_round + 1); fclose(wf); }
+    pr_info("attempt round (persisted) = %zu\n", g_attempt_round);
+  }
   if (env_int_range("GL_CALIB", 0, 0, 1)) {
     pr_info("  calib probe: skipping spray\n");
     run_main_route_threads();

