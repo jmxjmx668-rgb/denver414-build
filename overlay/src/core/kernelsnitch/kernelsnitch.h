@@ -165,63 +165,9 @@ static void __increase(struct kernelsnitch_shared_state *ks, size_t id, size_t a
     WAIT();
 }
 
-static size_t __measure_diff(struct kernelsnitch_shared_state *ks, size_t id,
-                              size_t futex_addr)
-{
-    /* v9 differential: same measurement core as __measure (flush+cntvct)
-       taken twice - with the bucket piled and after unpiling. */
-    size_t t_piled = 0, t_empty = 0;
-    size_t __times[REPEAT_MEASUREMENT];
-    for (size_t l = 0; l < REPEAT_MEASUREMENT; ++l) {
-        sched_yield();
-        memset((char *)__ks_flush_buf, 1, sizeof(__ks_flush_buf));
-        for (volatile size_t *p = (volatile size_t *)__ks_flush_buf;
-             p < (volatile size_t *)(__ks_flush_buf + sizeof(__ks_flush_buf));
-             p += 64 / sizeof(size_t))
-            (void)*p;
-        size_t t0 = now_ns();
-        SYSCHK(__futex((unsigned int *)futex_addr, FUTEX_WAKE_PRIVATE, 0, NULL, NULL, 0));
-        size_t t1 = now_ns();
-        __times[l] = t1 - t0;
-    }
-    qsort(__times, REPEAT_MEASUREMENT, sizeof(size_t), __compare);
-    for (size_t l = 0; l < AVERAGE; ++l)
-        t_piled += __times[l];
-    t_piled /= AVERAGE;
-
-    __decrease(ks, id);
-
-    for (size_t l = 0; l < REPEAT_MEASUREMENT; ++l) {
-        sched_yield();
-        memset((char *)__ks_flush_buf, 1, sizeof(__ks_flush_buf));
-        for (volatile size_t *p = (volatile size_t *)__ks_flush_buf;
-             p < (volatile size_t *)(__ks_flush_buf + sizeof(__ks_flush_buf));
-             p += 64 / sizeof(size_t))
-            (void)*p;
-        size_t t0 = now_ns();
-        SYSCHK(__futex((unsigned int *)futex_addr, FUTEX_WAKE_PRIVATE, 0, NULL, NULL, 0));
-        size_t t1 = now_ns();
-        __times[l] = t1 - t0;
-    }
-    qsort(__times, REPEAT_MEASUREMENT, sizeof(size_t), __compare);
-    for (size_t l = 0; l < AVERAGE; ++l)
-        t_empty += __times[l];
-    t_empty /= AVERAGE;
-    return t_piled > 3 * t_empty;
-}
-
 /**
  * Simple compare
  */
-static void __decrease(struct kernelsnitch_shared_state *ks, size_t id)
-{
-    /* v9: unpile - wake every waiter thread on the piled futex. The threads
-       then exit (__do_increase returns), emptying the bucket chain. */
-    SYSCHK(__futex((unsigned int *)&ks->inc_futex[id], FUTEX_WAKE_PRIVATE,
-                   INT_MAX, NULL, NULL, 0));
-    usleep(20000); /* let the woken threads actually exit */
-}
-
 #define REPEAT_MEASUREMENT 128
 #define AVERAGE (1<<3)
 static int __compare(const void *a, const void *b)
@@ -427,6 +373,60 @@ struct kernelsnitch_shared_state *kernelsnitch_setup(size_t __mm_struct_sz, size
  * Find collisions for different user space futex addresses within one process and the piled-up hash bucket
  * @arg ks: shared KernelSnitch state
  */
+static void __decrease(struct kernelsnitch_shared_state *ks, size_t id)
+{
+    /* v9: unpile - wake every waiter thread on the piled futex. The threads
+       then exit (__do_increase returns), emptying the bucket chain. */
+    SYSCHK(__futex((unsigned int *)&ks->inc_futex[id], FUTEX_WAKE_PRIVATE,
+                   INT_MAX, NULL, NULL, 0));
+    usleep(20000); /* let the woken threads actually exit */
+}
+
+static size_t __measure_diff(struct kernelsnitch_shared_state *ks, size_t id,
+                              size_t futex_addr)
+{
+    /* v9 differential: same measurement core as __measure (flush+cntvct)
+       taken twice - with the bucket piled and after unpiling. */
+    size_t t_piled = 0, t_empty = 0;
+    size_t __times[REPEAT_MEASUREMENT];
+    for (size_t l = 0; l < REPEAT_MEASUREMENT; ++l) {
+        sched_yield();
+        memset((char *)__ks_flush_buf, 1, sizeof(__ks_flush_buf));
+        for (volatile size_t *p = (volatile size_t *)__ks_flush_buf;
+             p < (volatile size_t *)(__ks_flush_buf + sizeof(__ks_flush_buf));
+             p += 64 / sizeof(size_t))
+            (void)*p;
+        size_t t0 = now_ns();
+        SYSCHK(__futex((unsigned int *)futex_addr, FUTEX_WAKE_PRIVATE, 0, NULL, NULL, 0));
+        size_t t1 = now_ns();
+        __times[l] = t1 - t0;
+    }
+    qsort(__times, REPEAT_MEASUREMENT, sizeof(size_t), __compare);
+    for (size_t l = 0; l < AVERAGE; ++l)
+        t_piled += __times[l];
+    t_piled /= AVERAGE;
+
+    __decrease(ks, id);
+
+    for (size_t l = 0; l < REPEAT_MEASUREMENT; ++l) {
+        sched_yield();
+        memset((char *)__ks_flush_buf, 1, sizeof(__ks_flush_buf));
+        for (volatile size_t *p = (volatile size_t *)__ks_flush_buf;
+             p < (volatile size_t *)(__ks_flush_buf + sizeof(__ks_flush_buf));
+             p += 64 / sizeof(size_t))
+            (void)*p;
+        size_t t0 = now_ns();
+        SYSCHK(__futex((unsigned int *)futex_addr, FUTEX_WAKE_PRIVATE, 0, NULL, NULL, 0));
+        size_t t1 = now_ns();
+        __times[l] = t1 - t0;
+    }
+    qsort(__times, REPEAT_MEASUREMENT, sizeof(size_t), __compare);
+    for (size_t l = 0; l < AVERAGE; ++l)
+        t_empty += __times[l];
+    t_empty /= AVERAGE;
+    return t_piled > 3 * t_empty;
+}
+
 void kernelsnitch_find_collisions(struct kernelsnitch_shared_state *ks)
 {
     #define ID 128
