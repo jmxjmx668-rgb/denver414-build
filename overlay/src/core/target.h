@@ -6,7 +6,7 @@
 
 /* Kernel address space (VA_BITS=39) */
 #define KIMAGE_TEXT_BASE 0xffffffc080000000ULL
-#define P0_PAGE_OFFSET 0xffffff8000000000ULL
+#define P0_PAGE_OFFSET 0xffffffc000000000ULL /* TRUE VA39 PAGE_OFFSET (device memory.h); old 80.. base wrote into vmalloc garbage */
 #define P0_PHYS_OFFSET 0x80000000ULL
 #define P0_KERNEL_PHYS_LOAD 0xa8000000ULL
 /* physmap on this SoC spans ~48GB (DDR ranks at high phys addrs) */
