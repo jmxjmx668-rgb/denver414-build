@@ -10,6 +10,7 @@
 #include <sys/ioctl.h>
 #include <sys/mman.h>
 #include <sys/uio.h>
+#include <unistd.h>
 #include <linux/perf_event.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -498,7 +499,12 @@ static int do_one_write_node(uintptr_t target, const char *desc, int mode,
     FILE *rf = fopen("/data/local/tmp/.gl_round", "r");
     if (rf) { if (fscanf(rf, "%zu", &g_attempt_round) != 1) g_attempt_round = 0; fclose(rf); }
     FILE *wf = fopen("/data/local/tmp/.gl_round", "w");
-    if (wf) { fprintf(wf, "%zu", g_attempt_round + 1); fclose(wf); }
+    if (wf) {
+      fprintf(wf, "%zu", g_attempt_round + 1);
+      fflush(wf);
+      fsync(fileno(wf)); /* survive the panic reboot */
+      fclose(wf);
+    }
     pr_info("attempt round (persisted) = %zu\n", g_attempt_round);
   }
   if (env_int_range("GL_CALIB", 0, 0, 1)) {
