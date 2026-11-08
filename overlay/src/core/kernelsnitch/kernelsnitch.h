@@ -117,9 +117,19 @@ static int __futex(unsigned int *uaddr, int futex_op, unsigned int val, const st
  */
 static inline size_t now_ns(void)
 {
+#if defined(__aarch64__)
+    /* v8b: raw counter - clock_gettime vsyscall adds ~300-600ns of its own
+       access paths (vDSO, page tables) that swamp the bucket-walk delta. */
+    unsigned long long vct;
+    __asm__ volatile("isb" ::: "memory");
+    __asm__ volatile("mrs %0, cntvct_el0" : "=r"(vct));
+    __asm__ volatile("isb" ::: "memory");
+    return (size_t)vct;
+#else
     struct timespec ts;
     clock_gettime(CLOCK_MONOTONIC, &ts);
     return (size_t)ts.tv_sec * 1000000000ull + (size_t)ts.tv_nsec;
+#endif
 }
 
 struct inc_arg {
@@ -169,6 +179,8 @@ static int __compare(const void *a, const void *b)
  * @arg futex_addr: user-space address of the futex (required only to be a mapped memory)
  * @return averaged time of the futex wait operation
  */
+static volatile char __ks_flush_buf[(1 << 10) * (1 << 7)]; /* 128KB, upstream */
+
 static size_t __measure(size_t futex_addr)
 {
     size_t t0;
@@ -178,6 +190,14 @@ static size_t __measure(size_t futex_addr)
     size_t __times[REPEAT_MEASUREMENT];
     for (size_t l = 0; l < REPEAT_MEASUREMENT; ++l) {
         sched_yield();
+        /* v8: evict the hash bucket + plist from cache (upstream
+           amplification). Without this the bucket walk stays in L1/L2 and
+           the occupancy signal drowns - our 15/15 'collisions' were noise. */
+        memset((char *)__ks_flush_buf, 1, sizeof(__ks_flush_buf));
+        for (volatile size_t *p = (volatile size_t *)__ks_flush_buf;
+             p < (volatile size_t *)(__ks_flush_buf + sizeof(__ks_flush_buf));
+             p += 64 / sizeof(size_t))
+            (void)*p;
         t0 = now_ns();
         SYSCHK(__futex((unsigned int *)futex_addr, FUTEX_WAKE_PRIVATE, 0, NULL, NULL, 0));
         t1 = now_ns();
