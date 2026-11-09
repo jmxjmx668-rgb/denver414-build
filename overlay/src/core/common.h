@@ -58,7 +58,7 @@
 #define ORDER3_SIZE (PAGE_SIZE << MM_ORDER)
 #define PIPE_CANDIDATE_PAGES 8
 #define SKB_SEND_SIZE (ORDER3_SIZE * 2)
-#define SKB_RECLAIM_SENDS 4
+#define SKB_RECLAIM_SENDS 64  /* v35: saturate the 32K slab freelist */
 #define FOPS_TABLE_OFF FOPS_OFF
 #define SKB_FRAG_BIAS 0
 
